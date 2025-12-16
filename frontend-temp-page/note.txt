@@ -1,0 +1,5 @@
+The refund temporary pages consist of a page from order with a refund button. 
+The button calls out the pop-up pages of the refund.
+
+Structure:
+temp-page (with refund button that calls out the refund pop-ups) --> refund pop-up1 --> refund pop-up2 
