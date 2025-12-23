@@ -1,0 +1,162 @@
+/* Typography */
+.modal-title-large {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.text-semibold-20 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+body, .glassmorphism-modal {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.refund-radio-input .form-check-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.text-muted, small {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.glassmorphism-modal textarea.form-control,
+.glassmorphism-modal input.form-control {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* Buttons */
+.custom-brown-btn {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: #3B302A !important;
+    border-color: #3B302A !important;
+    color: white !important;
+}
+
+.custom-brown-btn:hover {
+    background-color: #4A3F35 !important;
+    border-color: #4A3F35 !important;
+    color: white !important;
+}
+
+.custom-brown-btn:disabled {
+    background-color: #6B5F55 !important;
+    border-color: #6B5F55 !important;
+    opacity: 0.6;
+}
+
+.btn-primary.custom-brown-btn {
+    background-color: #3B302A !important;
+    border-color: #3B302A !important;
+}
+
+.btn-primary.custom-brown-btn:hover {
+    background-color: #4A3F35 !important;
+    border-color: #4A3F35 !important;
+}
+
+/* Glassmorphism Modal */
+.glassmorphism-modal .modal-content {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    color: #333;
+}
+
+.glassmorphism-modal .modal-body,
+.glassmorphism-modal .modal-header {
+    background-color: transparent !important;
+}
+
+.glassmorphism-modal .btn-close.custom-close-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 1055;
+    background-color: transparent;
+    opacity: 0.7;
+}
+
+/* Radio Buttons */
+.radio-option-card {
+    border: none !important;
+    border-radius: 8px;
+}
+
+.radio-option-card:hover {
+    background-color: rgba(240, 240, 240, 0.3);
+}
+
+.refund-radio-input .form-check-input:checked {
+    background-color: #493B32;
+    border-color: #493B32;
+}
+
+.refund-radio-input .form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(73, 59, 50, 0.3);
+}
+
+/* Image Upload */
+.placeholder-image-box {
+    border: 2px dashed #ced4da;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    height: 150px;
+}
+
+.upload-section-container {
+    border-radius: 8px;
+    padding: 25px;
+    background-color: rgba(248, 249, 250, 0.5) !important;
+}
+
+.upload-photo-btn {
+    margin-top: -10px;
+}
+
+.glassmorphism-modal textarea.form-control {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ced4da;
+}
+
+/* Modal Widths */
+.refund-request-modal .modal-dialog {
+    max-width: 900px;
+    width: 90%;
+}
+
+.report-sent-modal .modal-dialog {
+    max-width: 650px;
+    width: 90%;
+}
+
+@media (max-width: 768px) {
+    .refund-request-modal .modal-dialog,
+    .report-sent-modal .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+}
