@@ -1,0 +1,315 @@
+/* src/MyVouchers.css */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Container to mimic the mobile view and center the content */
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #ffffff;
+  width: 100%;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Content wrapper */
+.content-wrapper {
+  padding: 20px;
+}
+
+/* Header Styles */
+.voucher-header {
+  width: 100%;
+  background-color: white;
+  padding: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px 15px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding-left: 10px;
+  margin-left: 0;
+}
+
+/* Back arrow button - plain arrow with no box */
+.back-arrow-button {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+  padding-left: 0;
+  flex-shrink: 0;
+}
+
+.back-arrow-button:hover {
+  background-color: transparent;
+}
+
+.back-arrow {
+  font-size: 2rem;
+  color: #1C1C1C;
+  font-weight: 800;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1C1C1C;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.view-history {
+  font-size: 0.75rem;
+  color: #1E1E1E;
+  cursor: pointer;
+  font-weight: 400;
+  text-align: bottom;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  line-height: 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 5%;
+}
+
+/* Main Card containing Add voucher and Vouchers List */
+.voucher-main-card {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 580px;
+  min-height: 400px;
+}
+
+/* Add Voucher Section */
+.add-voucher-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  color: #1E1E1E;
+}
+
+.voucher-input {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  min-width: 120px;
+  border-radius: 100px;
+}
+
+.voucher-input-field {
+  border: 1px solid #B3B3B3;
+  border-radius: 70px;
+  background-color: #ffffff;
+  height: 45px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  flex: 1;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-width: 120px;
+}
+
+.voucher-input-field:focus {
+  border-color: #e0e0e0;
+  box-shadow: none;
+  background-color: #fff;
+  outline: none;
+}
+
+.voucher-input-field::placeholder {
+  color: #B3B3B3;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.redeem-button {
+  border-radius: 100px;
+  background-color: #3B302A;
+  border: 1px solid #2C2C2C;
+  color: white;
+  height: 45px;
+  padding: 10px 20px;
+  margin-left: 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+.redeem-button:hover {
+  background-color: #4E342E;
+  border-color: #4E342E;
+}
+
+/* Separator Line */
+.voucher-separator {
+  margin: 20px 0;
+  border: none;
+  border-top: 2px solid #706c6c;
+  opacity: 1;
+  height: 0px;
+}
+
+/* Vouchers List */
+.vouchers-list {
+  margin-top: 10px;
+}
+
+/* Voucher Card Styles */
+.voucher-card {
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid #3B302A;
+  max-width: 400px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.voucher-card-body {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+}
+
+/* Dark brown rounded section on the left */
+.voucher-icon-section {
+  background-color: #3B302A;
+  width: 80px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 50% 50% 0;
+  margin-left: -15px;
+  padding-left: 15px;
+  flex-shrink: 0;
+}
+
+.voucher-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: white;
+  font-size: 30px;
+}
+
+/* Text and button section */
+.voucher-text-section {
+  flex: 1;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  min-width: 0;
+}
+
+.voucher-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.voucher-card strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1E1E1E;
+  margin-bottom: 2px;
+  display: block;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.voucher-card small {
+  font-size: 0.75rem;
+  color: #1E1E1E;
+  display: block;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+}
+
+.expiry-text {
+  font-size: 0.75rem;
+  margin-top: 2px;
+  color: #1E1E1E;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.use-button {
+  border-radius: 20px;
+  background-color: #3B302A;
+  border: 1px solid #2C2C2C;
+  color: white;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.use-button:hover {
+  background-color: #4E342E;
+  border-color: #4E342E;
+}
+
+.use-button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
