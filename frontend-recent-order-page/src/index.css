@@ -1,0 +1,19 @@
+:root {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  display: block;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
