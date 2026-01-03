@@ -52,3 +52,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+.env
+.env.local
+appsettings.Development.json
+node_modules/
+bin/
+obj/
