@@ -4,7 +4,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Register HttpClient for PayMongo API calls
+builder.Services.AddHttpClient<backend_refund_page.Services.PayMongoService>();
+
+// Register services
+builder.Services.AddSingleton<backend_refund_page.Services.PayMongoService>();
 builder.Services.AddSingleton<backend_refund_page.Services.RefundService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -1,3 +1,6 @@
+// Utility functions for refund API calls
+const API_BASE = "http://localhost:5284/api/refund";
+
 // Upload refund photo
 export async function uploadRefundPhoto(file) {
   const formData = new FormData();
@@ -9,16 +12,57 @@ export async function uploadRefundPhoto(file) {
   if (!res.ok) throw new Error('Failed to upload photo');
   return res.json();
 }
-// Utility functions for refund API calls
-const API_BASE = "http://localhost:5284/api/refund";
 
-export async function createRefund({ amount, reason }) {
+// Upload photo for a specific refund
+export async function uploadRefundPhotoForRefund(refundId, file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${API_BASE}/${refundId}/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error('Failed to upload photo');
+  return res.json();
+}
+
+// Create a refund request (pending status, for manual approval)
+export async function createRefund({ paymentId, amount, reason, notes }) {
   const res = await fetch(API_BASE, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount, reason })
+    body: JSON.stringify({ paymentId, amount, reason, notes })
   });
-  if (!res.ok) throw new Error("Failed to create refund");
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || "Failed to create refund");
+  }
+  return res.json();
+}
+
+// Create and immediately process a refund through PayMongo
+export async function createAndProcessRefund({ paymentId, amount, reason, notes }) {
+  const res = await fetch(`${API_BASE}/process`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ paymentId, amount, reason, notes })
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || "Failed to process refund");
+  }
+  return res.json();
+}
+
+// Process a pending refund through PayMongo
+export async function processRefund(refundId) {
+  const res = await fetch(`${API_BASE}/${refundId}/process`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || "Failed to process refund");
+  }
   return res.json();
 }
 

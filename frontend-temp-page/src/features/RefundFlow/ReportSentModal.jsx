@@ -5,7 +5,7 @@ import '../../Refund.css';
 
 function ReportSentModal({ show, onHide }) {
   const ticketNumber = "R-20251210";
-  const reviewTime = "48 hours/days";
+  const reviewTime = "a day or two";
 
   return (
     <Modal show={show} onHide={onHide} centered size="lg" className="glassmorphism-modal report-sent-modal" backdrop={false}>
@@ -22,7 +22,7 @@ function ReportSentModal({ show, onHide }) {
 
         <p className="text-secondary mb-4 px-2 text-semibold-20">
           Thank you. Your refund request has been escalated to the appropriate team for review.
-          We are reviewing your request and will get back to you within [{reviewTime}].
+          We are reviewing your request and will get back to you within {reviewTime}.
           You will get an automatic notification or email confirming that your issue has been logged.
         </p>
 
