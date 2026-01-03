@@ -1,0 +1,30 @@
+
+@backend_refund_api_HostAddress = http://localhost:5284
+
+# Get all refunds
+GET {{backend_refund_api_HostAddress}}/api/refund
+Accept: application/json
+
+###
+# Create a refund
+POST {{backend_refund_api_HostAddress}}/api/refund
+Content-Type: application/json
+
+{
+	"amount": 100.50,
+	"reason": "Product defect"
+}
+
+###
+# Get refund by id (replace with actual id)
+GET {{backend_refund_api_HostAddress}}/api/refund/{{refundId}}
+Accept: application/json
+
+###
+# Update refund status (replace with actual id)
+PATCH {{backend_refund_api_HostAddress}}/api/refund/{{refundId}}/status
+Content-Type: application/json
+
+"Approved"
+
+###
