@@ -1,0 +1,222 @@
+/* Import DM Sans font */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.topup-activity-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 2rem;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Header */
+.activity-header {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+}
+
+.logo-container {
+  flex: 1;
+}
+
+.logo {
+  height: 67px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Balance Card */
+.balance-card {
+  background: white;
+  margin: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.balance-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #f5f5f5;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.balance-icon i {
+  font-size: 1.5rem;
+  color: #2d2d2d;
+}
+
+.balance-info {
+  flex: 1;
+}
+
+.balance-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.balance-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 0.5rem;
+}
+
+.balance-source {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+/* Activity Section */
+.activity-section {
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 1rem;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Activity Item */
+.activity-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.activity-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.activity-icon {
+  width: 45px;
+  height: 45px;
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon i {
+  font-size: 1.25rem;
+  color: #2d2d2d;
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.activity-type {
+  font-weight: 600;
+  color: #2d2d2d;
+  font-size: 1rem;
+}
+
+.activity-amount {
+  font-weight: 700;
+  color: #28a745;
+  font-size: 1rem;
+}
+
+.activity-meta {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.activity-source {
+  font-size: 0.875rem;
+  color: #999;
+  font-weight: 400;
+}
+
+.activity-status {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.activity-status.completed {
+  color: #28a745;
+}
+
+.activity-status.pending {
+  color: #ffc107;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .balance-card {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .activity-section {
+    padding: 0 1rem;
+  }
+
+  .balance-amount {
+    font-size: 1.5rem;
+  }
+
+  .activity-item {
+    padding: 0.75rem;
+  }
+  
+  .logo {
+    height: 30px;
+  }
+}

@@ -2,7 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend-refund-api", "backend-refund-api\backend-refund-api.csproj", "{68AE4E3E-F333-39D6-DB70-4D65F035CD08}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend_walletFeature", "backend_walletFeature", "{FB5B0D0D-0E01-35F7-8241-EE6CA554515C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentApi", "backend_walletFeature\PaymentApi.csproj", "{90F09E1B-898E-5D52-0ED5-C954E8558DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,15 +12,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68AE4E3E-F333-39D6-DB70-4D65F035CD08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68AE4E3E-F333-39D6-DB70-4D65F035CD08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68AE4E3E-F333-39D6-DB70-4D65F035CD08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68AE4E3E-F333-39D6-DB70-4D65F035CD08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F09E1B-898E-5D52-0ED5-C954E8558DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F09E1B-898E-5D52-0ED5-C954E8558DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F09E1B-898E-5D52-0ED5-C954E8558DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F09E1B-898E-5D52-0ED5-C954E8558DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90F09E1B-898E-5D52-0ED5-C954E8558DFD} = {FB5B0D0D-0E01-35F7-8241-EE6CA554515C}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0AD37C0F-31FE-4E08-A493-6E4440FC1F8D}
+		SolutionGuid = {C98EDFE9-B159-45D7-AAE7-F9878B1697A3}
 	EndGlobalSection
 EndGlobal
