@@ -1,14 +1,39 @@
+
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import '../../Refund.css';
+import { createRefund, uploadRefundPhoto } from './refundApi';
+
+
 
 function RefundRequestModal({ show, onHide, onSubmitSuccess }) {
   const [reason, setReason] = useState('');
+  const [details, setDetails] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [file, setFile] = useState(null);
+  const [uploadedPhoto, setUploadedPhoto] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmitSuccess) {
-      onSubmitSuccess();
+    setLoading(true);
+    setError(null);
+    try {
+      let photoInfo = null;
+      if (file) {
+        photoInfo = await uploadRefundPhoto(file);
+        setUploadedPhoto(photoInfo);
+      }
+      await createRefund({ amount: 1, reason: reason + (details ? `: ${details}` : '') + (photoInfo ? ` [Photo: ${photoInfo.file}]` : '') });
+      if (onSubmitSuccess) onSubmitSuccess();
+      setReason('');
+      setDetails('');
+      setFile(null);
+      setUploadedPhoto(null);
+    } catch (err) {
+      setError('Failed to submit refund request.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,32 +86,51 @@ function RefundRequestModal({ show, onHide, onSubmitSuccess }) {
             ))}
           </div>
 
+
           <div className="text-center my-4 p-5 bg-light upload-section-container">
             <div className="placeholder-image-box">
-              <img src="/placeholder.png" alt="Placeholder" style={{ width: '40px', opacity: 0.5 }} />
+              {file ? (
+                <span>{file.name}</span>
+              ) : (
+                <img src="/placeholder.png" alt="Placeholder" style={{ width: '40px', opacity: 0.5 }} />
+              )}
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="refund-photo-input"
+              onChange={e => setFile(e.target.files[0])}
+            />
+            <div className="text-center mt-0 mb-4">
+              <label htmlFor="refund-photo-input">
+                <Button as="span" variant="dark" className="upload-photo-btn custom-brown-btn">
+                  {file ? 'Change Photo' : 'Upload Photo'}
+                </Button>
+              </label>
             </div>
           </div>
 
-          <div className="text-center mt-0 mb-4">
-            <Button variant="dark" className="upload-photo-btn custom-brown-btn">Upload Photo</Button>
-          </div>
 
           <Form.Group className="mb-4">
             <Form.Control
               as="textarea"
               rows={3}
               placeholder="Please provide details on your reason for the refund."
+              value={details}
+              onChange={e => setDetails(e.target.value)}
             />
           </Form.Group>
 
+          {error && <Alert variant="danger">{error}</Alert>}
           <div className="d-grid mb-5">
             <Button
               type="submit"
               variant="dark"
               className="fw-bold py-3 custom-brown-btn"
-              disabled={!reason}
+              disabled={!reason || loading}
             >
-              Submit Report
+              {loading ? <><Spinner animation="border" size="sm" /> Submitting...</> : 'Submit Report'}
             </Button>
           </div>
         </Modal.Body>
