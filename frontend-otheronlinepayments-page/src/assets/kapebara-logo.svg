@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="36" viewBox="0 0 160 36" role="img" aria-label="Kapebara logo">
+  <defs>
+    <style> .t{font:700 20px/1.1 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; fill:#3a3a3a;} .leaf{fill:#2b7a3e;} </style>
+  </defs>
+  <g>
+    <path class="leaf" d="M12 3c0 0-6 2-8 7-2 5 1 10 8 11 6-1 9-6 9-9 0-3-4-8-9-9z" transform="translate(6,2) scale(0.9)"/>
+    <text class="t" x="38" y="22">Kapebara</text>
+  </g>
+</svg>
