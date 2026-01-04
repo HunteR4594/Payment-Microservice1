@@ -1,0 +1,114 @@
+/* Import DM Sans font */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.topup-activity-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 2rem;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Header */
+.activity-header {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+}
+
+.logo-container {
+  flex: 1;
+}
+
+.logo {
+  height: 67px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Balance Card */
+.topup-activity-page .balance-card {
+  background: white;
+  margin: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.balance-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #f5f5f5;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.balance-icon i {
+  font-size: 1.5rem;
+  color: #2d2d2d;
+}
+
+.balance-info {
+  flex: 1;
+}
+
+.topup-activity-page .balance-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.topup-activity-page .balance-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #27ae60;
+  margin-bottom: 0.5rem;
+}
+
+.balance-source {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .topup-activity-page .balance-card {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .topup-activity-page .balance-amount {
+    font-size: 1.5rem;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+}
