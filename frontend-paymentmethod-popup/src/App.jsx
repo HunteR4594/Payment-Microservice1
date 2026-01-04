@@ -84,6 +84,7 @@ function PaymentMethodPage() {
                   </div>
                   <div className="form-row">
                     <input type="text" placeholder="MM" className="form-input" />
+                    <div className="slash">/</div>
                     <input type="text" placeholder="YYYY" className="form-input" />
                     <input type="text" placeholder="CVV" className="form-input" />
                   </div>
@@ -193,7 +194,7 @@ function PaymentMethodPage() {
           -webkit-backdrop-filter: blur(20px);
           border-radius: 1.5rem;
           padding: 2.5rem 2rem;
-          max-width: 450px;
+          max-width: 550px;
           width: 100%;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
           position: relative;
@@ -322,16 +323,20 @@ function PaymentMethodPage() {
         .form-row {
           display: flex;
           gap: 0.75rem;
+          align-items: center;
         }
 
         .form-input {
           flex: 1;
-          padding: 0.75rem;
+          padding: 0.5rem 0.75rem;
           border: 1px solid #e0e0e0;
           border-radius: 0.5rem;
           font-size: 0.9rem;
           font-family: 'Plus Jakarta Sans', sans-serif;
           background: rgba(255, 255, 255, 0.9);
+          height: 36px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         .form-input.full-width {
@@ -345,6 +350,11 @@ function PaymentMethodPage() {
 
         .form-input::placeholder {
           color: #999;
+        }
+
+        .slash {
+          font-size: 1.5rem;
+          flex-shrink: 0;
         }
 
         /* Confirm Button */
