@@ -1,0 +1,473 @@
+/* ============================================
+   CONSOLIDATED STYLESHEET
+   ============================================ */
+
+/* --- CSS Variables --- */
+:root {
+  --color-brown-primary: #3B302A;
+  --color-brown-hover: #4A3F35;
+  --color-brown-disabled: #6B5F55;
+  --color-brown-light: rgba(59, 48, 42, 0.1);
+  --color-brown-border: rgba(59, 48, 42, 0.2);
+  --color-brown-focus: rgba(59, 48, 42, 0.4);
+  
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-bg-light: rgba(255, 255, 255, 0.5);
+  --glass-bg-medium: rgba(255, 255, 255, 0.55);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(20px);
+  --glass-blur-light: blur(12px);
+  --glass-blur-heavy: blur(25px);
+  
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'DM Sans', sans-serif;
+}
+
+/* --- Font Imports --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+/* --- Global Reset & Base Styles --- */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  font-family: var(--font-primary);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* --- Typography --- */
+.modal-title-large {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-semibold-20 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.text-muted,
+small {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* --- Glassmorphism Utility Class --- */
+.glassmorphism {
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.glassmorphism-light {
+  background-color: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+}
+
+.glassmorphism-medium {
+  background-color: var(--glass-bg-medium);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+}
+
+.glassmorphism-heavy {
+  background-color: var(--glass-bg-heavy);
+  backdrop-filter: var(--glass-blur-heavy) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur-heavy) saturate(180%);
+}
+
+/* --- Glassmorphism Modals & Offcanvas --- */
+.glassmorphism-modal .modal-content,
+.glassmorphism-modal .offcanvas,
+.glassmorphism-slider {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.glassmorphism-modal .modal-body,
+.glassmorphism-modal .modal-header,
+.glassmorphism-modal .offcanvas-body,
+.glassmorphism-modal .offcanvas-header {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.glassmorphism-modal .offcanvas-body {
+  background-color: var(--glass-bg-medium) !important;
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  border-radius: 18px;
+  padding: 1.75rem;
+  color: #222;
+}
+
+.glassmorphism-modal .offcanvas-header {
+  background: transparent;
+  padding-bottom: 0.5rem;
+  align-items: flex-start;
+}
+
+/* --- Glassmorphism Table --- */
+.glassmorphism-table {
+  width: 100%;
+  table-layout: fixed;
+  background-color: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-collapse: collapse;
+}
+
+.glassmorphism-table thead th {
+  background-color: var(--color-brown-light) !important;
+  border-bottom: 2px solid var(--color-brown-border);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+  text-transform: none;
+  padding: 1.25rem 1rem;
+}
+
+.glassmorphism-table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glassmorphism-table tbody tr:hover {
+  background-color: var(--color-brown-light);
+}
+
+/* --- Glassmorphism Card --- */
+.glassmorphism-card {
+  background-color: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 1.5rem;
+}
+
+/* --- Glassmorphism Form Elements --- */
+.glassmorphism-modal textarea.form-control,
+.glassmorphism-modal input.form-control,
+.glassmorphism-textarea {
+  background-color: var(--glass-bg-heavy) !important;
+  border: 1px solid var(--color-brown-border);
+  border-radius: 8px;
+  font-size: 18px;
+  resize: vertical;
+}
+
+.glassmorphism-textarea:focus {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: var(--color-brown-focus);
+  box-shadow: 0 0 0 0.25rem var(--color-brown-light);
+  outline: none;
+}
+
+/* --- Buttons (Dark Brown Aesthetic) --- */
+.custom-brown-btn {
+  font-weight: 700;
+  font-size: 18px;
+  background-color: var(--color-brown-primary) !important;
+  border-color: var(--color-brown-primary) !important;
+  color: white !important;
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.custom-brown-btn:hover {
+  background-color: var(--color-brown-hover) !important;
+  transform: translateY(-1px);
+}
+
+.custom-brown-btn:disabled {
+  background-color: var(--color-brown-disabled) !important;
+  opacity: 0.6;
+}
+
+.btn-outline-dark.custom-brown-btn {
+  color: var(--color-brown-primary);
+  border-color: var(--color-brown-primary);
+}
+
+.btn-outline-dark.custom-brown-btn:hover {
+  background-color: var(--color-brown-primary);
+  color: white;
+}
+
+/* --- Custom Form Elements --- */
+.refund-radio-input .form-check-label {
+  font-weight: 600;
+}
+
+.refund-radio-input .form-check-input:checked {
+  background-color: #493B32;
+  border-color: #493B32;
+}
+
+.radio-option-card {
+  border: none !important;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.radio-option-card:hover {
+  background-color: rgba(240, 240, 240, 0.3);
+}
+
+/* --- Layout Components --- */
+.admin-dashboard-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 3rem 5rem;
+  background-color: #ffffff;
+  text-align: left;
+}
+
+.dashboard-header {
+  width: 100%;
+  border-bottom: 2px solid #f2f2f2;
+  padding-bottom: 1.5rem;
+}
+
+.header-title {
+  font-family: var(--font-primary);
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.btn-back-header {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.btn-back-header:hover {
+  transform: translateX(-5px);
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 20px;
+  padding: 0 0.5rem 0 0;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  width: 100%;
+  margin-top: 2.5rem;
+}
+
+.refund-requests-table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Table Column Sizing --- */
+.glassmorphism-table th:nth-child(1),
+.glassmorphism-table td:nth-child(1) {
+  width: 12%;
+}
+
+.glassmorphism-table th:nth-child(6),
+.glassmorphism-table td:nth-child(6) {
+  width: 14%;
+  text-align: center;
+}
+
+/* --- Modal & Offcanvas Sizing --- */
+.refund-request-modal .modal-dialog,
+.refund-request-modal.offcanvas {
+  max-width: 1400px;
+  width: 85%;
+}
+
+.report-sent-modal .modal-dialog {
+  max-width: 650px;
+  width: 90%;
+}
+
+.refund-request-modal.offcanvas {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-heavy) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur-heavy) saturate(180%);
+  border-radius: 24px 0 0 24px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* --- Custom Close Button --- */
+.glassmorphism-modal .btn-close.custom-close-btn {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 10px;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  filter: invert(0);
+  opacity: 1;
+}
+
+.glassmorphism-modal .btn-close.custom-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: rotate(90deg);
+}
+
+/* --- Backdrop --- */
+.offcanvas-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* --- Contact Row Styling --- */
+.contact-row {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.contact-row:hover {
+  background-color: rgba(255, 255, 255, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.contact-row a:hover {
+  color: var(--color-brown-primary) !important;
+  text-decoration: underline !important;
+}
+
+/* --- Status Badges --- */
+.badge {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+/* Ensure badge colors are visible */
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.badge.bg-success {
+  background-color: #28a745 !important;
+  color: #fff !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+.badge.bg-info {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
+  .refund-request-modal.offcanvas {
+    width: 90% !important;
+    max-width: 90%;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 992px) {
+  .refund-request-modal.offcanvas {
+    width: 95% !important;
+    max-width: 95%;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-wrapper {
+    padding: 2rem 1.5rem;
+  }
+
+  .modal-title-large {
+    font-size: 32px;
+  }
+
+  .text-semibold-20 {
+    font-size: 16px;
+  }
+
+  .glassmorphism-table {
+    font-size: 14px;
+  }
+
+  .refund-request-modal .modal-dialog,
+  .report-sent-modal .modal-dialog {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+}
