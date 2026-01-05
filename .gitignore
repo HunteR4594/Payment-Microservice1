@@ -53,6 +53,7 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 
+package-lock.json
 appsettings.json
 
 # Ignore all node_modules in any subfolder
