@@ -1,0 +1,211 @@
+import React, { useState, useEffect } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './PaymentMethodPopup.css';
+
+const PaymentMethodPopup = ({ 
+  show, 
+  onClose, 
+  onConfirm, 
+  walletBalance,
+  initialMethod = 'kapebara'
+}) => {
+  const [selectedMethod, setSelectedMethod] = useState(initialMethod);
+  const [cardForm, setCardForm] = useState({
+    lastName: '',
+    firstName: '',
+    email: '',
+    cardNumber: '',
+    expiryMonth: '',
+    expiryYear: '',
+    cvv: ''
+  });
+
+  useEffect(() => {
+    if (show) {
+      setSelectedMethod(initialMethod);
+    }
+  }, [show, initialMethod]);
+
+  if (!show) return null;
+
+  const handleConfirm = () => {
+    const paymentData = {
+      method: selectedMethod,
+      ...(selectedMethod === 'card' && { cardDetails: cardForm })
+    };
+    if (onConfirm) {
+      onConfirm(paymentData);
+    }
+  };
+
+  const handleCardInputChange = (field, value) => {
+    setCardForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="payment-modal-overlay" onClick={onClose}>
+      <div className="payment-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Close Button */}
+        <button className="payment-close-btn" onClick={onClose}>
+          <i className="bi bi-x-circle"></i>
+        </button>
+
+        {/* Title */}
+        <h2 className="payment-modal-title">Select payment method</h2>
+
+        {/* Payment Options */}
+        <div className="payment-options">
+          
+          {/* Kapebara Wallet */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="payment-logo">
+                <img src="/kapebara-logo-2.png" alt="Kapebara" className="logo-img" />
+              </div>
+              <div className="payment-details">
+                <div className="payment-name">My Kapebara Wallet</div>
+                {selectedMethod === 'kapebara' && (
+                  <div className="payment-balance">
+                    your total balance is ₱{walletBalance?.toLocaleString() || '[Balance]'}
+                  </div>
+                )}
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="kapebara"
+              checked={selectedMethod === 'kapebara'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+
+          {/* Credit/Debit Card */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="card-logos">
+                <img src="/visa-logo.png" alt="Visa" className="card-logo" />
+                <img src="/mastercard-logo.png" alt="Mastercard" className="card-logo" />
+              </div>
+              <div className="payment-details">
+                <div className="payment-name">Credit/Debit Card</div>
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="card"
+              checked={selectedMethod === 'card'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+
+          {/* Card Form - Shows when card is selected */}
+          {selectedMethod === 'card' && (
+            <div className="card-form">
+              <div className="form-row">
+                <input 
+                  type="text" 
+                  placeholder="Last name" 
+                  className="form-input"
+                  value={cardForm.lastName}
+                  onChange={(e) => handleCardInputChange('lastName', e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="First name" 
+                  className="form-input"
+                  value={cardForm.firstName}
+                  onChange={(e) => handleCardInputChange('firstName', e.target.value)}
+                />
+              </div>
+              <div className="form-row">
+                <input 
+                  type="text" 
+                  placeholder="Email" 
+                  className="form-input"
+                  value={cardForm.email}
+                  onChange={(e) => handleCardInputChange('email', e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Card Number" 
+                  className="form-input"
+                  value={cardForm.cardNumber}
+                  onChange={(e) => handleCardInputChange('cardNumber', e.target.value)}
+                />
+              </div>
+              <div className="form-row">
+                <input 
+                  type="text" 
+                  placeholder="MM" 
+                  className="form-input small"
+                  value={cardForm.expiryMonth}
+                  onChange={(e) => handleCardInputChange('expiryMonth', e.target.value)}
+                />
+                <div className="slash">/</div>
+                <input 
+                  type="text" 
+                  placeholder="YYYY" 
+                  className="form-input small"
+                  value={cardForm.expiryYear}
+                  onChange={(e) => handleCardInputChange('expiryYear', e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="CVV" 
+                  className="form-input small"
+                  value={cardForm.cvv}
+                  onChange={(e) => handleCardInputChange('cvv', e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* E-wallet */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="ewallet-logos">
+                <img src="/gcash-logo.png" alt="GCash" className="ewallet-logo" />
+                <img src="/maya-logo.png" alt="Maya" className="ewallet-logo" />
+              </div>
+              <div className="payment-details">
+                <div className="payment-name">E-wallet</div>
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="ewallet"
+              checked={selectedMethod === 'ewallet'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+
+          {/* Other online payment method */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="payment-details">
+                <div className="payment-name">Other online payment method</div>
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="other"
+              checked={selectedMethod === 'other'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+        </div>
+
+        {/* Confirm Button */}
+        <button className="payment-confirm-btn" onClick={handleConfirm}>
+          Confirm Payment
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default PaymentMethodPopup;
