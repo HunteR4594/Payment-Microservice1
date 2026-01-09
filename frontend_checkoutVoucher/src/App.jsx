@@ -144,6 +144,9 @@ function App() {
     try {
       setIsProcessingPayment(true);
       
+      // Generate order number
+      const orderNumber = `ORD-${Date.now().toString().slice(-8)}`;
+      
       // Create payment request using the computed total
       const paymentRequest = {
         orderId: '550e8400-e29b-41d4-a716-446655440000', // Replace with actual order ID
@@ -158,7 +161,16 @@ function App() {
       // Get checkout URL from backend
       const checkoutUrl = await createPaymentCheckout(paymentRequest);
       
-      // Redirect to PayMongo checkout
+      // Set order result for the popup
+      setOrderResult({
+        orderNumber: orderNumber,
+        checkoutUrl: checkoutUrl
+      });
+      
+      // Show Order Placed popup
+      setShowOrderPlacedPopup(true);
+      
+      // Redirect to PayMongo checkout in new tab
       redirectToCheckout(checkoutUrl);
     } catch (error) {
       console.error('Payment error:', error);

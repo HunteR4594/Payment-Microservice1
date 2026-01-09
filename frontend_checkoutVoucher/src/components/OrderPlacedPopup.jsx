@@ -32,7 +32,7 @@ const OrderPlacedPopup = ({
   };
 
   return (
-    <div className="order-modal-overlay" onClick={onClose}>
+    <div className="order-modal-overlay">
       <div className="order-modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Success Icon */}
         <div className="order-success-icon">
