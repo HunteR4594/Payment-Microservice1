@@ -4,6 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../styles/TopUpPage.css';
 import { topUpApi } from '../services/api';
 import { formatCurrency } from '../utils/formatters';
+import { ReviewTopUp } from '../components';
 
 const TopUpPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const TopUpPage = () => {
   const [selectedMethod, setSelectedMethod] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
 
   const presetAmounts = [100, 200, 500, 1000, 2000, 5000];
 
@@ -20,6 +22,20 @@ const TopUpPage = () => {
     { id: 'card', name: 'Credit/Debit Card', icon: 'bi-credit-card-2-front' },
   ];
 
+  // Show review popup before proceeding
+  const handleShowReview = () => {
+    if (!amount || !selectedMethod) return;
+    setShowReviewPopup(true);
+  };
+
+  // Handle confirmed top-up from ReviewTopUp popup
+  const handleTopUpConfirmed = (topUpData) => {
+    setShowReviewPopup(false);
+    // Navigate to checkout page with the top-up ID
+    navigate(`/topup/checkout/${topUpData.id}`);
+  };
+
+  // Legacy direct top-up (bypassing popup)
   const handleTopUp = async () => {
     if (!amount || !selectedMethod) return;
 
@@ -131,7 +147,7 @@ const TopUpPage = () => {
         {/* Confirm Button */}
         <button 
           className="confirm-btn"
-          onClick={handleTopUp}
+          onClick={handleShowReview}
           disabled={!amount || !selectedMethod || loading}
         >
           {loading ? (
@@ -144,6 +160,15 @@ const TopUpPage = () => {
           )}
         </button>
       </div>
+
+      {/* Review Top-up Popup */}
+      <ReviewTopUp
+        show={showReviewPopup}
+        onHide={() => setShowReviewPopup(false)}
+        amount={parseFloat(amount) || 0}
+        paymentMethod={selectedMethod}
+        onConfirm={handleTopUpConfirmed}
+      />
     </div>
   );
 };

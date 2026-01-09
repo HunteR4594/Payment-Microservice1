@@ -4,12 +4,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import "../styles/WalletPage.css";
 import { walletApi } from "../services/api";
 import { formatCurrency, formatDate } from "../utils/formatters";
+import { CoinHistory } from "../components";
 
 const WalletPage = () => {
   const [wallet, setWallet] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showCoinHistory, setShowCoinHistory] = useState(false);
 
   useEffect(() => {
     loadWalletData();
@@ -91,7 +93,10 @@ const WalletPage = () => {
                 <i className="bi bi-coin me-2"></i>
                 {wallet?.coins || 0} KapeBara Coins
               </div>
-              <a href="#" className="view-history">view coin history</a>
+              <a href="#" className="view-history" onClick={(e) => { e.preventDefault(); setShowCoinHistory(true); }}>view coin history</a>
+              
+              {/* Coin History Popup */}
+              <CoinHistory show={showCoinHistory} onHide={() => setShowCoinHistory(false)} />
             </div>
 
             {/* Top Up Button */}
