@@ -1,0 +1,132 @@
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* OVERLAY */
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  background: rgba(255, 255, 255, 0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  padding: 40px; 
+  box-sizing: border-box; 
+}
+
+/* POPUP */
+.popup {
+  width: 100%;
+  max-width: 650px; 
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 28px 36px 36px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* HEADER */
+.header {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  padding: 0 40px; 
+  height: 50px; 
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  color: #222;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); 
+}
+
+.back-btn {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+}
+
+
+/* CONTENT */
+.content {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.label {
+  color: #666;
+  margin-bottom: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.amount {
+  font-size: 36px;
+  margin: 0;
+  font-weight: bold;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #111;
+}
+
+.mop {
+  margin-top: 10px;
+  color: #555;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.confirm-btn {
+  display: block;
+  margin: 45px auto 0;
+  padding: 12px 34px;
+  border: none;
+  border-radius: 24px;
+  background: #3b2a1f;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.confirm-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+
+@media (max-width: 700px) {
+  .popup {
+    width: 90%;
+    padding: 24px 20px 28px;
+  }
+
+  .amount {
+    font-size: 28px;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+}
