@@ -1,3 +1,6 @@
+/* --- Font Imports (must be first) --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
 /* ============================================
    CONSOLIDATED STYLESHEET
    ============================================ */
@@ -23,9 +26,6 @@
   --font-primary: 'Plus Jakarta Sans', sans-serif;
   --font-heading: 'DM Sans', sans-serif;
 }
-
-/* --- Font Imports --- */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
 
 /* --- Global Reset & Base Styles --- */
 * {
