@@ -10,15 +10,6 @@ const PaymentMethodPopup = ({
   initialMethod = 'kapebara'
 }) => {
   const [selectedMethod, setSelectedMethod] = useState(initialMethod);
-  const [cardForm, setCardForm] = useState({
-    lastName: '',
-    firstName: '',
-    email: '',
-    cardNumber: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvv: ''
-  });
 
   useEffect(() => {
     if (show) {
@@ -30,16 +21,11 @@ const PaymentMethodPopup = ({
 
   const handleConfirm = () => {
     const paymentData = {
-      method: selectedMethod,
-      ...(selectedMethod === 'card' && { cardDetails: cardForm })
+      method: selectedMethod
     };
     if (onConfirm) {
       onConfirm(paymentData);
     }
-  };
-
-  const handleCardInputChange = (field, value) => {
-    setCardForm(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -89,6 +75,9 @@ const PaymentMethodPopup = ({
               </div>
               <div className="payment-details">
                 <div className="payment-name">Credit/Debit Card</div>
+                {selectedMethod === 'card' && (
+                  <div className="payment-note">You'll enter card details on PayMongo's secure page</div>
+                )}
               </div>
             </div>
             <input
@@ -100,84 +89,59 @@ const PaymentMethodPopup = ({
             />
           </label>
 
-          {/* Card Form - Shows when card is selected */}
-          {selectedMethod === 'card' && (
-            <div className="card-form">
-              <div className="form-row">
-                <input 
-                  type="text" 
-                  placeholder="Last name" 
-                  className="form-input"
-                  value={cardForm.lastName}
-                  onChange={(e) => handleCardInputChange('lastName', e.target.value)}
-                />
-                <input 
-                  type="text" 
-                  placeholder="First name" 
-                  className="form-input"
-                  value={cardForm.firstName}
-                  onChange={(e) => handleCardInputChange('firstName', e.target.value)}
-                />
-              </div>
-              <div className="form-row">
-                <input 
-                  type="text" 
-                  placeholder="Email" 
-                  className="form-input"
-                  value={cardForm.email}
-                  onChange={(e) => handleCardInputChange('email', e.target.value)}
-                />
-                <input 
-                  type="text" 
-                  placeholder="Card Number" 
-                  className="form-input"
-                  value={cardForm.cardNumber}
-                  onChange={(e) => handleCardInputChange('cardNumber', e.target.value)}
-                />
-              </div>
-              <div className="form-row">
-                <input 
-                  type="text" 
-                  placeholder="MM" 
-                  className="form-input small"
-                  value={cardForm.expiryMonth}
-                  onChange={(e) => handleCardInputChange('expiryMonth', e.target.value)}
-                />
-                <div className="slash">/</div>
-                <input 
-                  type="text" 
-                  placeholder="YYYY" 
-                  className="form-input small"
-                  value={cardForm.expiryYear}
-                  onChange={(e) => handleCardInputChange('expiryYear', e.target.value)}
-                />
-                <input 
-                  type="text" 
-                  placeholder="CVV" 
-                  className="form-input small"
-                  value={cardForm.cvv}
-                  onChange={(e) => handleCardInputChange('cvv', e.target.value)}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* E-wallet */}
+          {/* E-wallet - GCash */}
           <label className="payment-option">
             <div className="payment-info">
               <div className="ewallet-logos">
                 <img src="/gcash-logo.png" alt="GCash" className="ewallet-logo" />
-                <img src="/maya-logo.png" alt="Maya" className="ewallet-logo" />
               </div>
               <div className="payment-details">
-                <div className="payment-name">E-wallet</div>
+                <div className="payment-name">GCash</div>
               </div>
             </div>
             <input
               type="radio"
               name="payment"
-              value="ewallet"
-              checked={selectedMethod === 'ewallet'}
+              value="gcash"
+              checked={selectedMethod === 'gcash'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+
+          {/* E-wallet - Maya */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="ewallet-logos">
+                <img src="/maya-logo.png" alt="Maya" className="ewallet-logo" />
+              </div>
+              <div className="payment-details">
+                <div className="payment-name">Maya</div>
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="paymaya"
+              checked={selectedMethod === 'paymaya'}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+            />
+          </label>
+
+          {/* E-wallet - GrabPay */}
+          <label className="payment-option">
+            <div className="payment-info">
+              <div className="ewallet-logos">
+                <img src="/grabpay-logo.svg" alt="GrabPay" className="ewallet-logo" />
+              </div>
+              <div className="payment-details">
+                <div className="payment-name">GrabPay</div>
+              </div>
+            </div>
+            <input
+              type="radio"
+              name="payment"
+              value="grab_pay"
+              checked={selectedMethod === 'grab_pay'}
               onChange={(e) => setSelectedMethod(e.target.value)}
             />
           </label>

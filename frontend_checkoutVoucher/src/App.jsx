@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { getPaymentMethods, createPaymentCheckout, redirectToCheckout } from './services/paymentApi';
 import { getVouchers, redeemVoucher, applyVoucher } from './services/voucherApi';
 import MyVouchers from './MyVouchers';
+import { PaymentMethodPopup, VoucherHistoryPopup, OrderPlacedPopup } from './components';
 import './App.css';
 
 function App() {
@@ -19,6 +20,10 @@ function App() {
 };
   // Voucher states
   const [showVoucherModal, setShowVoucherModal] = useState(false);
+  const [showVoucherHistory, setShowVoucherHistory] = useState(false);
+  const [showPaymentMethodPopup, setShowPaymentMethodPopup] = useState(false);
+  const [showOrderPlacedPopup, setShowOrderPlacedPopup] = useState(false);
+  const [orderResult, setOrderResult] = useState(null);
   const [vouchers, setVouchers] = useState([]);
   const [appliedVoucher, setAppliedVoucher] = useState(null);
   const [voucherCode, setVoucherCode] = useState('');
@@ -258,19 +263,19 @@ function App() {
               ) : (
                 <div>
                   <label className="form-label">Select Payment Method</label>
-                  <select
-                    className="form-select form-input mb-3"
-                    value={selectedPaymentMethod}
-                    onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-                    disabled={isProcessingPayment}
+                  <div 
+                    className="form-select form-input mb-3 d-flex justify-content-between align-items-center"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setShowPaymentMethodPopup(true)}
                   >
-                    <option value="">-- Choose a payment method --</option>
-                    {paymentMethods.map((method) => (
-                      <option key={method} value={method}>
-                        {paymentMethodLabels[method.toLowerCase()] || method}
-                      </option>
-                    ))}
-                  </select>
+                    <span>
+                      {selectedPaymentMethod 
+                        ? (paymentMethodLabels[selectedPaymentMethod.toLowerCase()] || selectedPaymentMethod)
+                        : '-- Choose a payment method --'
+                      }
+                    </span>
+                    <i className="bi bi-chevron-down"></i>
+                  </div>
 
                   <div className="alert alert-info mb-0">
                     <small>
@@ -426,8 +431,56 @@ function App() {
           onUseVoucher={handleUseVoucher}
           onRedeemVoucher={handleRedeemVoucher}
           onClose={() => setShowVoucherModal(false)}
+          onViewHistory={() => {
+            setShowVoucherModal(false);
+            setShowVoucherHistory(true);
+          }}
         />
       )}
+
+      {/* Voucher History Popup */}
+      <VoucherHistoryPopup
+        show={showVoucherHistory}
+        onClose={() => setShowVoucherHistory(false)}
+        vouchers={vouchers}
+        currentVoucher={appliedVoucher}
+        onSelectVoucher={(voucher) => {
+          handleUseVoucher(voucher);
+          setShowVoucherHistory(false);
+        }}
+      />
+
+      {/* Payment Method Popup */}
+      <PaymentMethodPopup
+        show={showPaymentMethodPopup}
+        onClose={() => setShowPaymentMethodPopup(false)}
+        walletBalance={order.coinsAvailable * 10}
+        initialMethod={selectedPaymentMethod === 'card' ? 'card' : 
+          selectedPaymentMethod === 'gcash' ? 'gcash' : 
+          selectedPaymentMethod === 'paymaya' ? 'paymaya' : 
+          selectedPaymentMethod === 'grab_pay' ? 'grab_pay' : 'kapebara'}
+        onConfirm={(paymentData) => {
+          // Map popup payment method to API method
+          let apiMethod = paymentData.method;
+          if (paymentData.method === 'kapebara') apiMethod = 'card'; // Default for wallet
+          // GCash, Maya, and GrabPay are now passed directly
+          setSelectedPaymentMethod(apiMethod);
+          setShowPaymentMethodPopup(false);
+        }}
+      />
+
+      {/* Order Placed Success Popup */}
+      <OrderPlacedPopup
+        show={showOrderPlacedPopup}
+        onClose={() => setShowOrderPlacedPopup(false)}
+        orderNumber={orderResult?.orderNumber || 'ORD-12345'}
+        total={total}
+        coinsEarned={Math.floor(total / 10)}
+        estimatedDate={order.delivery.day}
+        estimatedTime={order.delivery.time}
+        onViewOrderStatus={() => setShowOrderPlacedPopup(false)}
+        onBackToMenu={() => setShowOrderPlacedPopup(false)}
+      />
 
       <style jsx>{`
         .checkout-page {
@@ -521,11 +574,14 @@ function App() {
           border-radius: 0.5rem;
           border: 1px solid #e0e0e0;
           padding: 0.75rem 1rem;
+          background: white;
+          box-shadow: none !important;
         }
 
         .form-input:focus {
           border-color: #2d2d2d;
-          box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.1);
+          box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.1) !important;
+          outline: none;
         }
 
         .clickable {

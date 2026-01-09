@@ -4,7 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import VoucherItem from './VoucherItem';
 import './MyVouchers.css';
 
-const MyVouchers = ({ vouchers = [], onUseVoucher, onRedeemVoucher, onClose }) => {
+const MyVouchers = ({ vouchers = [], onUseVoucher, onRedeemVoucher, onClose, onViewHistory }) => {
   const [voucherCode, setVoucherCode] = React.useState('');
   const [redeemError, setRedeemError] = React.useState('');
   const [isRedeeming, setIsRedeeming] = React.useState(false);
@@ -30,6 +30,12 @@ const MyVouchers = ({ vouchers = [], onUseVoucher, onRedeemVoucher, onClose }) =
     }
   };
 
+  const handleViewHistory = () => {
+    if (onViewHistory) {
+      onViewHistory();
+    }
+  };
+
   return (
     <div className="voucher-modal-overlay">
       <div className="voucher-modal">
@@ -42,7 +48,13 @@ const MyVouchers = ({ vouchers = [], onUseVoucher, onRedeemVoucher, onClose }) =
               </button>
               <h3 className="header-title">My Vouchers</h3>
             </div>
-            <small className="view-history">View voucher history</small>
+            <small 
+              className="view-history" 
+              onClick={handleViewHistory}
+              style={{ cursor: 'pointer' }}
+            >
+              View voucher history
+            </small>
           </div>
         </div>
 
