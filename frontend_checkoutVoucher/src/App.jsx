@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { getPaymentMethods, createPaymentCheckout, redirectToCheckout } from './services/paymentApi';
 import { getVouchers, redeemVoucher, applyVoucher } from './services/voucherApi';
 import MyVouchers from './MyVouchers';
-import { PaymentMethodPopup, VoucherHistoryPopup, OrderPlacedPopup } from './components';
+import { PaymentMethodPopup, VoucherHistoryPopup, OrderPlacedPopup, OrderFailedPopup } from './components'; // minodify q 2 ren
 import './App.css';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
   const [isLoadingMethods, setIsLoadingMethods] = useState(true);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [methodsError, setMethodsError] = useState(null);
+  const [showOrderFailedPopup, setShowOrderFailedPopup] = useState(false); //naglagay ako neto ren for failed pop up
   const paymentMethodLabels = {
   'card': 'Credit/Debit Card',
   'gcash': 'GCash',
@@ -174,7 +175,9 @@ function App() {
       redirectToCheckout(checkoutUrl);
     } catch (error) {
       console.error('Payment error:', error);
-      alert('Failed to process payment. Please try again.');
+      
+      //alert('Failed to process payment. Please try again.');
+      setShowOrderFailedPopup(true); //eto ung failed popup na pinalit ko sa alert
     } finally {
       setIsProcessingPayment(false);
     }
@@ -492,6 +495,16 @@ function App() {
         estimatedTime={order.delivery.time}
         onViewOrderStatus={() => setShowOrderPlacedPopup(false)}
         onBackToMenu={() => setShowOrderPlacedPopup(false)}
+      />
+
+      {/* Order Failed Popup */}
+      <OrderFailedPopup
+        show={showOrderFailedPopup}
+        onClose={() => setShowOrderFailedPopup(false)}
+        onBackToMenu={() => {setShowOrderFailedPopup(false);
+        // Add any navigation logic here if needed
+        // e.g., window.location.href = '/menu'
+        }}
       />
 
       <style jsx>{`
