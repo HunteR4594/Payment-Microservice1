@@ -1,0 +1,198 @@
+using Microsoft.AspNetCore.Mvc;
+using PaymentService.Models;
+using PaymentService.Services;
+
+namespace PaymentService.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class RefundsController : ControllerBase
+{
+    private readonly IRefundService _refundService;
+    private readonly ILogger<RefundsController> _logger;
+
+    public RefundsController(IRefundService refundService, ILogger<RefundsController> logger)
+    {
+        _refundService = refundService;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// Get all refund requests
+    /// </summary>
+    [HttpGet]
+    public async Task<ActionResult<List<RefundRequest>>> GetAllRefunds([FromQuery] string? status = null)
+    {
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<RefundStatus>(status, true, out var refundStatus))
+        {
+            var filteredRefunds = await _refundService.GetRefundsByStatusAsync(refundStatus);
+            return Ok(filteredRefunds);
+        }
+
+        var refunds = await _refundService.GetAllRefundsAsync();
+        return Ok(refunds);
+    }
+
+    /// <summary>
+    /// Get refund by ID
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<RefundRequest>> GetRefundById(Guid id)
+    {
+        var refund = await _refundService.GetRefundByIdAsync(id);
+        if (refund == null)
+        {
+            return NotFound(new { message = "Refund not found" });
+        }
+        return Ok(refund);
+    }
+
+    /// <summary>
+    /// Get refunds by status
+    /// </summary>
+    [HttpGet("status/{status}")]
+    public async Task<ActionResult<List<RefundRequest>>> GetRefundsByStatus(string status)
+    {
+        if (!Enum.TryParse<RefundStatus>(status, true, out var refundStatus))
+        {
+            return BadRequest(new { message = "Invalid status" });
+        }
+
+        var refunds = await _refundService.GetRefundsByStatusAsync(refundStatus);
+        return Ok(refunds);
+    }
+
+    /// <summary>
+    /// Get refunds for a specific user
+    /// </summary>
+    [HttpGet("user/{userId}")]
+    public async Task<ActionResult<List<RefundRequest>>> GetRefundsByUser(string userId)
+    {
+        var refunds = await _refundService.GetRefundsByUserAsync(userId);
+        return Ok(refunds);
+    }
+
+    /// <summary>
+    /// Create a new refund request
+    /// </summary>
+    [HttpPost]
+    public async Task<ActionResult<RefundRequest>> CreateRefund([FromBody] RefundRequestDto dto)
+    {
+        try
+        {
+            var refund = await _refundService.CreateRefundRequestAsync(dto);
+            return CreatedAtAction(nameof(GetRefundById), new { id = refund.Id }, refund);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating refund request");
+            return StatusCode(500, new { message = "Error creating refund request" });
+        }
+    }
+
+    /// <summary>
+    /// Review (approve/reject) a refund request
+    /// </summary>
+    [HttpPut("{id:guid}/review")]
+    public async Task<ActionResult<RefundRequest>> ReviewRefund(Guid id, [FromBody] ReviewRefundDto dto)
+    {
+        var refund = await _refundService.ReviewRefundAsync(id, dto);
+        if (refund == null)
+        {
+            return NotFound(new { message = "Refund not found" });
+        }
+        return Ok(refund);
+    }
+
+    /// <summary>
+    /// Process an approved refund - credits the user's wallet
+    /// </summary>
+    [HttpPost("{id:guid}/process")]
+    public async Task<ActionResult<RefundRequest>> ProcessRefund(Guid id)
+    {
+        try
+        {
+            var refund = await _refundService.ProcessRefundToWalletAsync(id);
+            if (refund == null)
+            {
+                return NotFound(new { message = "Refund not found" });
+            }
+            return Ok(new 
+            { 
+                message = $"Refund processed! ₱{refund.Amount} credited to user's wallet.",
+                refund 
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing refund {RefundId}", id);
+            return StatusCode(500, new { message = "Error processing refund" });
+        }
+    }
+
+    /// <summary>
+    /// Approve and immediately process a refund (credits wallet)
+    /// </summary>
+    [HttpPost("{id:guid}/approve-and-process")]
+    public async Task<ActionResult<RefundRequest>> ApproveAndProcessRefund(Guid id, [FromBody] ReviewRefundDto? dto = null)
+    {
+        try
+        {
+            // First approve the refund
+            var reviewDto = dto ?? new ReviewRefundDto { Action = "approve", ReviewedBy = "Admin" };
+            reviewDto.Action = "approve";
+            
+            var refund = await _refundService.ReviewRefundAsync(id, reviewDto);
+            if (refund == null)
+            {
+                return NotFound(new { message = "Refund not found" });
+            }
+
+            // Then process it to wallet
+            refund = await _refundService.ProcessRefundToWalletAsync(id);
+            
+            return Ok(new 
+            { 
+                message = $"Refund approved and processed! ₱{refund!.Amount} credited to user's wallet.",
+                refund 
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error approving and processing refund {RefundId}", id);
+            return StatusCode(500, new { message = "Error processing refund" });
+        }
+    }
+
+    /// <summary>
+    /// Contact customer about a refund
+    /// </summary>
+    [HttpPost("contact")]
+    public async Task<ActionResult> ContactCustomer([FromBody] ContactCustomerDto dto)
+    {
+        var success = await _refundService.ContactCustomerAsync(dto);
+        if (!success)
+        {
+            return NotFound(new { message = "Refund not found" });
+        }
+        return Ok(new { message = "Customer contacted successfully" });
+    }
+
+    /// <summary>
+    /// Get refund statistics
+    /// </summary>
+    [HttpGet("stats")]
+    public async Task<ActionResult<RefundStats>> GetRefundStats()
+    {
+        var stats = await _refundService.GetRefundStatsAsync();
+        return Ok(stats);
+    }
+}

@@ -1,0 +1,106 @@
+.coin-history-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.coin-history-popup {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.coin-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+
+.coin-history-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.coin-history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.coin-history-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+}
+
+.coin-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.coin-icon i {
+  font-size: 1.1rem;
+  color: #5D4E37;
+}
+
+.coin-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.coin-desc {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.coin-date {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.coin-amount {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.coin-amount.positive {
+  color: #4CAF50;
+}
+
+.coin-amount.negative {
+  color: #F44336;
+}
