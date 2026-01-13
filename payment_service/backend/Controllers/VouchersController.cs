@@ -59,12 +59,21 @@ public class VouchersController : ControllerBase
     [HttpPost("apply")]
     public async Task<ActionResult<ApplyVoucherResponse>> ApplyVoucher([FromBody] ApplyVoucherRequest request)
     {
+
+        if (request == null || string.IsNullOrEmpty(request.Code))
+        {
+        return Ok(new ApplyVoucherResponse { 
+            Success = false, 
+            Message = "Please enter a voucher code" 
+        });
+        }
+
         var result = await _voucherService.ApplyVoucherAsync(request);
         
-        if (!result.Success)
-        {
-            return BadRequest(result);
-        }
+        // if (!result.Success)
+        // {
+        //     return BadRequest(result);
+        // }
 
         return Ok(result);
     }

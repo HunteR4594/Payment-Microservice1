@@ -3,6 +3,7 @@ using PaymentService.Services;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.Data;
 using Microsoft.OpenApi.Models; // <-- IMPORTANTE: Added this for OpenApiInfo
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,9 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        // This makes the API send 'code' (camelCase) to React
     });
 
 // 4. CORS

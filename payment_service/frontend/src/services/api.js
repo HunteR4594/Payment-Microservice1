@@ -113,10 +113,11 @@ export const vouchersApi = {
   getAll: () => 
     apiCall('/vouchers'),
   
-  apply: (code, orderTotal) =>
+  // Accept one object instead of two arguments
+  apply: (requestData) =>
     apiCall('/vouchers/apply', {
       method: 'POST',
-      body: JSON.stringify({ code, orderTotal }),
+      body: JSON.stringify(requestData),
     }),
 };
 

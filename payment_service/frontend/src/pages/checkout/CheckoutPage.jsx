@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ordersApi, vouchersApi, walletApi } from '../../services/api';
 import { formatCurrency } from '../../utils/formatters';
 import './CheckoutPage.css';
+
 
 const CheckoutPage = () => {
   const [useCoins, setUseCoins] = useState(false);
@@ -45,16 +46,41 @@ const CheckoutPage = () => {
     [subtotal, deliveryFee, voucherDiscount, deliveryFeeDiscount, coinsDiscount]
   );
 
-  const handleApplyVoucher = async () => {
-    if (!voucherCode) return;
+  useEffect(() => {
+    const savedVoucher = localStorage.getItem('selectedVoucher');
+    if (savedVoucher) {
+      setVoucherCode(savedVoucher);
+      handleApplyVoucher(savedVoucher); // Auto-trigger validation
+      localStorage.removeItem('selectedVoucher');
+    }
+  }, [subtotal]); // Runs when subtotal is ready
+
+  const handleApplyVoucher = async (codeToApply) => {
+    const code = (codeToApply || voucherCode).trim().toUpperCase();
+    if (!code) return;
+
     try {
-      const result = await vouchersApi.apply(voucherCode, subtotal);
-      setAppliedVoucher(result.data);
       setError(null);
+      // Backend expects 'code' and 'orderAmount'
+      const response = await vouchersApi.apply({ 
+        Code: code, 
+        OrderAmount: Number(subtotal)
+      });
+
+      if (response.success) {
+        setAppliedVoucher(response);
+        setVoucherCode(code);
+      } else {
+        // Now this message will actually show up!
+        setError(response.message || 'Invalid voucher');
+        setAppliedVoucher(null);
+      }
     } catch (err) {
-      setError('Invalid voucher code');
+      setError('Voucher service unavailable');
     }
   };
+
+  
 
   const handleCheckout = async () => {
     if (!selectedPaymentMethod) {
@@ -155,7 +181,13 @@ const CheckoutPage = () => {
               value={voucherCode}
               onChange={(e) => setVoucherCode(e.target.value)}
             />
-            <button onClick={handleApplyVoucher}>Apply</button>
+            <button 
+              className="apply-btn"
+              onClick={() => handleApplyVoucher()} // Ensure it's calling the function
+              disabled={!voucherCode.trim()}      // Only disable if input is empty
+            >
+              Apply
+            </button>
           </div>
           {appliedVoucher && (
             <div className="voucher-applied">

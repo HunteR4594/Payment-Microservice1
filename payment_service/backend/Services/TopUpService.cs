@@ -1,7 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using PaymentService.Data;
 using PaymentService.Models;
 
 namespace PaymentService.Services;
 
+// This interface definition was missing in your last version
 public interface ITopUpService
 {
     Task<TopUp> CreateTopUpAsync(string userId, TopUpRequest request);
@@ -13,48 +16,15 @@ public interface ITopUpService
 
 public class TopUpService : ITopUpService
 {
-    private readonly Dictionary<string, TopUp> _topUps = new();
+    private readonly PaymentDbContext _context;
     private readonly IWalletService _walletService;
     private readonly IPaymentProvider _paymentProvider;
-    private readonly ILogger<TopUpService> _logger;
 
-    public TopUpService(IWalletService walletService, IPaymentProvider paymentProvider, ILogger<TopUpService> logger)
+    public TopUpService(PaymentDbContext context, IWalletService walletService, IPaymentProvider paymentProvider)
     {
+        _context = context;
         _walletService = walletService;
         _paymentProvider = paymentProvider;
-        _logger = logger;
-
-        // Add mock top-up history
-        var mockTopUps = new[]
-        {
-            new TopUp
-            {
-                Id = "top_001",
-                UserId = "user_001",
-                Amount = 500.00m,
-                PaymentMethod = "gcash",
-                Status = "completed",
-                CreatedAt = DateTime.UtcNow.AddDays(-5),
-                CompletedAt = DateTime.UtcNow.AddDays(-5),
-                ReferenceNumber = "GCASH-12345"
-            },
-            new TopUp
-            {
-                Id = "top_002",
-                UserId = "user_001",
-                Amount = 1000.00m,
-                PaymentMethod = "maya",
-                Status = "completed",
-                CreatedAt = DateTime.UtcNow.AddDays(-10),
-                CompletedAt = DateTime.UtcNow.AddDays(-10),
-                ReferenceNumber = "MAYA-67890"
-            }
-        };
-
-        foreach (var topUp in mockTopUps)
-        {
-            _topUps[topUp.Id] = topUp;
-        }
     }
 
     public async Task<TopUp> CreateTopUpAsync(string userId, TopUpRequest request)
@@ -70,92 +40,39 @@ public class TopUpService : ITopUpService
             ReferenceNumber = $"{request.PaymentMethod.ToUpper()}-{DateTime.UtcNow.Ticks % 100000}"
         };
 
-        try
-        {
-            // Create payment link using configured provider
-            var paymentLinkResponse = await _paymentProvider.CreatePaymentLinkAsync(
-                topUp.Amount,
-                $"Kapebara Wallet Top-up - ₱{topUp.Amount:N2}",
-                topUp.Id
-            );
+        var link = await _paymentProvider.CreatePaymentLinkAsync(topUp.Amount, "Wallet Top-up", topUp.Id);
+        topUp.PaymentLinkId = link.Data?.Id;
+        topUp.PaymentLinkUrl = link.Data?.Url;
 
-            if (paymentLinkResponse.Success && paymentLinkResponse.Data != null)
-            {
-                topUp.PaymentLinkId = paymentLinkResponse.Data.Id;
-                topUp.PaymentLinkUrl = paymentLinkResponse.Data.Url;
-                _logger.LogInformation($"[{_paymentProvider.ProviderName}] Created payment link for top-up {topUp.Id}: {topUp.PaymentLinkUrl}");
-            }
-            else
-            {
-                _logger.LogWarning($"[{_paymentProvider.ProviderName}] Failed to create link: {paymentLinkResponse.Message}");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"[{_paymentProvider.ProviderName}] Error creating payment link: {ex.Message}");
-        }
-
-        _topUps[topUp.Id] = topUp;
+        _context.TopUps.Add(topUp);
+        await _context.SaveChangesAsync();
         return topUp;
-    }
-
-    public Task<TopUp?> GetTopUpAsync(string topUpId)
-    {
-        _topUps.TryGetValue(topUpId, out var topUp);
-        return Task.FromResult(topUp);
-    }
-
-    public Task<List<TopUp>> GetTopUpsAsync(string userId, int limit = 10)
-    {
-        var topUps = _topUps.Values
-            .Where(t => t.UserId == userId)
-            .OrderByDescending(t => t.CreatedAt)
-            .Take(limit)
-            .ToList();
-        return Task.FromResult(topUps);
     }
 
     public async Task<TopUp> CompleteTopUpAsync(string topUpId)
     {
-        if (!_topUps.TryGetValue(topUpId, out var topUp))
-        {
-            throw new InvalidOperationException("Top-up not found");
-        }
-
-        if (topUp.Status != "pending")
-        {
-            throw new InvalidOperationException("Top-up is not pending");
-        }
+        var topUp = await _context.TopUps.FindAsync(topUpId) ?? throw new Exception("Not found");
+        if (topUp.Status != "pending") return topUp;
 
         topUp.Status = "completed";
         topUp.CompletedAt = DateTime.UtcNow;
 
-        // Add balance to wallet with reference to this top-up
-        var paymentMethodName = topUp.PaymentMethod switch
-        {
-            "gcash" => "GCash",
-            "maya" => "Maya",
-            "card" => "Credit/Debit Card",
-            _ => topUp.PaymentMethod
-        };
-        await _walletService.AddBalanceAsync(
-            topUp.UserId, 
-            topUp.Amount, 
-            topUp.Id,
-            $"Top-up via {paymentMethodName}"
-        );
-
+        await _walletService.AddBalanceAsync(topUp.UserId, topUp.Amount, topUp.Id, $"Top-up via {topUp.PaymentMethod}");
+        
+        await _context.SaveChangesAsync();
         return topUp;
     }
 
-    public Task<TopUp> FailTopUpAsync(string topUpId)
-    {
-        if (!_topUps.TryGetValue(topUpId, out var topUp))
-        {
-            throw new InvalidOperationException("Top-up not found");
-        }
+    public async Task<TopUp?> GetTopUpAsync(string topUpId) => await _context.TopUps.FindAsync(topUpId);
 
+    public async Task<List<TopUp>> GetTopUpsAsync(string userId, int limit = 10) => 
+        await _context.TopUps.Where(t => t.UserId == userId).OrderByDescending(t => t.CreatedAt).Take(limit).ToListAsync();
+
+    public async Task<TopUp> FailTopUpAsync(string topUpId)
+    {
+        var topUp = await _context.TopUps.FindAsync(topUpId) ?? throw new Exception("Not found");
         topUp.Status = "failed";
-        return Task.FromResult(topUp);
+        await _context.SaveChangesAsync();
+        return topUp;
     }
 }

@@ -3,10 +3,11 @@ namespace PaymentService.Models;
 public class Voucher
 {
     public string Id { get; set; } = string.Empty;
-    public string Code { get; set; } = string.Empty;
+    public string? Code { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string DiscountType { get; set; } = "percentage"; // percentage, fixed
     public decimal DiscountValue { get; set; }
+    public decimal? OrderAmount { get; set; }
     public decimal MinimumPurchase { get; set; }
     public decimal? MaxDiscount { get; set; }
     public DateTime ValidFrom { get; set; }

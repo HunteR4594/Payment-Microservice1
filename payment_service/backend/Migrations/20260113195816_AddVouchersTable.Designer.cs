@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PaymentService.Data;
 
@@ -11,9 +12,11 @@ using PaymentService.Data;
 namespace PaymentService.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    partial class PaymentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260113195816_AddVouchersTable")]
+    partial class AddVouchersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,6 +217,7 @@ namespace PaymentService.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -236,7 +240,7 @@ namespace PaymentService.Migrations
                     b.Property<decimal>("MinimumPurchase")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("OrderAmount")
+                    b.Property<decimal>("OrderAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UsageCount")

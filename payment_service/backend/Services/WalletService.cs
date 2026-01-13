@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore; // Required for EF extensions
+using PaymentService.Data;           // Required to find PaymentDbContext
 using PaymentService.Models;
 
 namespace PaymentService.Services;
@@ -12,90 +14,40 @@ public interface IWalletService
 
 public class WalletService : IWalletService
 {
-    private readonly Dictionary<string, Wallet> _wallets = new();
-    private readonly List<Transaction> _transactions = new();
+    private readonly PaymentDbContext _context;
 
-    public WalletService()
+    public WalletService(PaymentDbContext context)
     {
-        // Initialize with mock data
-        _wallets["user_001"] = new Wallet
-        {
-            UserId = "user_001",
-            Balance = 1500.00m,
-            Coins = 250,
-            LastUpdated = DateTime.UtcNow
-        };
-
-        // Add some mock transactions
-        _transactions.AddRange(new[]
-        {
-            new Transaction
-            {
-                Id = "txn_001",
-                UserId = "user_001",
-                Type = "order",
-                Amount = -150.00m,
-                Description = "Order - Quezon City Branch",
-                ReferenceId = "ord_001",
-                CreatedAt = DateTime.UtcNow.AddDays(-3)
-            },
-            new Transaction
-            {
-                Id = "txn_002",
-                UserId = "user_001",
-                Type = "topup",
-                Amount = 500.00m,
-                Description = "Top-up via GCash",
-                ReferenceId = "top_001",
-                CreatedAt = DateTime.UtcNow.AddDays(-5)
-            },
-            new Transaction
-            {
-                Id = "txn_003",
-                UserId = "user_001",
-                Type = "order",
-                Amount = -85.00m,
-                Description = "Order - Makati Branch",
-                ReferenceId = "ord_002",
-                CreatedAt = DateTime.UtcNow.AddDays(-7)
-            },
-            new Transaction
-            {
-                Id = "txn_004",
-                UserId = "user_001",
-                Type = "topup",
-                Amount = 1000.00m,
-                Description = "Top-up via Maya",
-                ReferenceId = "top_002",
-                CreatedAt = DateTime.UtcNow.AddDays(-10)
-            }
-        });
+        _context = context;
     }
 
-    public Task<Wallet> GetWalletAsync(string userId)
+    public async Task<Wallet> GetWalletAsync(string userId)
     {
-        if (!_wallets.ContainsKey(userId))
+        var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
+        
+        if (wallet == null)
         {
-            _wallets[userId] = new Wallet
+            wallet = new Wallet
             {
                 UserId = userId,
                 Balance = 0,
                 Coins = 0,
                 LastUpdated = DateTime.UtcNow
             };
+            _context.Wallets.Add(wallet);
+            await _context.SaveChangesAsync();
         }
-        return Task.FromResult(_wallets[userId]);
+        return wallet;
     }
 
-    public Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null)
+    public async Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null)
     {
-        var wallet = _wallets.GetValueOrDefault(userId) ?? new Wallet { UserId = userId };
+        var wallet = await GetWalletAsync(userId);
         wallet.Balance += amount;
-        wallet.Coins += (int)(amount / 100) * 5; // 5 coins per 100 pesos
+        wallet.Coins += (int)(amount / 100) * 5; 
         wallet.LastUpdated = DateTime.UtcNow;
-        _wallets[userId] = wallet;
 
-        _transactions.Add(new Transaction
+        _context.Transactions.Add(new Transaction
         {
             Id = $"txn_{Guid.NewGuid():N}",
             UserId = userId,
@@ -106,12 +58,13 @@ public class WalletService : IWalletService
             CreatedAt = DateTime.UtcNow
         });
 
-        return Task.FromResult(wallet);
+        await _context.SaveChangesAsync();
+        return wallet;
     }
 
-    public Task<Wallet> DeductBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null)
+    public async Task<Wallet> DeductBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null)
     {
-        var wallet = _wallets.GetValueOrDefault(userId);
+        var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
         if (wallet == null || wallet.Balance < amount)
         {
             throw new InvalidOperationException("Insufficient balance");
@@ -120,7 +73,7 @@ public class WalletService : IWalletService
         wallet.Balance -= amount;
         wallet.LastUpdated = DateTime.UtcNow;
 
-        _transactions.Add(new Transaction
+        _context.Transactions.Add(new Transaction
         {
             Id = $"txn_{Guid.NewGuid():N}",
             UserId = userId,
@@ -131,16 +84,16 @@ public class WalletService : IWalletService
             CreatedAt = DateTime.UtcNow
         });
 
-        return Task.FromResult(wallet);
+        await _context.SaveChangesAsync();
+        return wallet;
     }
 
-    public Task<List<Transaction>> GetTransactionsAsync(string userId, int limit = 10)
+    public async Task<List<Transaction>> GetTransactionsAsync(string userId, int limit = 10)
     {
-        var transactions = _transactions
+        return await _context.Transactions
             .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.CreatedAt)
             .Take(limit)
-            .ToList();
-        return Task.FromResult(transactions);
+            .ToListAsync();
     }
 }

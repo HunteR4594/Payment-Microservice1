@@ -17,11 +17,11 @@ const MyVouchers = () => {
     } catch (err) {
       console.error('Failed to load vouchers:', err);
       // Mock vouchers for demo
-      setVouchers([
-        { id: 1, code: 'SAVE20', discount: 20, type: 'percentage', minOrder: 200, expiresAt: '2026-02-28' },
-        { id: 2, code: 'FREEDEL', discount: 60, type: 'fixed', minOrder: 300, expiresAt: '2026-01-31' },
-        { id: 3, code: 'COFFEE50', discount: 50, type: 'fixed', minOrder: 150, expiresAt: '2026-03-15' },
-      ]);
+      // setVouchers([
+      //   { id: 1, code: 'SAVE20', discount: 20, type: 'percentage', minOrder: 200, expiresAt: '2026-02-28' },
+      //   { id: 2, code: 'FREEDEL', discount: 60, type: 'fixed', minOrder: 300, expiresAt: '2026-01-31' },
+      //   { id: 3, code: 'COFFEE50', discount: 50, type: 'fixed', minOrder: 150, expiresAt: '2026-03-15' },
+      // ]);
     } finally {
       setLoading(false);
     }
@@ -52,17 +52,30 @@ const MyVouchers = () => {
             <div key={voucher.id} className="voucher-card">
               <div className="voucher-left">
                 <div className="voucher-discount">
-                  {voucher.type === 'percentage' ? `${voucher.discount}%` : `₱${voucher.discount}`}
+                  {/* FIX: Use discountValue and check case-insensitive type */}
+                  {voucher.discountType?.toLowerCase() === 'percentage' 
+                    ? `${voucher.discountValue}%` 
+                    : `₱${voucher.discountValue}`}
                 </div>
                 <div className="voucher-label">OFF</div>
               </div>
               <div className="voucher-right">
                 <div className="voucher-code">{voucher.code}</div>
                 <div className="voucher-details">
-                  <span>Min. order: ₱{voucher.minOrder}</span>
-                  <span>Expires: {new Date(voucher.expiresAt).toLocaleDateString()}</span>
+                  {/* FIX: Use minimumPurchase and validUntil */}
+                  <span>Min. order: ₱{voucher.minimumPurchase}</span>
+                  <span>Expires: {new Date(voucher.validUntil).toLocaleDateString()}</span>
                 </div>
-                <button className="use-btn">Use Now</button>
+                {/* ADD: Functionality to Use Now */}
+                <button 
+                  className="use-btn" 
+                  onClick={() => {
+                    localStorage.setItem('selectedVoucher', voucher.code);
+                    window.location.href = '/checkout'; // Or use useNavigate()
+                  }}
+                >
+                  Use Now
+                </button>
               </div>
             </div>
           ))}
