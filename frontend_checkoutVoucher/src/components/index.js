@@ -2,3 +2,5 @@
 export { default as OrderPlacedPopup } from './OrderPlacedPopup';
 export { default as PaymentMethodPopup } from './PaymentMethodPopup';
 export { default as VoucherHistoryPopup } from './VoucherHistoryPopup';
+export { default as OrderFailedPopup } from './OrderFailedPopup';
+
