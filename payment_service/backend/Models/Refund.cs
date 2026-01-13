@@ -4,7 +4,7 @@ namespace PaymentService.Models;
 
 public class RefundRequest
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public string UserId { get; set; } = string.Empty;  // Links to wallet
     public string OrderId { get; set; } = string.Empty;
     public string CustomerName { get; set; } = string.Empty;
@@ -59,7 +59,7 @@ public class ReviewRefundDto
 
 public class ContactCustomerDto
 {
-    public Guid RefundId { get; set; }
+    public string RefundId { get; set; } = string.Empty;
     public string Subject { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public string ContactMethod { get; set; } = "email"; // "email" or "sms"

@@ -1,9 +1,16 @@
 using System.Text.Json.Serialization;
 using PaymentService.Services;
+using Microsoft.EntityFrameworkCore;
+using PaymentService.Data;
+using Microsoft.OpenApi.Models; // <-- IMPORTANTE: Added this for OpenApiInfo
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load .env.local if exists
+// 1. Database Context
+builder.Services.AddDbContext<PaymentDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 2. Load .env.local if exists
 var envPath = Path.Combine(builder.Environment.ContentRootPath, ".env.local");
 if (File.Exists(envPath))
 {
@@ -22,16 +29,27 @@ if (File.Exists(envPath))
     }
 }
 
-// Add services
+// 3. Add Services & Swagger Config
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// FIXED: Explicit Swagger Configuration to prevent "Unable to render" error
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Payment Service API", 
+        Version = "v1",
+        Description = "API for handling payments and transactions." 
+    });
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-// Add CORS
+// 4. CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -42,35 +60,40 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Register Payment Provider (use Mock by default, PayMongo if secret key is set)
+// 5. Payment Provider Registration
 var payMongoSecretKey = Environment.GetEnvironmentVariable("PAYMONGO_SECRET_KEY") 
     ?? builder.Configuration["PayMongo:SecretKey"];
+
 if (!string.IsNullOrEmpty(payMongoSecretKey) && !payMongoSecretKey.StartsWith("your_"))
 {
     builder.Services.AddHttpClient();
-    builder.Services.AddSingleton<IPaymentProvider, PayMongoPaymentProvider>();
+    builder.Services.AddSingleton<IPaymentProvider, PayMongoPaymentProvider>(); // Singleton is okay here if provider is stateless
     Console.WriteLine("Using PayMongo Payment Provider");
 }
 else
 {
     builder.Services.AddSingleton<IPaymentProvider, MockPaymentProvider>();
-    Console.WriteLine("Using Mock Payment Provider (set PAYMONGO_SECRET_KEY for real payments)");
+    Console.WriteLine("Using Mock Payment Provider");
 }
 
-// Register Domain Services
-builder.Services.AddSingleton<IWalletService, WalletService>();
-builder.Services.AddSingleton<ITopUpService, TopUpService>();
-builder.Services.AddSingleton<IOrderService, OrderService>();
-builder.Services.AddSingleton<IVoucherService, VoucherService>();
-builder.Services.AddSingleton<IRefundService, RefundService>();
+// 6. Register Domain Services (SCOPED - Correct implementation)
+builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<ITopUpService, TopUpService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<IRefundService, RefundService>();
 
 var app = builder.Build();
 
-// Configure pipeline
+// 7. Configure Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    // FIXED: Explicit Endpoint for Swagger UI
+    app.UseSwaggerUI(c => 
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API v1");
+    });
 }
 
 app.UseCors();

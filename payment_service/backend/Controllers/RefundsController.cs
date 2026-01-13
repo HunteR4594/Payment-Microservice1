@@ -36,8 +36,10 @@ public class RefundsController : ControllerBase
     /// <summary>
     /// Get refund by ID
     /// </summary>
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<RefundRequest>> GetRefundById(Guid id)
+    // FIX: Removed :guid constraint
+    [HttpGet("{id}")]
+    // FIX: Changed Guid to string
+    public async Task<ActionResult<RefundRequest>> GetRefundById(string id)
     {
         var refund = await _refundService.GetRefundByIdAsync(id);
         if (refund == null)
@@ -93,8 +95,10 @@ public class RefundsController : ControllerBase
     /// <summary>
     /// Review (approve/reject) a refund request
     /// </summary>
-    [HttpPut("{id:guid}/review")]
-    public async Task<ActionResult<RefundRequest>> ReviewRefund(Guid id, [FromBody] ReviewRefundDto dto)
+    // FIX: Removed :guid constraint
+    [HttpPut("{id}/review")]
+    // FIX: Changed Guid to string
+    public async Task<ActionResult<RefundRequest>> ReviewRefund(string id, [FromBody] ReviewRefundDto dto)
     {
         var refund = await _refundService.ReviewRefundAsync(id, dto);
         if (refund == null)
@@ -107,8 +111,10 @@ public class RefundsController : ControllerBase
     /// <summary>
     /// Process an approved refund - credits the user's wallet
     /// </summary>
-    [HttpPost("{id:guid}/process")]
-    public async Task<ActionResult<RefundRequest>> ProcessRefund(Guid id)
+    // FIX: Removed :guid constraint
+    [HttpPost("{id}/process")]
+    // FIX: Changed Guid to string
+    public async Task<ActionResult<RefundRequest>> ProcessRefund(string id)
     {
         try
         {
@@ -137,8 +143,10 @@ public class RefundsController : ControllerBase
     /// <summary>
     /// Approve and immediately process a refund (credits wallet)
     /// </summary>
-    [HttpPost("{id:guid}/approve-and-process")]
-    public async Task<ActionResult<RefundRequest>> ApproveAndProcessRefund(Guid id, [FromBody] ReviewRefundDto? dto = null)
+    // FIX: Removed :guid constraint
+    [HttpPost("{id}/approve-and-process")]
+    // FIX: Changed Guid to string
+    public async Task<ActionResult<RefundRequest>> ApproveAndProcessRefund(string id, [FromBody] ReviewRefundDto? dto = null)
     {
         try
         {
