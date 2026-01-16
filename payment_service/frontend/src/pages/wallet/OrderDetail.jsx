@@ -14,15 +14,17 @@ const OrderDetail = () => {
   }, [orderId]);
 
   const loadOrder = async () => {
-    try {
-      const response = await ordersApi.getById(orderId);
+  try {
+    const response = await ordersApi.getById(orderId);
+    if (response.success) {
       setOrder(response.data);
-    } catch (err) {
-      console.error('Failed to load order:', err);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (err) {
+    console.error('Failed to load order details:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (
@@ -81,7 +83,7 @@ const OrderDetail = () => {
         <div className="detail-section total">
           <div className="detail-row">
             <span>Total</span>
-            <span className="total-amount">{formatCurrency(order.total)}</span>
+            <span className="total-amount">{formatCurrency(order.amount)}</span>
           </div>
         </div>
 

@@ -13,15 +13,20 @@ const RecentOrdersPage = () => {
   }, []);
 
   const loadOrders = async () => {
-    try {
-      const response = await ordersApi.getAll();
-      setOrders(response.data || []);
-    } catch (err) {
-      console.error('Failed to load orders:', err);
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+    const response = await ordersApi.getAll('user_001'); // Pass the specific user
+    
+    // We ensure we use the data from the API Response
+    if (response.success) {
+      setOrders(response.data); 
     }
-  };
+  } catch (err) {
+    console.error('Failed to load orders:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (
@@ -55,7 +60,7 @@ const RecentOrdersPage = () => {
                 <span className="item-subtitle">{formatDate(order.createdAt)}</span>
               </div>
               <div className="item-right">
-                <span className="item-amount">{formatCurrency(order.total)}</span>
+                <span className="item-amount">{formatCurrency(order.amount)}</span>
                 <span className={`item-status ${order.status}`}>{order.status}</span>
               </div>
               <i className="bi bi-chevron-right"></i>
