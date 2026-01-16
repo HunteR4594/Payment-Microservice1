@@ -72,7 +72,7 @@ const MainLayout = () => {
           <div className="brand">
             <NavLink to="/" className="brand-link">
               <img src="/kapebara-logo-2.png" alt="Kapebara" className="brand-logo" />
-              <span className="brand-text">Kapebara</span>
+              {/*<span className="brand-text">Kapebara</span>*/}
             </NavLink>
           </div>
           <div className="breadcrumb-inline">{getBreadcrumbText()}</div>

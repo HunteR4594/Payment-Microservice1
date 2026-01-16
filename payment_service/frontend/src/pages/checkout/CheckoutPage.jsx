@@ -39,6 +39,22 @@ const CheckoutPage = () => {
     { id: 'grab_pay', name: 'GrabPay', icon: 'bi-phone', img: '/grabpay-logo.svg' },
   ];
 
+  const [cardData, setCardData] = useState({
+  cardholderName: '',
+  cardNumber: '',
+  expiryMonth: '',
+  expiryYear: '',
+  cvv: ''
+});
+
+const handleCardDataChange = (field, value) => {
+  setCardData(prev => ({
+    ...prev,
+    [field]: value
+  }));
+};
+
+
   const subtotal = useMemo(
     () => order.items.reduce((sum, item) => sum + item.qty * item.price, 0),
     [order]
@@ -294,6 +310,65 @@ const CheckoutPage = () => {
             ))}
           </div>
         </div>
+
+        {/* Card Form – appears only for Credit/Debit */}
+        {selectedPaymentMethod === 'card' && (
+          <div className="card-form-section">
+    
+            {/* Cardholder name */}
+            <div className="card-form-row">
+              <input
+                type="text"
+                placeholder="Name of Cardholder"
+                className="card-input full-width"
+                value={cardData.cardholderName}
+                onChange={(e) => handleCardDataChange('cardholderName', e.target.value)}
+              />
+            </div>
+
+            {/* Card number */}
+            <div className="card-form-row">
+              <input
+                type="text"
+                placeholder="Card Number"
+                className="card-input full-width"
+                value={cardData.cardNumber}
+                onChange={(e) => handleCardDataChange('cardNumber', e.target.value)}
+                maxLength="16"
+              />
+            </div>
+
+            {/* Expiry + CVV */}
+            <div className="card-form-row expiry-cvv">
+              <input
+                type="text"
+                placeholder="MM"
+                className="card-input expiry-input"
+                value={cardData.expiryMonth}
+                onChange={(e) => handleCardDataChange('expiryMonth', e.target.value)}
+                maxLength="2"
+              />
+              <span className="expiry-slash">/</span>
+              <input
+                type="text"
+                placeholder="YYYY"
+                className="card-input expiry-input"
+                value={cardData.expiryYear}
+                onChange={(e) => handleCardDataChange('expiryYear', e.target.value)}
+                maxLength="4"
+              />
+              <input
+                type="text"
+                placeholder="CVV"
+                className="card-input cvv-input"
+                value={cardData.cvv}
+                onChange={(e) => handleCardDataChange('cvv', e.target.value)}
+                maxLength="3"
+              />
+            </div>
+      
+        </div>
+      )}
 
         {/* Total */}
         <div className="checkout-section total-section">

@@ -14,6 +14,15 @@ const TopUpPage = () => {
   const [error, setError] = useState(null);
   const [showReviewPopup, setShowReviewPopup] = useState(false);
 
+  // Card form fields
+  const [cardData, setCardData] = useState({
+    cardholderName: '',
+    cardNumber: '',
+    expiryMonth: '',
+    expiryYear: '',
+    cvv: ''
+  });
+
   const presetAmounts = [100, 200, 500, 1000, 2000, 5000];
 
   const paymentMethods = [
@@ -30,6 +39,13 @@ const TopUpPage = () => {
   const handleTopUpConfirmed = (topUpData) => {
     setShowReviewPopup(false);
     navigate(`/topup/checkout/${topUpData.id}`);
+  };
+
+  const handleCardDataChange = (field, value) => {
+    setCardData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
@@ -99,6 +115,60 @@ const TopUpPage = () => {
               </button>
             ))}
           </div>
+
+          {/* Card Form - Shows when card is selected */}
+          {selectedMethod === 'card' && (
+            <div className="card-form-section">
+              <div className="card-form-row">
+                <input
+                  type="text"
+                  placeholder="Name of Card holder"
+                  className="card-input full-width"
+                  value={cardData.cardholderName}
+                  onChange={(e) => handleCardDataChange('cardholderName', e.target.value)}
+                />
+              </div>
+
+              <div className="card-form-row">
+                <input
+                  type="text"
+                  placeholder="Card Number"
+                  className="card-input full-width"
+                  value={cardData.cardNumber}
+                  onChange={(e) => handleCardDataChange('cardNumber', e.target.value)}
+                  maxLength="16"
+                />
+              </div>
+              
+              <div className="card-form-row expiry-cvv">
+                <input
+                  type="text"
+                  placeholder="MM"
+                  className="card-input expiry-input"
+                  value={cardData.expiryMonth}
+                  onChange={(e) => handleCardDataChange('expiryMonth', e.target.value)}
+                  maxLength="2"
+                />
+                <span className="expiry-slash">/</span>
+                <input
+                  type="text"
+                  placeholder="YYYY"
+                  className="card-input expiry-input"
+                  value={cardData.expiryYear}
+                  onChange={(e) => handleCardDataChange('expiryYear', e.target.value)}
+                  maxLength="4"
+                />
+                <input
+                  type="text"
+                  placeholder="CVV"
+                  className="card-input cvv-input"
+                  value={cardData.cvv}
+                  onChange={(e) => handleCardDataChange('cvv', e.target.value)}
+                  maxLength="3"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Summary */}
@@ -142,6 +212,7 @@ const TopUpPage = () => {
         onHide={() => setShowReviewPopup(false)}
         amount={parseFloat(amount) || 0}
         paymentMethod={selectedMethod}
+        cardData={selectedMethod === 'card' ? cardData : null}
         onConfirm={handleTopUpConfirmed}
       />
     </div>

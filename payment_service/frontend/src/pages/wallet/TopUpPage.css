@@ -181,3 +181,107 @@
   background: #ccc;
   cursor: not-allowed;
 }
+
+/* Card Form Section */
+.card-form-section {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 0.75rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-form-row:last-child {
+  margin-bottom: 0;
+}
+
+.card-form-row.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.card-form-row.expiry-cvv {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: white;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.card-input.full-width {
+  width: 100%;
+}
+
+.card-input.expiry-input {
+  flex: 0 0 80px;
+  text-align: center;
+}
+
+.card-input.cvv-input {
+  flex: 0 0 120px;
+}
+
+.card-input:focus {
+  outline: none;
+  border-color: #2d2d2d;
+  box-shadow: 0 0 0 3px rgba(45, 45, 45, 0.1);
+}
+
+.card-input::placeholder {
+  color: #adb5bd;
+  font-size: 0.9rem;
+}
+
+.expiry-slash {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #6c757d;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .card-form-row.expiry-cvv {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .card-input.expiry-input,
+  .card-input.cvv-input {
+    flex: 1;
+    min-width: 0;
+  }
+}
