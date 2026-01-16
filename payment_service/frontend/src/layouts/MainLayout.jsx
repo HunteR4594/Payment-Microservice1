@@ -3,7 +3,6 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import './MainLayout.css';
 
 const MainLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
 
   const navItems = [
@@ -33,6 +32,11 @@ const MainLayout = () => {
       ]
     },
     {
+      title: 'Vouchers',
+      icon: 'bi-ticket-perforated',
+      path: '/vouchers',
+    },
+    {
       title: 'Refund',
       icon: 'bi-arrow-counterclockwise',
       path: '/refund',
@@ -52,98 +56,97 @@ const MainLayout = () => {
     return location.pathname.startsWith(path);
   };
 
+  const getBreadcrumbText = () => {
+    if (location.pathname === '/' || location.pathname === '') return 'Home';
+    const parts = location.pathname.split('/').filter(Boolean);
+    return ['Home', ...parts.map(p => p.charAt(0).toUpperCase() + p.slice(1))].join(' / ');
+  };
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="main-layout">
-      {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : 'collapsed'}`}>
-        <div className="sidebar-header">
-          <div className="logo">
-            <span className="logo-icon">☕</span>
-            {sidebarOpen && <span className="logo-text">Kapebara</span>}
+      {/* Top Navbar */}
+      <header className="top-navbar">
+        <div className="nav-left">
+          <div className="brand">
+            <NavLink to="/" className="brand-link">
+              <img src="/kapebara-logo-2.png" alt="Kapebara" className="brand-logo" />
+              <span className="brand-text">Kapebara</span>
+            </NavLink>
           </div>
-          <button 
-            className="toggle-btn"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            <i className={`bi ${sidebarOpen ? 'bi-chevron-left' : 'bi-chevron-right'}`}></i>
-          </button>
+          <div className="breadcrumb-inline">{getBreadcrumbText()}</div>
         </div>
 
-        <nav className="sidebar-nav">
-          {navItems.map((item, index) => (
-            <div key={index} className="nav-group">
-              <NavLink
-                to={item.path}
-                className={({ isActive: active }) => 
-                  `nav-item ${active || isActive(item.path) ? 'active' : ''}`
-                }
-                end={item.path === '/'}
-              >
-                <i className={`bi ${item.icon}`}></i>
-                {sidebarOpen && <span>{item.title}</span>}
-              </NavLink>
-              
-              {item.subItems && sidebarOpen && (
-                <div className="sub-nav">
-                  {item.subItems.map((subItem, subIndex) => (
-                    <NavLink
-                      key={subIndex}
-                      to={subItem.path}
-                      className={({ isActive }) => 
-                        `sub-nav-item ${isActive ? 'active' : ''}`
-                      }
-                    >
-                      <i className={`bi ${subItem.icon}`}></i>
-                      <span>{subItem.title}</span>
-                    </NavLink>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <nav className="nav-center">
+          <ul className="nav-list">
+            {navItems.map((item, idx) => (
+              <li key={idx} className={`nav-list-item ${isActive(item.path) ? 'active' : ''}`}>
+                <NavLink to={item.path} className="nav-link">
+                  <i className={`bi ${item.icon}`}></i>
+                  <span className="nav-text">{item.title}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </nav>
 
-        <div className="sidebar-footer">
-          {sidebarOpen && (
-            <div className="user-info">
-              <div className="avatar">
-                <i className="bi bi-person-circle"></i>
-              </div>
-              <div className="user-details">
-                <span className="user-name">User</span>
-                <span className="user-role">Customer</span>
-              </div>
+        <div className="nav-right">
+          <div className="user-info-navbar">
+            <div className="avatar">
+              <i className="bi bi-person-circle"></i>
             </div>
-          )}
+            <div className="user-name">User</div>
+          </div>
+          <button className="icon-btn notif-btn" aria-label="Notifications">
+            <i className="bi bi-bell"></i>
+          </button>
+          <button className="icon-btn settings-btn" aria-label="Settings">
+            <i className="bi bi-gear"></i>
+          </button>
+          <button
+            className="hamburger-btn"
+            aria-label="Menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <i className={`bi ${menuOpen ? 'bi-x-lg' : 'bi-list'}`}></i>
+          </button>
         </div>
-      </aside>
+        {menuOpen && (
+          <div className="mobile-menu" onClick={() => {}}>
+            <div className="mobile-menu-controls">
+              <div className="mobile-user" onClick={() => setMenuOpen(false)}>
+                <i className="bi bi-person-circle"></i>
+                <span>User</span>
+              </div>
+              <button className="mobile-icon-btn" aria-label="Notifications" onClick={() => setMenuOpen(false)}>
+                <i className="bi bi-bell"></i>
+                <span>Notifications</span>
+              </button>
+              <button className="mobile-icon-btn" aria-label="Settings" onClick={() => setMenuOpen(false)}>
+                <i className="bi bi-gear"></i>
+                <span>Settings</span>
+              </button>
+            </div>
+            <ul>
+              {navItems.map((item, idx) => (
+                <li key={idx} className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}>
+                  <NavLink to={item.path} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+                    <i className={`bi ${item.icon}`}></i>
+                    <span>{item.title}</span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </header>
 
       {/* Main Content */}
-      <main className="main-content">
+      <main className="main-content top-nav-layout">
         <header className="content-header">
-          <div className="breadcrumb-container">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <NavLink to="/">Home</NavLink>
-                </li>
-                {location.pathname !== '/' && (
-                  <li className="breadcrumb-item active">
-                    {location.pathname.split('/').filter(Boolean).map((part, i, arr) => 
-                      i === arr.length - 1 ? part.charAt(0).toUpperCase() + part.slice(1) : null
-                    )}
-                  </li>
-                )}
-              </ol>
-            </nav>
-          </div>
           <div className="header-actions">
-            <button className="btn btn-outline-secondary btn-sm">
-              <i className="bi bi-bell"></i>
-            </button>
-            <button className="btn btn-outline-secondary btn-sm">
-              <i className="bi bi-gear"></i>
-            </button>
+            {/* page specific controls could go here */}
           </div>
         </header>
 

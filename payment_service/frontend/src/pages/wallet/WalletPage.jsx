@@ -11,6 +11,7 @@ const WalletPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [useMock, setUseMock] = useState(false);
   const [showCoinHistory, setShowCoinHistory] = useState(false);
 
   useEffect(() => {
@@ -26,9 +27,16 @@ const WalletPage = () => {
       ]);
       setWallet(walletRes.data);
       setTransactions(transactionsRes.data);
+      setUseMock(false);
     } catch (err) {
-      setError(err.message);
       console.error('Failed to load wallet data:', err);
+      // Fallback mock data for offline development
+      setUseMock(true);
+      setWallet({ balance: 1250, coins: 120 });
+      setTransactions([
+        { id: 'tx1', type: 'topup', referenceId: 'topup_001', amount: 1000, description: 'Top-up via GCash', createdAt: new Date().toISOString() },
+        { id: 'tx2', type: 'order', referenceId: 'order_123', amount: -295, description: 'Order: Iced Latte + Cookie', createdAt: new Date(Date.now()-86400000).toISOString() },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -45,21 +53,33 @@ const WalletPage = () => {
   }
 
   if (error) {
-    return (
-      <div className="wallet-page">
-        <div className="alert alert-danger">
-          <i className="bi bi-exclamation-triangle me-2"></i>
-          Failed to connect to server. Make sure the backend is running.
-          <button className="btn btn-outline-danger btn-sm ms-3" onClick={loadWalletData}>
-            Retry
-          </button>
+    // If we previously set useMock, fall through and render mock UI instead of an error page
+    if (!useMock) {
+      return (
+        <div className="wallet-page">
+          <div className="alert alert-danger">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            Failed to connect to server. Make sure the backend is running.
+            <button className="btn btn-outline-danger btn-sm ms-3" onClick={loadWalletData}>
+              Retry
+            </button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   return (
     <div className="wallet-page">
+      {useMock && (
+        <div className="alert alert-warning">
+          <i className="bi bi-info-circle me-2"></i>
+          Showing mock data — backend unavailable. 
+          <button className="btn btn-sm btn-outline-secondary ms-3" onClick={() => { setUseMock(false); loadWalletData(); }}>
+            Retry
+          </button>
+        </div>
+      )}
       <div className="row g-4">
         {/* LEFT COLUMN */}
         <div className="col-12 col-lg-4">

@@ -12,6 +12,6 @@ export default defineConfig({
         changeOrigin: true,
       }
     },
-    allowedHosts: ['fruity-hats-own.loca.lt']
+    allowedHosts: ['localhost', 'fruity-hats-own.loca.lt']
   }
 })

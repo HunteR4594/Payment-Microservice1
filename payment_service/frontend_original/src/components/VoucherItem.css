@@ -1,0 +1,100 @@
+/* Voucher Item Styles */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+.voucher-card {
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid #3B302A;
+  max-width: 400px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.voucher-card-body {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+}
+
+.voucher-icon-section {
+  background-color: #3B302A;
+  width: 80px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 50% 50% 0;
+  margin-left: -15px;
+  padding-left: 15px;
+  flex-shrink: 0;
+}
+
+.voucher-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 30px;
+}
+
+.voucher-text-section {
+  flex: 1;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.voucher-details {
+  flex: 1;
+}
+
+.voucher-card strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1E1E1E;
+  margin-bottom: 2px;
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.voucher-card small {
+  font-size: 0.75rem;
+  color: #1E1E1E;
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+}
+
+.expiry-text {
+  font-size: 0.75rem;
+  margin-top: 2px;
+  color: #1E1E1E;
+}
+
+.use-button {
+  border-radius: 20px;
+  background-color: #3B302A;
+  border: 1px solid #2C2C2C;
+  color: white;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  flex-shrink: 0;
+  margin-top: 10px;
+}
+
+.use-button:hover {
+  background-color: #4E342E;
+}
+
+.use-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

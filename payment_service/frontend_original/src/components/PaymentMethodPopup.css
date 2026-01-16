@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.payment-modal {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.payment-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.payment-close-btn:hover {
+  color: #2d2d2d;
+}
+
+.payment-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e0e0e0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.payment-option:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: #ccc;
+}
+
+.payment-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #3B302A;
+}
+
+.payment-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.payment-logo,
+.card-logos,
+.ewallet-logos {
+  display: flex;
+  gap: 0.5rem;
+  width: 40px;
+  justify-content: center;
+}
+
+.payment-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-name {
+  font-weight: 600;
+  color: #2d2d2d;
+  font-size: 0.95rem;
+}
+
+.payment-balance {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.payment-note {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.payment-confirm-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #3B302A;
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 1.5rem;
+}
+
+.payment-confirm-btn:hover {
+  background-color: #2d2420;
+}

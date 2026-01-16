@@ -1,0 +1,274 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+/* CSS Variables */
+:root {
+  --color-brown-primary: #3B302A;
+  --color-brown-hover: #4A3F35;
+  --color-brown-disabled: #6B5F55;
+  --color-brown-light: rgba(59, 48, 42, 0.1);
+  --color-brown-border: rgba(59, 48, 42, 0.2);
+  --color-brown-focus: rgba(59, 48, 42, 0.4);
+  
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-bg-light: rgba(255, 255, 255, 0.5);
+  --glass-bg-medium: rgba(255, 255, 255, 0.55);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(20px);
+  
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'DM Sans', sans-serif;
+  
+  --kapebara-brown: #3d3023;
+  --text-muted: #757575;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Typography */
+.modal-title-large {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-semibold-20 {
+  font-family: var(--font-primary);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Glassmorphism */
+.glassmorphism {
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.glassmorphism-modal .modal-content {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.glassmorphism-modal .modal-body,
+.glassmorphism-modal .modal-header {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Glassmorphism Table */
+.glassmorphism-table {
+  width: 100%;
+  table-layout: fixed;
+  background-color: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-collapse: collapse;
+}
+
+.glassmorphism-table thead th {
+  background-color: var(--color-brown-light) !important;
+  border-bottom: 2px solid var(--color-brown-border);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+  padding: 1.25rem 1rem;
+}
+
+.glassmorphism-table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glassmorphism-table tbody tr:hover {
+  background-color: var(--color-brown-light);
+}
+
+/* Brown Buttons */
+.custom-brown-btn {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 18px;
+  background-color: var(--color-brown-primary) !important;
+  border-color: var(--color-brown-primary) !important;
+  color: white !important;
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.custom-brown-btn:hover {
+  background-color: var(--color-brown-hover) !important;
+  border-color: var(--color-brown-hover) !important;
+  transform: translateY(-1px);
+}
+
+.custom-brown-btn:disabled {
+  background-color: var(--color-brown-disabled) !important;
+  border-color: var(--color-brown-disabled) !important;
+  opacity: 0.6;
+}
+
+/* Form Elements */
+.glassmorphism-modal textarea.form-control,
+.glassmorphism-modal input.form-control {
+  background-color: var(--glass-bg-heavy) !important;
+  border: 1px solid var(--color-brown-border);
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+/* Radio Buttons */
+.refund-radio-input .form-check-label {
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+.refund-radio-input .form-check-input:checked {
+  background-color: #493B32;
+  border-color: #493B32;
+}
+
+.radio-option-card {
+  border: none !important;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.radio-option-card:hover {
+  background-color: rgba(240, 240, 240, 0.3);
+}
+
+/* Upload Section */
+.placeholder-image-box {
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  height: 150px;
+}
+
+.upload-section-container {
+  border-radius: 8px;
+  padding: 25px;
+  background-color: rgba(248, 249, 250, 0.5) !important;
+}
+
+/* Close Button */
+.glassmorphism-modal .btn-close.custom-close-btn {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  padding: 10px;
+  transition: all 0.2s ease;
+  opacity: 1;
+}
+
+.glassmorphism-modal .btn-close.custom-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Status Badges */
+.badge {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Modal Widths */
+.refund-request-modal .modal-dialog {
+  max-width: 900px;
+  width: 90%;
+}
+
+.report-sent-modal .modal-dialog {
+  max-width: 650px;
+  width: 90%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-title-large {
+    font-size: 32px;
+  }
+  
+  .text-semibold-20 {
+    font-size: 16px;
+  }
+  
+  .refund-request-modal .modal-dialog,
+  .report-sent-modal .modal-dialog {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+}

@@ -1,0 +1,59 @@
+.review-modal-content {
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.review-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.review-details {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.review-row:last-child {
+  border-bottom: none;
+}
+
+.review-row.total {
+  border-top: 2px solid #2d3436;
+  margin-top: 10px;
+  padding-top: 15px;
+  font-size: 18px;
+}
+
+.confirm-topup-btn {
+  width: 100%;
+  padding: 14px;
+  background: #362222;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.confirm-topup-btn:hover:not(:disabled) {
+  background: #5C3D2E;
+}
+
+.confirm-topup-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

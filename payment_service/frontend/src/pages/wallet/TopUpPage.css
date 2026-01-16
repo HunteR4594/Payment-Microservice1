@@ -131,6 +131,9 @@
   color: #5D4E37;
 }
 
+.payment-logo-img { height: 20px; width: auto; display:inline-block; }
+.payment-logo-multi img { height: 18px; margin-right: 8px; }
+
 /* Summary Section */
 .summary-section {
   background: #f8f9fa;

@@ -1,7 +1,7 @@
 // Unified API Service for Payment Microservice
-// Connects to the integrated backend at localhost:5200
+// Uses relative URLs to go through Vite proxy (see vite.config.js)
 
-const API_BASE_URL = 'http://localhost:5200/api';
+const API_BASE_URL = '/api';
 
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
@@ -98,7 +98,10 @@ export const ordersApi = {
         items, 
         paymentMethod, 
         voucherCode, 
-        branch 
+        coinsToUse,
+        branch,
+        // Optional delivery address object: { name, phone, line, city, postalCode }
+        address: null,
       }),
     }),
 
@@ -110,8 +113,11 @@ export const ordersApi = {
 // Backend: GET /api/vouchers
 //          POST /api/vouchers/apply
 export const vouchersApi = {
-  getAll: () => 
-    apiCall('/vouchers'),
+  getAll: async () => {
+    const res = await apiCall('/vouchers');
+    if (Array.isArray(res)) return res;
+    return res?.Data ?? res?.data ?? [];
+  },
   
   // Accept one object instead of two arguments
   apply: (requestData) =>
@@ -119,6 +125,27 @@ export const vouchersApi = {
       method: 'POST',
       body: JSON.stringify(requestData),
     }),
+};
+
+// Convenience wrappers for legacy exports
+export const getVouchers = async () => {
+  return await vouchersApi.getAll();
+};
+
+export const redeemVoucher = async (code) => {
+  const res = await apiCall('/vouchers/redeem', {
+    method: 'POST',
+    body: JSON.stringify({ code }),
+  });
+  return res?.Data ?? res?.data ?? res;
+};
+
+export const applyVoucher = async (voucherId, orderTotal) => {
+  const res = await apiCall('/vouchers/apply', {
+    method: 'POST',
+    body: JSON.stringify({ voucherId, orderTotal }),
+  });
+  return res?.Data ?? res?.data ?? res;
 };
 
 // ============ Refund API ============

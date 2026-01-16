@@ -5,6 +5,7 @@ import './MyVouchers.css';
 const MyVouchers = () => {
   const [vouchers, setVouchers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [useMock, setUseMock] = useState(false);
 
   useEffect(() => {
     loadVouchers();
@@ -14,14 +15,16 @@ const MyVouchers = () => {
     try {
       const response = await vouchersApi.getAll();
       setVouchers(response.data || response || []);
+      setUseMock(false);
     } catch (err) {
       console.error('Failed to load vouchers:', err);
-      // Mock vouchers for demo
-      // setVouchers([
-      //   { id: 1, code: 'SAVE20', discount: 20, type: 'percentage', minOrder: 200, expiresAt: '2026-02-28' },
-      //   { id: 2, code: 'FREEDEL', discount: 60, type: 'fixed', minOrder: 300, expiresAt: '2026-01-31' },
-      //   { id: 3, code: 'COFFEE50', discount: 50, type: 'fixed', minOrder: 150, expiresAt: '2026-03-15' },
-      // ]);
+      // Use mock vouchers when backend is not available
+      setUseMock(true);
+      setVouchers([
+        { id: 'v1', code: 'SAVE20', discountValue: 20, discountType: 'percentage', minimumPurchase: 200, validUntil: '2026-02-28' },
+        { id: 'v2', code: 'FREEDEL', discountValue: 60, discountType: 'fixed', minimumPurchase: 300, validUntil: '2026-01-31' },
+        { id: 'v3', code: 'COFFEE50', discountValue: 50, discountType: 'fixed', minimumPurchase: 150, validUntil: '2026-03-15' },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -39,6 +42,15 @@ const MyVouchers = () => {
 
   return (
     <div className="vouchers-page">
+      {useMock && (
+        <div className="alert alert-warning">
+          <i className="bi bi-info-circle me-2"></i>
+          Showing mock vouchers — backend unavailable. 
+          <button className="btn btn-sm btn-outline-secondary ms-3" onClick={() => { setUseMock(false); loadVouchers(); }}>
+            Retry
+          </button>
+        </div>
+      )}
       <h2 className="page-title">My Vouchers</h2>
 
       {vouchers.length === 0 ? (

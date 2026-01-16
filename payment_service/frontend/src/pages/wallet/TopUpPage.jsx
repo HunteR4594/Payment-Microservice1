@@ -17,9 +17,9 @@ const TopUpPage = () => {
   const presetAmounts = [100, 200, 500, 1000, 2000, 5000];
 
   const paymentMethods = [
-    { id: 'gcash', name: 'GCash', icon: 'bi-phone' },
-    { id: 'maya', name: 'Maya', icon: 'bi-credit-card' },
-    { id: 'card', name: 'Credit/Debit Card', icon: 'bi-credit-card-2-front' },
+    { id: 'gcash', name: 'GCash', icon: 'bi-phone', img: '/gcash-logo.png' },
+    { id: 'maya', name: 'Maya', icon: 'bi-credit-card', img: '/maya-logo.png' },
+    { id: 'card', name: 'Credit/Debit Card', icon: 'bi-credit-card-2-front', imgMulti: ['/mastercard-logo.png', '/visa-logo.png'] },
   ];
 
   const handleShowReview = () => {
@@ -84,7 +84,17 @@ const TopUpPage = () => {
                 className={`payment-btn ${selectedMethod === method.id ? 'active' : ''}`}
                 onClick={() => setSelectedMethod(method.id)}
               >
-                <i className={`bi ${method.icon}`}></i>
+                {method.img ? (
+                  <img src={method.img} alt={method.name} className="payment-logo-img" />
+                ) : method.imgMulti ? (
+                  <span className="payment-logo-multi">
+                    {method.imgMulti.map((src, i) => (
+                      <img key={i} src={src} alt={`${method.name}-${i}`} className="payment-logo-img" />
+                    ))}
+                  </span>
+                ) : (
+                  <i className={`bi ${method.icon}`}></i>
+                )}
                 <span>{method.name}</span>
               </button>
             ))}

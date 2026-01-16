@@ -1,0 +1,171 @@
+/* My Vouchers Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+.vouchers-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 2rem 1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.vouchers-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  padding: 20px;
+}
+
+/* Header Styles */
+.voucher-header {
+  width: 100%;
+  background-color: white;
+  padding: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px 15px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding-left: 10px;
+  margin-left: 0;
+}
+
+.back-arrow-button {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.back-arrow-button:hover {
+  background-color: transparent;
+}
+
+.back-arrow {
+  font-size: 2rem;
+  color: #1C1C1C;
+  font-weight: 800;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1C1C1C;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.view-history {
+  font-size: 0.75rem;
+  color: #1E1E1E;
+  cursor: pointer;
+  font-weight: 400;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 5%;
+}
+
+/* Main Card */
+.voucher-main-card {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  min-height: 300px;
+}
+
+/* Add Voucher Section */
+.add-voucher-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  color: #1E1E1E;
+}
+
+.voucher-input {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  min-width: 120px;
+}
+
+.voucher-input-field {
+  border: 1px solid #B3B3B3;
+  border-radius: 70px;
+  background-color: #ffffff;
+  height: 45px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  flex: 1;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.voucher-input-field:focus {
+  border-color: #e0e0e0;
+  box-shadow: none;
+  outline: none;
+}
+
+.redeem-button {
+  border-radius: 100px;
+  background-color: #3B302A;
+  border: 1px solid #2C2C2C;
+  color: white;
+  height: 45px;
+  padding: 10px 20px;
+  margin-left: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.redeem-button:hover {
+  background-color: #4E342E;
+}
+
+.redeem-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.voucher-separator {
+  margin: 20px 0;
+  border: none;
+  border-top: 2px solid #706c6c;
+  opacity: 1;
+}
+
+.vouchers-list {
+  margin-top: 10px;
+}

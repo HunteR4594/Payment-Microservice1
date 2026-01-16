@@ -1,0 +1,191 @@
+/* Admin Dashboard Styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+:root {
+  --color-brown-primary: #3B302A;
+  --color-brown-hover: #4A3F35;
+  --color-brown-disabled: #6B5F55;
+  --color-brown-light: rgba(59, 48, 42, 0.1);
+  --color-brown-border: rgba(59, 48, 42, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-bg-light: rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(20px);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'DM Sans', sans-serif;
+}
+
+.admin-dashboard-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 3rem 5rem;
+  background-color: #ffffff;
+  font-family: var(--font-primary);
+}
+
+.dashboard-header {
+  width: 100%;
+  border-bottom: 2px solid #f2f2f2;
+  padding-bottom: 1.5rem;
+}
+
+.modal-title-large {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.btn-back-header {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.btn-back-header:hover {
+  transform: translateX(-5px);
+}
+
+.dashboard-content {
+  width: 100%;
+  margin-top: 2.5rem;
+}
+
+/* Table Styles */
+.glassmorphism-table {
+  width: 100%;
+  table-layout: fixed;
+  background-color: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-collapse: collapse;
+}
+
+.glassmorphism-table thead th {
+  background-color: var(--color-brown-light) !important;
+  border-bottom: 2px solid var(--color-brown-border);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+  padding: 1.25rem 1rem;
+}
+
+.glassmorphism-table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glassmorphism-table tbody tr:hover {
+  background-color: var(--color-brown-light);
+}
+
+/* Custom Brown Button */
+.custom-brown-btn {
+  font-weight: 700;
+  font-size: 14px;
+  background-color: var(--color-brown-primary) !important;
+  border-color: var(--color-brown-primary) !important;
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.custom-brown-btn:hover {
+  background-color: var(--color-brown-hover) !important;
+}
+
+/* Glassmorphism Modals */
+.glassmorphism-modal .modal-content,
+.glassmorphism-modal .offcanvas {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.glassmorphism-modal .modal-body,
+.glassmorphism-modal .modal-header,
+.glassmorphism-modal .offcanvas-body,
+.glassmorphism-modal .offcanvas-header {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.glassmorphism-modal .offcanvas-body {
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 1.75rem;
+}
+
+.glassmorphism-card {
+  background-color: var(--glass-bg-light);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 1.5rem;
+}
+
+.glassmorphism-textarea {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid var(--color-brown-border);
+  border-radius: 8px;
+  font-size: 18px;
+  resize: vertical;
+}
+
+.glassmorphism-textarea:focus {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(59, 48, 42, 0.4);
+  box-shadow: 0 0 0 0.25rem var(--color-brown-light);
+  outline: none;
+}
+
+.text-semibold-20 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.placeholder-image-box {
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  height: 150px;
+}
+
+/* Status Badges */
+.badge {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-wrapper {
+    padding: 2rem 1.5rem;
+  }
+
+  .modal-title-large {
+    font-size: 32px;
+  }
+
+  .glassmorphism-table {
+    font-size: 14px;
+  }
+}

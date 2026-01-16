@@ -59,6 +59,20 @@
   font-size: 0.9rem;
 }
 
+/* Address grid */
+.address-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.address-grid input {
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
 .voucher-input button {
   padding: 0.75rem 1.25rem;
   background: #5D4E37;
@@ -162,6 +176,17 @@ input:checked + .slider:before {
 .payment-option i {
   font-size: 1.25rem;
   color: #5D4E37;
+}
+
+.payment-logo-img {
+  height: 20px;
+  width: auto;
+  display: inline-block;
+}
+
+.payment-logo-multi img {
+  height: 18px;
+  margin-right: 8px;
 }
 
 /* Total Section */
