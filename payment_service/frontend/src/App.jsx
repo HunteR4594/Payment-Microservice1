@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
+import { CurrentUserProvider } from './context/currentUser';
+import RequireAdmin from './components/RequireAdmin';
+
 // Layout
 import MainLayout from './layouts/MainLayout';
 
@@ -31,10 +34,11 @@ import RefundAdminPage from './pages/admin/RefundAdminPage';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Routes with Navigation Layout */}
-        <Route element={<MainLayout />}>
+    <CurrentUserProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Routes with Navigation Layout */}
+          <Route element={<MainLayout />}>
           {/* Dashboard */}
           <Route path="/" element={<Dashboard />} />
           
@@ -52,19 +56,28 @@ function App() {
           
           {/* Checkout Routes */}
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/:orderId" element={<CheckoutPage />} />
           <Route path="/vouchers" element={<MyVouchers />} />
           
           {/* Refund Routes */}
           <Route path="/refund" element={<RefundPage />} />
           
           {/* Admin Routes */}
-          <Route path="/admin/refunds" element={<RefundAdminPage />} />
+          <Route
+            path="/admin/refunds"
+            element={
+              <RequireAdmin>
+                <RefundAdminPage />
+              </RequireAdmin>
+            }
+          />
         </Route>
         
         {/* 404 fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </CurrentUserProvider>
   );
 }
 

@@ -1,11 +1,25 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ordersApi, vouchersApi, walletApi } from '../../services/api';
 import { formatCurrency } from '../../utils/formatters';
 import './CheckoutPage.css';
+import { useCurrentUser } from '../../context/currentUser';
+
+// NOTE (Mock Order Service):
+// Checkout currently reads orders via the PaymentService DB-backed Orders API (/api/orders).
+// When a real Order Service is introduced, enable OrderService integration in the backend
+// (OrderService:Enabled=true + BaseUrl) and then either:
+// - switch the frontend to call the /api/order-integration/* proxy, or
+// - re-implement ordersApi to point at the real service.
 
 
 const CheckoutPage = () => {
+  const navigate = useNavigate();
+  const { orderId } = useParams();
+  const { userId } = useCurrentUser();
+
   const [useCoins, setUseCoins] = useState(false);
+  const [coinsToUse, setCoinsToUse] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [appliedVoucher, setAppliedVoucher] = useState(null);
@@ -16,20 +30,81 @@ const CheckoutPage = () => {
   const [addressLine, setAddressLine] = useState('');
   const [addressCity, setAddressCity] = useState('');
   const [addressPostal, setAddressPostal] = useState('');
+  const [loadError, setLoadError] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [useMock, setUseMock] = useState(false);
 
-  // Mock order data
-  const order = {
-    items: [
-      { id: 'latte', name: 'Iced Latte', qty: 2, price: 150 },
-      { id: 'cookie', name: 'Chocolate Chip Cookie', qty: 1, price: 95 },
-    ],
-    fees: { delivery: 60 },
-    discounts: { deliveryFee: 30, coins: 15 },
-    coinsAvailable: 120,
-  };
+  const [order, setOrder] = useState(null);
+  const [wallet, setWallet] = useState(null);
+  const [loadingOrder, setLoadingOrder] = useState(false);
+
+  const [availableOrders, setAvailableOrders] = useState([]);
+  const [loadingOrdersList, setLoadingOrdersList] = useState(false);
+
+  // Load user's orders list (used to pick a checkout order without typing an ID).
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        setLoadingOrdersList(true);
+        const res = await ordersApi.getAll(userId);
+        // Backend returns: { success, data: Order[], total }
+        const orders = Array.isArray(res?.data) ? res.data : [];
+        setAvailableOrders(orders);
+
+        if (!orderId) {
+          const pending = orders.find(o => (o?.status || '').toLowerCase() === 'pending');
+          if (pending?.id) {
+            navigate(`/checkout/${pending.id}`, { replace: true });
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load user orders list:', e);
+        setAvailableOrders([]);
+      } finally {
+        setLoadingOrdersList(false);
+      }
+    };
+
+    loadOrders();
+  }, [userId, orderId, navigate]);
+
+  useEffect(() => {
+    const load = async () => {
+      if (!orderId) {
+        setOrder(null);
+        setWallet(null);
+        setLoadError(null);
+        return;
+      }
+
+      try {
+        setLoadingOrder(true);
+        setLoadError(null);
+        const [orderRes, walletRes] = await Promise.all([
+          ordersApi.getById(orderId),
+          walletApi.getWallet(userId),
+        ]);
+
+        if (orderRes?.success === false) {
+          setOrder(null);
+          setWallet(null);
+          setLoadError(orderRes?.message || 'Order not found');
+          return;
+        }
+
+        setOrder(orderRes?.data || orderRes?.Data || orderRes);
+        setWallet(walletRes?.data || walletRes);
+      } catch (e) {
+        console.error('Failed to load checkout order:', e);
+        setOrder(null);
+        setWallet(null);
+        setLoadError(e?.message || 'Failed to load order for checkout');
+      } finally {
+        setLoadingOrder(false);
+      }
+    };
+    load();
+  }, [orderId, userId]);
 
   const paymentMethods = [
     { id: 'gcash', name: 'GCash', icon: 'bi-phone', img: '/gcash-logo.png' },
@@ -55,20 +130,44 @@ const handleCardDataChange = (field, value) => {
 };
 
 
-  const subtotal = useMemo(
-    () => order.items.reduce((sum, item) => sum + item.qty * item.price, 0),
-    [order]
-  );
+  const subtotal = useMemo(() => {
+    if (!order?.items?.length) return 0;
+    // Subtotal should reflect the actual order items (exclude Delivery Fee line item if present).
+    return order.items
+      .filter((i) => !(i?.name || '').toLowerCase().includes('delivery fee'))
+      .reduce((sum, item) => sum + (item.quantity || 0) * (item.price || 0), 0);
+  }, [order]);
+
+  const deliveryFee = useMemo(() => {
+    if (!order?.items?.length) return 0;
+    return order.items
+      .filter((i) => (i?.name || '').toLowerCase().includes('delivery fee'))
+      .reduce((sum, item) => sum + (item.quantity || 0) * (item.price || 0), 0);
+  }, [order]);
+
+  const baseAmount = useMemo(() => {
+    const amt = Number(order?.amount || 0);
+    // If backend provides amount, trust it; otherwise derive from items + delivery fee.
+    return amt > 0 ? amt : (subtotal + deliveryFee);
+  }, [order, subtotal, deliveryFee]);
 
   const voucherDiscount = appliedVoucher?.discountAmount || 0;
-  const deliveryFee = order.fees.delivery;
-  const deliveryFeeDiscount = order.discounts.deliveryFee;
-  const coinsDiscount = useCoins ? order.discounts.coins : 0;
+  const deliveryFeeDiscount = 0;
+  const maxCoins = wallet?.coins || 0;
+  const coinsDiscount = useCoins ? Math.min(Number(coinsToUse || 0), maxCoins) : 0;
+
+  useEffect(() => {
+    setCoinsToUse((current) => Math.min(Number(current || 0), maxCoins));
+  }, [maxCoins]);
 
   const total = useMemo(
-    () => subtotal + deliveryFee - voucherDiscount - deliveryFeeDiscount - coinsDiscount,
-    [subtotal, deliveryFee, voucherDiscount, deliveryFeeDiscount, coinsDiscount]
+    () => baseAmount + deliveryFee - voucherDiscount - deliveryFeeDiscount - coinsDiscount,
+    [baseAmount, deliveryFee, voucherDiscount, deliveryFeeDiscount, coinsDiscount]
   );
+
+  const displayItems = useMemo(() => {
+    return (order?.items || []).filter((i) => !(i?.name || '').toLowerCase().includes('delivery fee'));
+  }, [order]);
 
   useEffect(() => {
     const savedVoucher = localStorage.getItem('selectedVoucher');
@@ -77,7 +176,7 @@ const handleCardDataChange = (field, value) => {
       handleApplyVoucher(savedVoucher); // Auto-trigger validation
       localStorage.removeItem('selectedVoucher');
     }
-  }, [subtotal]); // Runs when subtotal is ready
+  }, [baseAmount]); // Runs when total base is ready
 
   const handleApplyVoucher = async (codeToApply) => {
     const code = (codeToApply || voucherCode).trim().toUpperCase();
@@ -88,29 +187,31 @@ const handleCardDataChange = (field, value) => {
       // Backend expects 'code' and 'orderAmount'
       const response = await vouchersApi.apply({ 
         Code: code, 
-        OrderAmount: Number(subtotal)
+        OrderAmount: Number(baseAmount)
       });
 
       if (response.success) {
         setAppliedVoucher(response);
         setVoucherCode(code);
-        setUseMock(false);
       } else {
         // Now this message will actually show up!
         setError(response.message || 'Invalid voucher');
         setAppliedVoucher(null);
       }
     } catch (err) {
-      // Fallback to mock voucher when voucher service is unavailable
-      setUseMock(true);
-      setAppliedVoucher({ code, discountAmount: Math.min(50, Math.round(subtotal * 0.1)) });
-      setVoucherCode(code);
+      console.error('Voucher apply failed:', err);
+      setAppliedVoucher(null);
+      setError(err?.message || 'Failed to apply voucher');
     }
   };
 
   
 
   const handleCheckout = async () => {
+    if (!orderId || !order) {
+      setError('No order loaded for checkout');
+      return;
+    }
     if (!selectedPaymentMethod) {
       setError('Please select a payment method');
       return;
@@ -126,9 +227,9 @@ const handleCardDataChange = (field, value) => {
     setError(null);
 
     try {
-      const orderItems = order.items.map(item => ({
+      const orderItems = (order.items || []).map(item => ({
         name: item.name,
-        quantity: item.qty,
+        quantity: item.quantity,
         price: item.price
       }));
       
@@ -143,9 +244,9 @@ const handleCardDataChange = (field, value) => {
       const response = await ordersApi.create(
         orderItems,
         selectedPaymentMethod,
-        appliedVoucher?.code || null,
-        useCoins ? order.coinsAvailable : 0,
-        'Main Branch',
+        appliedVoucher?.voucher?.code || voucherCode || null,
+        useCoins ? Math.min(Number(coinsToUse || 0), maxCoins) : 0,
+        'Order Service',
         addressObj
       );
 
@@ -172,10 +273,8 @@ const handleCardDataChange = (field, value) => {
         setError(response.message || 'Checkout failed');
       }
     } catch (err) {
-      // If backend unavailable, mark as mock success so developer can continue
-      console.error('Checkout failed, falling back to mock:', err);
-      setUseMock(true);
-      setSuccess(true);
+      console.error('Checkout failed:', err);
+      setError(err?.message || 'Checkout failed');
     } finally {
       setIsProcessing(false);
     }
@@ -193,20 +292,139 @@ const handleCardDataChange = (field, value) => {
     );
   }
 
+  if (!orderId) {
+    return (
+      <div className="checkout-page">
+        <div className="checkout-container">
+          <h2 className="page-title">Checkout</h2>
+          {loadingOrdersList ? (
+            <div className="alert alert-info">
+              <i className="bi bi-hourglass-split me-2"></i>
+              Loading your pending orders…
+            </div>
+          ) : (
+            <div className="alert alert-info">
+              <i className="bi bi-info-circle me-2"></i>
+              No pending orders found for checkout.
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (loadingOrder) {
+    return (
+      <div className="checkout-page">
+        <div className="checkout-container">
+          <h2 className="page-title">Checkout</h2>
+          <div className="alert alert-info">
+            <i className="bi bi-hourglass-split me-2"></i>
+            Loading order…
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError && !order) {
+    const pendingOrders = (availableOrders || []).filter(
+      (o) => (o?.status || '').toLowerCase() === 'pending'
+    );
+
+    return (
+      <div className="checkout-page">
+        <div className="checkout-container">
+          <h2 className="page-title">Checkout</h2>
+          <div className="alert alert-danger">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            {loadError}
+          </div>
+
+          {(() => {
+            const msg = String(loadError || '').toLowerCase();
+            const showHint =
+              msg.includes('not configured') ||
+              msg.includes('timed out') ||
+              msg.includes('failed to reach') ||
+              msg.includes('refused') ||
+              msg.includes('connect');
+            if (!showHint) return null;
+
+            return (
+            <div className="alert alert-warning">
+              <div className="fw-semibold mb-2">Order Service configuration hint</div>
+              <div className="mb-2">
+                Start your Order Service and/or set <code>OrderService:BaseUrl</code> (and paths if they differ) in{' '}
+                <code>payment_service/backend/appsettings.Development.json</code>.
+              </div>
+              <pre className="mb-0">
+                <code>{`"OrderService": {
+  "BaseUrl": "http://localhost:7000",
+  "GetOrderPath": "/api/orders/{orderId}",
+  "ListOrdersByUserPath": "/api/orders?userId={userId}"
+}`}</code>
+              </pre>
+            </div>
+            );
+          })()}
+
+          {pendingOrders.length ? (
+            <div className="alert alert-secondary">
+              <div className="d-flex align-items-center gap-2">
+                <span className="fw-semibold">Try another pending order</span>
+                <select
+                  className="form-select"
+                  value={orderId}
+                  onChange={(e) => navigate(`/checkout/${e.target.value}`)}
+                  style={{ maxWidth: 320 }}
+                >
+                  {pendingOrders.map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.id}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          ) : (
+            <div className="alert alert-secondary">
+              No pending orders available to switch to.
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const pendingOrders = (availableOrders || []).filter(
+    (o) => (o?.status || '').toLowerCase() === 'pending'
+  );
+
   return (
     <div className="checkout-page">
       <div className="checkout-container">
         <h2 className="page-title">Checkout</h2>
 
-        {useMock && (
-          <div className="alert alert-warning">
-            <i className="bi bi-info-circle me-2"></i>
-            Showing mock data / mock checkout result — backend unavailable.
-            <button className="btn btn-sm btn-outline-secondary ms-3" onClick={() => { setUseMock(false); window.location.reload(); }}>
-              Retry
-            </button>
+        {pendingOrders.length ? (
+          <div className="alert alert-secondary">
+            <div className="d-flex align-items-center gap-2">
+              <span className="fw-semibold">Order</span>
+              <select
+                className="form-select"
+                value={orderId}
+                onChange={(e) => navigate(`/checkout/${e.target.value}`)}
+                style={{ maxWidth: 320 }}
+              >
+                {pendingOrders.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.id}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        )}
+        ) : null}
 
         {error && (
           <div className="alert alert-danger">
@@ -218,13 +436,23 @@ const handleCardDataChange = (field, value) => {
         {/* Order Summary */}
         <div className="checkout-section">
           <h3>Order Summary</h3>
+          <div className="text-muted" style={{ marginBottom: 8 }}>
+            <div>Status: <strong>{order?.status || 'unknown'}</strong></div>
+            {order?.createdAt ? (
+              <div>Created: {new Date(order.createdAt).toLocaleString()}</div>
+            ) : null}
+          </div>
           <div className="order-items">
-            {order.items.map((item) => (
-              <div key={item.id} className="order-item">
-                <span>{item.qty}x {item.name}</span>
-                <span>{formatCurrency(item.price * item.qty)}</span>
-              </div>
-            ))}
+            {displayItems.length === 0 ? (
+              <div className="text-muted">No items found on this order.</div>
+            ) : (
+              displayItems.map((item, idx) => (
+                <div key={idx} className="order-item">
+                  <span>{item.quantity}x {item.name}</span>
+                  <span>{formatCurrency((item.price || 0) * (item.quantity || 0))}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -271,7 +499,18 @@ const handleCardDataChange = (field, value) => {
           <div className="coins-toggle">
             <div>
               <span>Use Kapebara Coins</span>
-              <small>{order.coinsAvailable} coins available (-{formatCurrency(order.discounts.coins)})</small>
+              <small>{maxCoins} coins available</small>
+              {useCoins && (
+                <div className="mt-2">
+                  <input
+                    type="number"
+                    min="0"
+                    max={maxCoins}
+                    value={coinsToUse}
+                    onChange={(e) => setCoinsToUse(Number(e.target.value || 0))}
+                  />
+                </div>
+              )}
             </div>
             <label className="switch">
               <input

@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { dashboardApi } from '../services/api';
+import { formatCurrency, formatDate } from '../utils/formatters';
 import './Dashboard.css';
+import { useCurrentUser } from '../context/currentUser';
 
 const Dashboard = () => {
+  const { userId, isAdmin } = useCurrentUser();
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const features = [
     {
       title: 'Wallet',
@@ -48,12 +56,39 @@ const Dashboard = () => {
     },
   ];
 
-  const quickStats = [
-    { label: 'Wallet Balance', value: '₱1,250.00', icon: 'bi-wallet', color: '#4CAF50' },
-    { label: 'Pending Orders', value: '2', icon: 'bi-bag', color: '#FF9800' },
-    { label: 'Available Vouchers', value: '5', icon: 'bi-ticket', color: '#9C27B0' },
-    { label: 'Refund Requests', value: '1', icon: 'bi-clock-history', color: '#F44336' },
-  ];
+  const visibleFeatures = isAdmin ? features : features.filter(f => f.link !== '/admin/refunds');
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+            const data = await dashboardApi.getStats(userId);
+        setStats(data);
+      } catch (e) {
+        console.error('Failed to load dashboard stats:', e);
+        setStats(null);
+        setError(e?.message || 'Failed to load dashboard stats');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [userId]);
+
+  const quickStats = useMemo(() => {
+    const walletBalance = stats?.walletBalance ?? 0;
+    const pendingOrders = stats?.pendingOrders ?? 0;
+    const availableVouchers = stats?.availableVouchers ?? 0;
+    const refundRequests = stats?.refundRequests ?? 0;
+
+    return [
+      { label: 'Wallet Balance', value: formatCurrency(walletBalance), icon: 'bi-wallet', color: '#4CAF50' },
+      { label: 'Pending Orders', value: String(pendingOrders), icon: 'bi-bag', color: '#FF9800' },
+      { label: 'Available Vouchers', value: String(availableVouchers), icon: 'bi-ticket', color: '#9C27B0' },
+      { label: 'Refund Requests', value: String(refundRequests), icon: 'bi-clock-history', color: '#F44336' },
+    ];
+  }, [stats]);
 
   return (
     <div className="dashboard">
@@ -61,6 +96,30 @@ const Dashboard = () => {
         <h1>Welcome to Kapebara Payment Service</h1>
         <p>Manage all your payment features in one place</p>
       </div>
+
+      {error && (
+        <div className="alert alert-danger">
+          <i className="bi bi-exclamation-triangle me-2"></i>
+          {error}
+        </div>
+      )}
+
+      {!error && stats && stats.orderServiceConfigured === false && (
+        <div className="alert alert-warning">
+          <i className="bi bi-info-circle me-2"></i>
+          Order Service is not configured — pending orders count may not reflect the true upstream value.
+        </div>
+      )}
+
+      {!error && stats && stats.orderServiceConfigured === true && stats.orderServiceHealthy === false && (
+        <div className="alert alert-warning">
+          <i className="bi bi-exclamation-triangle me-2"></i>
+          Order Service is configured but unreachable — pending orders count is falling back to local DB.
+          {stats.orderServiceError ? (
+            <div className="mt-1 small">{stats.orderServiceError}</div>
+          ) : null}
+        </div>
+      )}
 
       {/* Quick Stats */}
       <div className="stats-grid">
@@ -80,7 +139,7 @@ const Dashboard = () => {
       {/* Feature Cards */}
       <h2 className="section-title">Quick Access</h2>
       <div className="features-grid">
-        {features.map((feature, index) => (
+        {visibleFeatures.map((feature, index) => (
           <Link key={index} to={feature.link} className="feature-card">
             <div className="feature-icon" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
               <i className={`bi ${feature.icon}`}></i>
@@ -99,36 +158,32 @@ const Dashboard = () => {
       {/* Recent Activity */}
       <h2 className="section-title">Recent Activity</h2>
       <div className="activity-card">
-        <div className="activity-item">
-          <div className="activity-icon success">
-            <i className="bi bi-check-circle"></i>
+        {loading ? (
+          <div className="activity-item">
+            <div className="activity-details">
+              <span className="activity-title">Loading…</span>
+            </div>
           </div>
-          <div className="activity-details">
-            <span className="activity-title">Top-up completed</span>
-            <span className="activity-desc">₱500.00 via GCash</span>
+        ) : (stats?.recentTransactions?.length ? (
+          stats.recentTransactions.map((t) => (
+            <div key={t.id} className="activity-item">
+              <div className={`activity-icon ${t.amount < 0 ? 'warning' : 'success'}`}>
+                <i className={`bi ${t.type === 'order' ? 'bi-receipt' : 'bi-wallet2'}`}></i>
+              </div>
+              <div className="activity-details">
+                <span className="activity-title">{t.type === 'order' ? 'Order' : 'Top-up'} {formatDate(t.createdAt)}</span>
+                <span className="activity-desc">{t.description} ({formatCurrency(Math.abs(t.amount))})</span>
+              </div>
+              <span className="activity-time">{new Date(t.createdAt).toLocaleString()}</span>
+            </div>
+          ))
+        ) : (
+          <div className="activity-item">
+            <div className="activity-details">
+              <span className="activity-title">No recent activity</span>
+            </div>
           </div>
-          <span className="activity-time">2 hours ago</span>
-        </div>
-        <div className="activity-item">
-          <div className="activity-icon warning">
-            <i className="bi bi-clock"></i>
-          </div>
-          <div className="activity-details">
-            <span className="activity-title">Order pending</span>
-            <span className="activity-desc">Order #ORD-12345</span>
-          </div>
-          <span className="activity-time">5 hours ago</span>
-        </div>
-        <div className="activity-item">
-          <div className="activity-icon info">
-            <i className="bi bi-ticket-perforated"></i>
-          </div>
-          <div className="activity-details">
-            <span className="activity-title">Voucher redeemed</span>
-            <span className="activity-desc">SAVE20 - 20% off</span>
-          </div>
-          <span className="activity-time">1 day ago</span>
-        </div>
+        ))}
       </div>
     </div>
   );

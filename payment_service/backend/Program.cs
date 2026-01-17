@@ -4,8 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using PaymentService.Data;
 using Microsoft.OpenApi.Models; // <-- IMPORTANTE: Added this for OpenApiInfo
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using PaymentService.Integrations;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Shared HttpClient factory (used by integrations + PayMongo provider)
+builder.Services.AddHttpClient();
 
 // 1. Database Context
 builder.Services.AddDbContext<PaymentDbContext>(options =>
@@ -70,7 +75,6 @@ var payMongoSecretKey = Environment.GetEnvironmentVariable("PAYMONGO_SECRET_KEY"
 
 if (!string.IsNullOrEmpty(payMongoSecretKey) && !payMongoSecretKey.StartsWith("your_"))
 {
-    builder.Services.AddHttpClient();
     builder.Services.AddSingleton<IPaymentProvider, PayMongoPaymentProvider>(); // Singleton is okay here if provider is stateless
     Console.WriteLine("Using PayMongo Payment Provider");
 }
@@ -87,11 +91,23 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<IRefundService, RefundService>();
 
+// 6b. Integrations
+// Use a typed HttpClient here so upstream Order Service failures surface quickly (instead of hanging for the default timeout).
+builder.Services.AddHttpClient<IOrderServiceClient, OrderServiceClient>(client =>
+{
+    client.Timeout = System.TimeSpan.FromSeconds(5);
+});
+
 var app = builder.Build();
 
 // 7. Configure Pipeline
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
+    await db.Database.MigrateAsync();
+    await DevDataSeeder.SeedAsync(db);
+
     app.UseSwagger();
     // FIXED: Explicit Endpoint for Swagger UI
     app.UseSwaggerUI(c => 

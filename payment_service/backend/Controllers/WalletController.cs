@@ -19,8 +19,10 @@ public class WalletController : ControllerBase
     /// Get wallet balance and info
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<WalletResponse>> GetWallet([FromQuery] string userId = "user_001")
+    public async Task<ActionResult<WalletResponse>> GetWallet([FromQuery] string? userId = null)
     {
+        userId ??= HttpContext.Request.Headers["X-User-Id"].FirstOrDefault();
+        userId ??= "user_001";
         var wallet = await _walletService.GetWalletAsync(userId);
         return Ok(new WalletResponse
         {
@@ -48,9 +50,11 @@ public class WalletController : ControllerBase
     /// </summary>
     [HttpGet("transactions")]
     public async Task<ActionResult<TransactionListResponse>> GetTransactions(
-        [FromQuery] string userId = "user_001",
+        [FromQuery] string? userId = null,
         [FromQuery] int limit = 10)
     {
+        userId ??= HttpContext.Request.Headers["X-User-Id"].FirstOrDefault();
+        userId ??= "user_001";
         var transactions = await _walletService.GetTransactionsAsync(userId, limit);
         return Ok(new TransactionListResponse
         {
@@ -93,15 +97,7 @@ public class WalletController : ControllerBase
     {
         try
         {
-            var wallet = await _walletService.GetWalletAsync(userId);
-            if (wallet.Coins < request.Amount)
-            {
-                return BadRequest(new WalletResponse
-                {
-                    Success = false,
-                    Message = "Insufficient coins"
-                });
-            }
+            var wallet = await _walletService.UseCoinsAsync(userId, request.Amount, null, "Coins used");
             return Ok(new WalletResponse
             {
                 Success = true,

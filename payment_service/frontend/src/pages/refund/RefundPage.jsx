@@ -6,35 +6,48 @@ const RefundPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
+    userId: 'user_001',
     orderId: '',
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    amount: '',
+    category: '',
     reason: '',
-    description: '',
-    photo: null,
   });
 
   const reasons = [
-    'Wrong order received',
-    'Item quality issue',
-    'Missing items',
-    'Order never arrived',
+    'Wrong Order',
+    'Quality Issue',
+    'Missing Items',
+    'Late Delivery',
     'Other',
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       await refundApi.create(formData);
       setShowModal(false);
       setShowSuccess(true);
-      setFormData({ orderId: '', reason: '', description: '', photo: null });
+      setFormData({
+        userId: 'user_001',
+        orderId: '',
+        customerName: '',
+        customerEmail: '',
+        customerPhone: '',
+        amount: '',
+        category: '',
+        reason: '',
+      });
     } catch (err) {
       console.error('Refund request failed:', err);
-      // Show success anyway for demo
-      setShowModal(false);
-      setShowSuccess(true);
+      setError(err?.message || 'Refund request failed');
     } finally {
       setLoading(false);
     }
@@ -45,6 +58,13 @@ const RefundPage = () => {
       <div className="refund-container">
         <h2 className="page-title">Request Refund</h2>
         <p className="page-subtitle">Having an issue with your order? Submit a refund request and we'll help you out.</p>
+
+        {error && (
+          <div className="alert alert-danger">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            {error}
+          </div>
+        )}
 
         <button className="request-btn" onClick={() => setShowModal(true)}>
           <i className="bi bi-arrow-counterclockwise"></i>
@@ -75,10 +95,56 @@ const RefundPage = () => {
                 </div>
 
                 <div className="form-group">
+                  <label>Refund Amount</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="Enter amount"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Your Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    value={formData.customerName}
+                    onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.customerEmail}
+                    onChange={(e) => setFormData({ ...formData, customerEmail: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your phone"
+                    value={formData.customerPhone}
+                    onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
                   <label>Reason for Refund</label>
                   <select
-                    value={formData.reason}
-                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     required
                   >
                     <option value="">Select a reason</option>
@@ -89,22 +155,13 @@ const RefundPage = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Description</label>
+                  <label>Details</label>
                   <textarea
                     placeholder="Please provide more details about your issue"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    value={formData.reason}
+                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                     rows={4}
                     required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Upload Photo (Optional)</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFormData({ ...formData, photo: e.target.files[0] })}
                   />
                 </div>
 

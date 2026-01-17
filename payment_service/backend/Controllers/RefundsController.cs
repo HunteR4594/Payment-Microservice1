@@ -11,6 +11,17 @@ public class RefundsController : ControllerBase
     private readonly IRefundService _refundService;
     private readonly ILogger<RefundsController> _logger;
 
+    private ActionResult AdminForbidden()
+    {
+        return StatusCode(403, new { message = "Admin role required." });
+    }
+
+    private bool IsAdminRequest()
+    {
+        if (!Request.Headers.TryGetValue("X-User-Role", out var role)) return false;
+        return string.Equals(role.ToString(), "admin", StringComparison.OrdinalIgnoreCase);
+    }
+
     public RefundsController(IRefundService refundService, ILogger<RefundsController> logger)
     {
         _refundService = refundService;
@@ -23,6 +34,11 @@ public class RefundsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<RefundRequest>>> GetAllRefunds([FromQuery] string? status = null)
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         if (!string.IsNullOrEmpty(status) && Enum.TryParse<RefundStatus>(status, true, out var refundStatus))
         {
             var filteredRefunds = await _refundService.GetRefundsByStatusAsync(refundStatus);
@@ -100,6 +116,11 @@ public class RefundsController : ControllerBase
     // FIX: Changed Guid to string
     public async Task<ActionResult<RefundRequest>> ReviewRefund(string id, [FromBody] ReviewRefundDto dto)
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         var refund = await _refundService.ReviewRefundAsync(id, dto);
         if (refund == null)
         {
@@ -116,6 +137,11 @@ public class RefundsController : ControllerBase
     // FIX: Changed Guid to string
     public async Task<ActionResult<RefundRequest>> ProcessRefund(string id)
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         try
         {
             var refund = await _refundService.ProcessRefundToWalletAsync(id);
@@ -148,6 +174,11 @@ public class RefundsController : ControllerBase
     // FIX: Changed Guid to string
     public async Task<ActionResult<RefundRequest>> ApproveAndProcessRefund(string id, [FromBody] ReviewRefundDto? dto = null)
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         try
         {
             // First approve the refund
@@ -186,6 +217,11 @@ public class RefundsController : ControllerBase
     [HttpPost("contact")]
     public async Task<ActionResult> ContactCustomer([FromBody] ContactCustomerDto dto)
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         var success = await _refundService.ContactCustomerAsync(dto);
         if (!success)
         {
@@ -200,6 +236,11 @@ public class RefundsController : ControllerBase
     [HttpGet("stats")]
     public async Task<ActionResult<RefundStats>> GetRefundStats()
     {
+        if (!IsAdminRequest())
+        {
+            return AdminForbidden();
+        }
+
         var stats = await _refundService.GetRefundStatsAsync();
         return Ok(stats);
     }

@@ -5,6 +5,7 @@ import './RefundAdminPage.css';
 const RefundAdminPage = () => {
   const [refunds, setRefunds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedRefund, setSelectedRefund] = useState(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [adminComment, setAdminComment] = useState('');
@@ -16,43 +17,14 @@ const RefundAdminPage = () => {
 
   const loadRefunds = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const data = await adminRefundApi.getAll();
       setRefunds(data || []);
     } catch (err) {
       console.error('Failed to load refunds:', err);
-      // Mock data for demo
-      setRefunds([
-        {
-          id: 1,
-          ticketNumber: 'REF-001',
-          orderId: 'ORD-12345',
-          customerName: 'John Doe',
-          reason: 'Wrong order received',
-          amount: 350,
-          status: 'pending',
-          createdAt: '2026-01-10T10:30:00',
-        },
-        {
-          id: 2,
-          ticketNumber: 'REF-002',
-          orderId: 'ORD-12346',
-          customerName: 'Jane Smith',
-          reason: 'Item quality issue',
-          amount: 250,
-          status: 'pending',
-          createdAt: '2026-01-09T14:15:00',
-        },
-        {
-          id: 3,
-          ticketNumber: 'REF-003',
-          orderId: 'ORD-12340',
-          customerName: 'Bob Wilson',
-          reason: 'Missing items',
-          amount: 180,
-          status: 'approved',
-          createdAt: '2026-01-08T09:00:00',
-        },
-      ]);
+      setRefunds([]);
+      setError(err?.message || 'Failed to load refund requests');
     } finally {
       setLoading(false);
     }
@@ -72,11 +44,7 @@ const RefundAdminPage = () => {
       setShowReviewModal(false);
     } catch (err) {
       console.error('Failed to approve:', err);
-      // Update locally for demo
-      setRefunds(prev => prev.map(r => 
-        r.id === selectedRefund.id ? { ...r, status: 'approved' } : r
-      ));
-      setShowReviewModal(false);
+      setError(err?.message || 'Failed to approve refund');
     }
     setProcessing(false);
   };
@@ -103,11 +71,7 @@ const RefundAdminPage = () => {
       setShowReviewModal(false);
     } catch (err) {
       console.error('Failed to reject:', err);
-      // Update locally for demo
-      setRefunds(prev => prev.map(r => 
-        r.id === selectedRefund.id ? { ...r, status: 'rejected' } : r
-      ));
-      setShowReviewModal(false);
+      setError(err?.message || 'Failed to reject refund');
     }
     setProcessing(false);
   };
@@ -153,6 +117,16 @@ const RefundAdminPage = () => {
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
+
+      {error && (
+        <div className="alert alert-danger">
+          <i className="bi bi-exclamation-triangle me-2"></i>
+          {error}
+          <button className="btn btn-sm btn-outline-danger ms-3" onClick={loadRefunds}>
+            Retry
+          </button>
+        </div>
+      )}
       </div>
     );
   }

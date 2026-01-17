@@ -1,15 +1,17 @@
 import React from 'react';
 import './CoinHistory.css';
 
-const CoinHistory = ({ show, onHide }) => {
+const CoinHistory = ({ show, onHide, transactions = [] }) => {
   if (!show) return null;
 
-  const coinHistory = [
-    { id: 1, date: '2026-01-10', description: 'Order reward', amount: 10, type: 'earned' },
-    { id: 2, date: '2026-01-08', description: 'Birthday bonus', amount: 50, type: 'earned' },
-    { id: 3, date: '2026-01-05', description: 'Used for order', amount: -15, type: 'used' },
-    { id: 4, date: '2026-01-01', description: 'New Year bonus', amount: 100, type: 'earned' },
-  ];
+  const coinHistory = (transactions || [])
+    .filter((t) => (t?.type || '').toLowerCase() === 'coins')
+    .map((t) => ({
+      id: t.id,
+      date: t.createdAt,
+      description: t.description || 'Coin activity',
+      amount: Number(t.amount || 0),
+    }));
 
   return (
     <div className="coin-history-overlay" onClick={onHide}>
@@ -22,20 +24,28 @@ const CoinHistory = ({ show, onHide }) => {
         </div>
         
         <div className="coin-history-list">
-          {coinHistory.map((item) => (
-            <div key={item.id} className="coin-history-item">
-              <div className="coin-icon">
-                <i className={`bi ${item.amount > 0 ? 'bi-plus-circle' : 'bi-dash-circle'}`}></i>
-              </div>
+          {coinHistory.length === 0 ? (
+            <div className="coin-history-item">
               <div className="coin-info">
-                <span className="coin-desc">{item.description}</span>
-                <span className="coin-date">{new Date(item.date).toLocaleDateString()}</span>
+                <span className="coin-desc">No coin history yet</span>
               </div>
-              <span className={`coin-amount ${item.amount > 0 ? 'positive' : 'negative'}`}>
-                {item.amount > 0 ? '+' : ''}{item.amount}
-              </span>
             </div>
-          ))}
+          ) : (
+            coinHistory.map((item) => (
+              <div key={item.id} className="coin-history-item">
+                <div className="coin-icon">
+                  <i className={`bi ${item.amount > 0 ? 'bi-plus-circle' : 'bi-dash-circle'}`}></i>
+                </div>
+                <div className="coin-info">
+                  <span className="coin-desc">{item.description}</span>
+                  <span className="coin-date">{new Date(item.date).toLocaleString()}</span>
+                </div>
+                <span className={`coin-amount ${item.amount > 0 ? 'positive' : 'negative'}`}>
+                  {item.amount > 0 ? '+' : ''}{item.amount}
+                </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

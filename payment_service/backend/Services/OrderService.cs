@@ -47,6 +47,17 @@ public class OrderService : IOrderService
         var orderId = $"ord_{Guid.NewGuid():N}"[..12];
         var paymentMethod = request.PaymentMethod?.ToLower() ?? "wallet";
 
+        if (request.CoinsToUse > 0)
+        {
+            var coinsToApply = (int)Math.Min(request.CoinsToUse, Math.Ceiling(finalAmount));
+            if (coinsToApply > 0)
+            {
+                await _walletService.UseCoinsAsync(userId, coinsToApply, orderId, $"Coins used for order {orderId}");
+                discountAmount += coinsToApply;
+                finalAmount -= coinsToApply;
+            }
+        }
+
         var order = new Order
         {
             Id = orderId,

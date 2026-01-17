@@ -5,42 +5,47 @@ import "./WalletPage.css";
 import { walletApi } from "../../services/api";
 import { formatCurrency, formatDate } from "../../utils/formatters";
 import CoinHistory from "../../components/CoinHistory";
+import { useCurrentUser } from "../../context/currentUser";
 
 const WalletPage = () => {
+  const { userId } = useCurrentUser();
   const [wallet, setWallet] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [useMock, setUseMock] = useState(false);
   const [showCoinHistory, setShowCoinHistory] = useState(false);
 
   useEffect(() => {
     loadWalletData();
-  }, []);
+  }, [userId]);
 
   const loadWalletData = async () => {
     try {
       setLoading(true);
+      setError(null);
       const [walletRes, transactionsRes] = await Promise.all([
-        walletApi.getWallet(),
-        walletApi.getTransactions()
+        walletApi.getWallet(userId),
+        walletApi.getTransactions(userId)
       ]);
       setWallet(walletRes.data);
       setTransactions(transactionsRes.data);
-      setUseMock(false);
     } catch (err) {
       console.error('Failed to load wallet data:', err);
-      // Fallback mock data for offline development
-      setUseMock(true);
-      setWallet({ balance: 1250, coins: 120 });
-      setTransactions([
-        { id: 'tx1', type: 'topup', referenceId: 'topup_001', amount: 1000, description: 'Top-up via GCash', createdAt: new Date().toISOString() },
-        { id: 'tx2', type: 'order', referenceId: 'order_123', amount: -295, description: 'Order: Iced Latte + Cookie', createdAt: new Date(Date.now()-86400000).toISOString() },
-      ]);
+      setWallet(null);
+      setTransactions([]);
+      setError(err?.message || 'Failed to load wallet data');
     } finally {
       setLoading(false);
     }
   };
+
+  const coinTransactions = (transactions || []).filter(
+    (t) => (t?.type || '').toLowerCase() === 'coins'
+  );
+
+  const activityTransactions = (transactions || []).filter(
+    (t) => (t?.type || '').toLowerCase() !== 'coins'
+  );
 
   if (loading) {
     return (
@@ -53,33 +58,21 @@ const WalletPage = () => {
   }
 
   if (error) {
-    // If we previously set useMock, fall through and render mock UI instead of an error page
-    if (!useMock) {
-      return (
-        <div className="wallet-page">
-          <div className="alert alert-danger">
-            <i className="bi bi-exclamation-triangle me-2"></i>
-            Failed to connect to server. Make sure the backend is running.
-            <button className="btn btn-outline-danger btn-sm ms-3" onClick={loadWalletData}>
-              Retry
-            </button>
-          </div>
+    return (
+      <div className="wallet-page">
+        <div className="alert alert-danger">
+          <i className="bi bi-exclamation-triangle me-2"></i>
+          {error}
+          <button className="btn btn-outline-danger btn-sm ms-3" onClick={loadWalletData}>
+            Retry
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   return (
     <div className="wallet-page">
-      {useMock && (
-        <div className="alert alert-warning">
-          <i className="bi bi-info-circle me-2"></i>
-          Showing mock data — backend unavailable. 
-          <button className="btn btn-sm btn-outline-secondary ms-3" onClick={() => { setUseMock(false); loadWalletData(); }}>
-            Retry
-          </button>
-        </div>
-      )}
       <div className="row g-4">
         {/* LEFT COLUMN */}
         <div className="col-12 col-lg-4">
@@ -101,7 +94,11 @@ const WalletPage = () => {
             </a>
             
             {/* Coin History Popup */}
-            <CoinHistory show={showCoinHistory} onHide={() => setShowCoinHistory(false)} />
+            <CoinHistory
+              show={showCoinHistory}
+              onHide={() => setShowCoinHistory(false)}
+              transactions={coinTransactions}
+            />
           </div>
 
           {/* Top Up Button */}
@@ -130,13 +127,13 @@ const WalletPage = () => {
               <Link to="/recent-orders" className="view-all-link">View all</Link>
             </div>
 
-            {transactions.length === 0 ? (
+            {activityTransactions.length === 0 ? (
               <div className="text-center text-muted py-4">
                 <i className="bi bi-inbox fs-1 d-block mb-2"></i>
                 No transactions yet
               </div>
             ) : (
-              transactions.map((transaction) => (
+              activityTransactions.map((transaction) => (
                 <Link 
                   key={transaction.id}
                   to={transaction.type === 'order' ? `/order/${transaction.referenceId}` : `/topup-detail/${transaction.referenceId}`}

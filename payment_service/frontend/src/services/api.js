@@ -6,12 +6,22 @@ const API_BASE_URL = '/api';
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
+  let userId = 'user_001';
+  let role = 'user';
+  try {
+    userId = window.localStorage.getItem('ps_userId') || userId;
+    role = (window.localStorage.getItem('ps_role') || role).toLowerCase();
+  } catch {
+    // ignore
+  }
   
   try {
     const response = await fetch(url, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        'X-User-Id': userId,
+        'X-User-Role': role,
         ...options.headers,
       },
     });
@@ -91,7 +101,7 @@ export const ordersApi = {
   getById: (orderId) => 
     apiCall(`/orders/${orderId}`),
   
-  create: (items, paymentMethod, voucherCode = null, coinsToUse = 0, branch = 'Main Branch') =>
+  create: (items, paymentMethod, voucherCode = null, coinsToUse = 0, branch = 'Main Branch', address = null) =>
     apiCall('/orders', {
       method: 'POST',
       body: JSON.stringify({ 
@@ -101,7 +111,7 @@ export const ordersApi = {
         coinsToUse,
         branch,
         // Optional delivery address object: { name, phone, line, city, postalCode }
-        address: null,
+        address,
       }),
     }),
 
@@ -164,13 +174,32 @@ export const refundApi = {
     return apiCall('/refunds', {
       method: 'POST',
       body: JSON.stringify({
+        userId: refundData.userId || 'user_001',
         orderId: refundData.orderId,
+        customerName: refundData.customerName,
+        customerEmail: refundData.customerEmail,
+        customerPhone: refundData.customerPhone,
+        amount: Number(refundData.amount || 0),
         reason: refundData.reason,
-        description: refundData.description,
-        customerName: refundData.customerName || 'Customer',
+        category: refundData.category,
       }),
     });
   },
+};
+
+// ============ Dashboard API ============
+// Backend: GET /api/dashboard/stats
+export const dashboardApi = {
+  getStats: (userId = 'user_001') =>
+    apiCall(`/dashboard/stats?userId=${userId}`),
+};
+
+// ============ Order Integration API ============
+// Backend: GET /api/order-integration/orders/{orderId}
+//          GET /api/order-integration/users/{userId}/pending-count
+export const orderIntegrationApi = {
+  getOrder: (orderId) => apiCall(`/order-integration/orders/${orderId}`),
+  getPendingCount: (userId = 'user_001') => apiCall(`/order-integration/users/${userId}/pending-count`),
 };
 
 // ============ Admin Refund API ============
@@ -230,6 +259,8 @@ export const adminRefundApi = {
 };
 
 export default {
+  dashboard: dashboardApi,
+  orderIntegration: orderIntegrationApi,
   wallet: walletApi,
   topUp: topUpApi,
   orders: ordersApi,

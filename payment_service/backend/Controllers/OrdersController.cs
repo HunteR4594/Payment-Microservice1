@@ -9,7 +9,22 @@ namespace PaymentService.Controllers;
 [Route("api/[controller]")]
 public class OrdersController : ControllerBase
 {
+    // NOTE (Mock Order Service):
+    // This controller is intentionally DB-backed and is the DEFAULT order source while a real Order Service
+    // does not exist yet. When an external Order Service is introduced, you can either:
+    // 1) switch the frontend to call the /api/order-integration/* proxy endpoints (enabled via OrderService:Enabled), or
+    // 2) refactor IOrderService to proxy to the external Order Service instead of the local DB.
     private readonly IOrderService _orderService;
+
+    private string ResolveUserId(string? userId)
+    {
+        if (!string.IsNullOrWhiteSpace(userId)) return userId;
+        if (Request.Headers.TryGetValue("X-User-Id", out var headerUserId) && !string.IsNullOrWhiteSpace(headerUserId))
+        {
+            return headerUserId.ToString();
+        }
+        return "user_001";
+    }
 
     public OrdersController(IOrderService orderService)
     {
@@ -22,11 +37,12 @@ public class OrdersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<OrderResponse>> CreateOrder(
         [FromBody] CreateOrderRequest request,
-        [FromQuery] string userId = "user_001")
+        [FromQuery] string? userId = null)
     {
         try
         {
-            var order = await _orderService.CreateOrderAsync(userId, request);
+            var resolvedUserId = ResolveUserId(userId);
+            var order = await _orderService.CreateOrderAsync(resolvedUserId, request);
             return Ok(new OrderResponse
             {
                 Success = true,
@@ -72,10 +88,11 @@ public class OrdersController : ControllerBase
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<OrderListResponse>> GetOrders(
-        [FromQuery] string userId = "user_001",
+        [FromQuery] string? userId = null,
         [FromQuery] int limit = 10)
     {
-        var orders = await _orderService.GetOrdersAsync(userId, limit);
+        var resolvedUserId = ResolveUserId(userId);
+        var orders = await _orderService.GetOrdersAsync(resolvedUserId, limit);
         return Ok(new OrderListResponse
         {
             Success = true,

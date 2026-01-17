@@ -52,6 +52,50 @@ npm run dev
 
 The frontend will be available at `http://localhost:5173`
 
+## Orders data source (DB default) + Order Service rewiring
+
+Right now there is **no separate Order Service** running in this system.
+
+To keep the unified `payment_service` functional end-to-end, the backend defaults to using its **own SQL database** as a **mock Order Service**:
+
+- **DB-backed Orders endpoints (default):**
+  - `GET /api/orders?userId=...`
+  - `GET /api/orders/{id}`
+  - `POST /api/orders`
+
+This is the path used by the frontend Checkout flow today.
+
+### How to rewire later when the real Order Service exists
+
+The backend already includes an **opt-in** Order Service HTTP client + proxy endpoints.
+
+1) Configure these keys (Development example in `payment_service/backend/appsettings.Development.json`):
+
+```json
+"OrderService": {
+  "Enabled": true,
+  "BaseUrl": "http://localhost:7000",
+  "GetOrderPath": "/api/orders/{orderId}",
+  "ListOrdersByUserPath": "/api/orders?userId={userId}"
+}
+```
+
+2) Use the proxy endpoints exposed by PaymentService:
+
+- `GET /api/order-integration/orders/{orderId}`
+- `GET /api/order-integration/users/{userId}/pending-count`
+
+3) (Optional, when you’re ready) Update the frontend to fetch orders from the proxy instead of the DB-backed Orders API.
+   - Main touchpoint: `payment_service/frontend/src/pages/checkout/CheckoutPage.jsx`.
+
+### Mock/dev order data
+
+Development data (including a **pending order with items** so Checkout can render) is seeded in:
+
+- `payment_service/backend/Data/DevDataSeeder.cs`
+
+When a real Order Service is integrated and you no longer want DB-backed mock orders, you can remove/trim this dev seeding logic.
+
 ## API Endpoints
 
 | Endpoint | Method | Description |

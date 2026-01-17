@@ -43,6 +43,7 @@ public class CreateOrderRequest
     public string Branch { get; set; } = string.Empty;
     public string? VoucherCode { get; set; }
     public string PaymentMethod { get; set; } = "wallet"; // wallet, gcash, maya, card
+    public int CoinsToUse { get; set; }
 }
 
 public class CompleteOrderRequest

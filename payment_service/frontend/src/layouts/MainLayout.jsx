@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import './MainLayout.css';
+import { useCurrentUser } from '../context/currentUser';
 
 const MainLayout = () => {
   const location = useLocation();
+  const { userId, role, isAdmin } = useCurrentUser();
 
   const navItems = [
     {
@@ -51,6 +53,8 @@ const MainLayout = () => {
     },
   ];
 
+  const visibleNavItems = isAdmin ? navItems : navItems.filter(i => i.title !== 'Admin');
+
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
     return location.pathname.startsWith(path);
@@ -80,7 +84,7 @@ const MainLayout = () => {
 
         <nav className="nav-center">
           <ul className="nav-list">
-            {navItems.map((item, idx) => (
+            {visibleNavItems.map((item, idx) => (
               <li key={idx} className={`nav-list-item ${isActive(item.path) ? 'active' : ''}`}>
                 <NavLink to={item.path} className="nav-link">
                   <i className={`bi ${item.icon}`}></i>
@@ -96,7 +100,7 @@ const MainLayout = () => {
             <div className="avatar">
               <i className="bi bi-person-circle"></i>
             </div>
-            <div className="user-name">User</div>
+            <div className="user-name">{userId} ({role})</div>
           </div>
           <button className="icon-btn notif-btn" aria-label="Notifications">
             <i className="bi bi-bell"></i>
@@ -129,7 +133,7 @@ const MainLayout = () => {
               </button>
             </div>
             <ul>
-              {navItems.map((item, idx) => (
+              {visibleNavItems.map((item, idx) => (
                 <li key={idx} className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}>
                   <NavLink to={item.path} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
                     <i className={`bi ${item.icon}`}></i>
