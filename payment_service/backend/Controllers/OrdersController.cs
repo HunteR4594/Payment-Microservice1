@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using PaymentService.Models;
 using PaymentService.Services;
 
@@ -7,6 +9,7 @@ namespace PaymentService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class OrdersController : ControllerBase
 {
     // NOTE (Mock Order Service):
@@ -18,11 +21,10 @@ public class OrdersController : ControllerBase
 
     private string ResolveUserId(string? userId)
     {
-        if (!string.IsNullOrWhiteSpace(userId)) return userId;
-        if (Request.Headers.TryGetValue("X-User-Id", out var headerUserId) && !string.IsNullOrWhiteSpace(headerUserId))
-        {
-            return headerUserId.ToString();
-        }
+        // Admins may pass an explicit userId; regular users use their token subject
+        if (!string.IsNullOrWhiteSpace(userId) && User.IsInRole("Admin")) return userId;
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+        if (!string.IsNullOrWhiteSpace(claim)) return claim;
         return "user_001";
     }
 

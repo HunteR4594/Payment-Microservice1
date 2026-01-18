@@ -71,3 +71,4 @@ build/
 Thumbs.db
 
 backend-refund-page/UploadedRefundPhotos/
+auth_service

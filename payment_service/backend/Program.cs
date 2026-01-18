@@ -7,6 +7,9 @@ using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentService.Integrations;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +61,35 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         // This makes the API send 'code' (camelCase) to React
     });
+
+// Configure JWT authentication to validate tokens issued by the auth service
+var jwtSecret = Environment.GetEnvironmentVariable("JwtSettings__Secret")
+                ?? builder.Configuration["JwtSettings:Secret"];
+var jwtIssuer = Environment.GetEnvironmentVariable("JwtSettings__Issuer")
+                ?? builder.Configuration["JwtSettings:Issuer"];
+var jwtAudience = Environment.GetEnvironmentVariable("JwtSettings__Audience")
+                ?? builder.Configuration["JwtSettings:Audience"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwtIssuer,
+        ValidateAudience = true,
+        ValidAudience = jwtAudience,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret ?? string.Empty)),
+        ValidateLifetime = true
+    };
+});
 
 // 4. CORS
 builder.Services.AddCors(options =>
@@ -118,6 +150,23 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Minimal protected test endpoint
+app.MapGet("/protected-test", [Microsoft.AspNetCore.Authorization.Authorize] (HttpContext ctx) =>
+{
+    // Prefer 'email' claim, then NameIdentifier, then 'sub'
+    var email = ctx.User?.FindFirst("email")?.Value
+                ?? ctx.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                ?? ctx.User?.FindFirst("sub")?.Value
+                ?? "anonymous";
+
+    // Also include all claims for debugging
+    var claims = ctx.User?.Claims.Select(c => new { c.Type, c.Value });
+    return Results.Ok(new { message = "protected endpoint", user = email, claims });
+});
 
 // Serve uploaded refund photos (dev only)
 var refundPhotosDir = Path.Combine(app.Environment.ContentRootPath, "UploadedRefundPhotos");

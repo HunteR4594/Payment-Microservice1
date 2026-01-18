@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.Data;
 using PaymentService.Integrations;
@@ -8,6 +10,7 @@ namespace PaymentService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class DashboardController : ControllerBase
 {
     private readonly PaymentDbContext _context;
@@ -20,8 +23,10 @@ public class DashboardController : ControllerBase
     }
 
     [HttpGet("stats")]
-    public async Task<ActionResult<DashboardStatsResponse>> GetStats([FromQuery] string userId = "user_001")
+    public async Task<ActionResult<DashboardStatsResponse>> GetStats([FromQuery] string? userId = null)
     {
+        userId ??= ResolveUserId(userId);
+
         var wallet = await _context.Wallets
             .AsNoTracking()
             .FirstOrDefaultAsync(w => w.UserId == userId);
@@ -78,6 +83,14 @@ public class DashboardController : ControllerBase
             RefundRequests = refundRequests,
             RecentTransactions = recentTransactions
         });
+    }
+
+    private string ResolveUserId(string? userId)
+    {
+        if (!string.IsNullOrWhiteSpace(userId) && User.IsInRole("Admin")) return userId;
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+        if (!string.IsNullOrWhiteSpace(claim)) return claim;
+        return "user_001";
     }
 }
 

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using PaymentService.Models;
 using PaymentService.Services;
 
@@ -6,6 +8,7 @@ namespace PaymentService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class RefundsController : ControllerBase
 {
     private readonly IRefundService _refundService;
@@ -59,8 +62,7 @@ public class RefundsController : ControllerBase
 
     private bool IsAdminRequest()
     {
-        if (!Request.Headers.TryGetValue("X-User-Role", out var role)) return false;
-        return string.Equals(role.ToString(), "admin", StringComparison.OrdinalIgnoreCase);
+        return User?.Claims?.Any(c => c.Type == ClaimTypes.Role && (string.Equals(c.Value, "Admin", StringComparison.OrdinalIgnoreCase) || string.Equals(c.Value, "SuperAdmin", StringComparison.OrdinalIgnoreCase))) ?? false;
     }
 
     public RefundsController(IRefundService refundService, ILogger<RefundsController> logger)
@@ -127,6 +129,14 @@ public class RefundsController : ControllerBase
     [HttpGet("user/{userId}")]
     public async Task<ActionResult<List<RefundRequest>>> GetRefundsByUser(string userId)
     {
+        // Non-admin callers can only fetch their own refunds
+        if (!IsAdminRequest())
+        {
+            var callerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(callerId)) return Unauthorized();
+            userId = callerId;
+        }
+
         var refunds = await _refundService.GetRefundsByUserAsync(userId);
         return Ok(refunds);
     }
@@ -139,6 +149,14 @@ public class RefundsController : ControllerBase
     {
         try
         {
+            // If caller is not admin, ensure refund is created for the authenticated user
+            if (!IsAdminRequest())
+            {
+                var callerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(callerId)) return Unauthorized();
+                dto.UserId = callerId;
+            }
+
             var refund = await _refundService.CreateRefundRequestAsync(dto);
             return CreatedAtAction(nameof(GetRefundById), new { id = refund.Id }, refund);
         }

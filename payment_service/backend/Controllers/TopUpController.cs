@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Models;
 using PaymentService.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace PaymentService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TopUpController : ControllerBase
 {
     private readonly ITopUpService _topUpService;
@@ -21,9 +24,7 @@ public class TopUpController : ControllerBase
     /// Create a new top-up request
     /// </summary>
     [HttpPost]
-    public async Task<ActionResult<TopUpResponse>> CreateTopUp(
-        [FromBody] TopUpRequest request,
-        [FromQuery] string userId = "user_001")
+    public async Task<ActionResult<TopUpResponse>> CreateTopUp([FromBody] TopUpRequest request)
     {
         try
         {
@@ -35,6 +36,12 @@ public class TopUpController : ControllerBase
                     Message = "Amount must be greater than 0"
                 });
             }
+
+            // Determine user identifier from JWT claims (prefer 'sub', then name identifier, then email)
+            var userId = User?.FindFirst("sub")?.Value
+                         ?? User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                         ?? User?.FindFirst("email")?.Value
+                         ?? "anonymous";
 
             var topUp = await _topUpService.CreateTopUpAsync(userId, request);
 
