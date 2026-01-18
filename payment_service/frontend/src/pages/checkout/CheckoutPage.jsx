@@ -145,24 +145,20 @@ const handleCardDataChange = (field, value) => {
       .reduce((sum, item) => sum + (item.quantity || 0) * (item.price || 0), 0);
   }, [order]);
 
-  const baseAmount = useMemo(() => {
-    const amt = Number(order?.amount || 0);
-    // If backend provides amount, trust it; otherwise derive from items + delivery fee.
-    return amt > 0 ? amt : (subtotal + deliveryFee);
-  }, [order, subtotal, deliveryFee]);
-
   const voucherDiscount = appliedVoucher?.discountAmount || 0;
   const deliveryFeeDiscount = 0;
   const maxCoins = wallet?.coins || 0;
   const coinsDiscount = useCoins ? Math.min(Number(coinsToUse || 0), maxCoins) : 0;
+
+  const grossTotal = useMemo(() => subtotal + deliveryFee, [subtotal, deliveryFee]);
 
   useEffect(() => {
     setCoinsToUse((current) => Math.min(Number(current || 0), maxCoins));
   }, [maxCoins]);
 
   const total = useMemo(
-    () => baseAmount + deliveryFee - voucherDiscount - deliveryFeeDiscount - coinsDiscount,
-    [baseAmount, deliveryFee, voucherDiscount, deliveryFeeDiscount, coinsDiscount]
+    () => Math.max(0, grossTotal - voucherDiscount - deliveryFeeDiscount - coinsDiscount),
+    [grossTotal, voucherDiscount, deliveryFeeDiscount, coinsDiscount]
   );
 
   const displayItems = useMemo(() => {
@@ -176,7 +172,7 @@ const handleCardDataChange = (field, value) => {
       handleApplyVoucher(savedVoucher); // Auto-trigger validation
       localStorage.removeItem('selectedVoucher');
     }
-  }, [baseAmount]); // Runs when total base is ready
+  }, [grossTotal]); // Runs when gross total is ready
 
   const handleApplyVoucher = async (codeToApply) => {
     const code = (codeToApply || voucherCode).trim().toUpperCase();
@@ -187,7 +183,7 @@ const handleCardDataChange = (field, value) => {
       // Backend expects 'code' and 'orderAmount'
       const response = await vouchersApi.apply({ 
         Code: code, 
-        OrderAmount: Number(baseAmount)
+        OrderAmount: Number(grossTotal)
       });
 
       if (response.success) {
@@ -227,27 +223,11 @@ const handleCardDataChange = (field, value) => {
     setError(null);
 
     try {
-      const orderItems = (order.items || []).map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price
-      }));
-      
-      const addressObj = {
-        name: recipientName,
-        phone: recipientPhone,
-        line: addressLine,
-        city: addressCity,
-        postalCode: addressPostal || null,
-      };
-
-      const response = await ordersApi.create(
-        orderItems,
+      const response = await ordersApi.pay(
+        orderId,
         selectedPaymentMethod,
         appliedVoucher?.voucher?.code || voucherCode || null,
-        useCoins ? Math.min(Number(coinsToUse || 0), maxCoins) : 0,
-        'Order Service',
-        addressObj
+        useCoins ? Math.min(Number(coinsToUse || 0), maxCoins) : 0
       );
 
       if (response.success) {
@@ -285,8 +265,8 @@ const handleCardDataChange = (field, value) => {
       <div className="checkout-page">
         <div className="success-card">
           <i className="bi bi-check-circle-fill"></i>
-          <h2>Order Placed!</h2>
-          <p>Your order has been successfully placed.</p>
+          <h2>Payment successful</h2>
+          <p>Your payment was successful. The order is now marked as completed.</p>
         </div>
       </div>
     );

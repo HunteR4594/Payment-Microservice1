@@ -40,25 +40,12 @@ const RefundAdminPage = () => {
     setProcessing(true);
     try {
       await adminRefundApi.review(selectedRefund.id, 'approve', adminComment, null);
+      alert(`Refund approved. ₱${selectedRefund.amount} credited to ${selectedRefund.userId}'s wallet.`);
       await loadRefunds();
       setShowReviewModal(false);
     } catch (err) {
       console.error('Failed to approve:', err);
       setError(err?.message || 'Failed to approve refund');
-    }
-    setProcessing(false);
-  };
-
-  const handleApproveAndCreditWallet = async () => {
-    setProcessing(true);
-    try {
-      const result = await adminRefundApi.approveAndCreditWallet(selectedRefund.id, adminComment);
-      alert(result.message || `Refund approved! ₱${selectedRefund.amount} credited to user's wallet.`);
-      await loadRefunds();
-      setShowReviewModal(false);
-    } catch (err) {
-      console.error('Failed to approve and credit:', err);
-      alert('Failed to process refund: ' + err.message);
     }
     setProcessing(false);
   };
@@ -137,10 +124,10 @@ const RefundAdminPage = () => {
         <h2>Refund Management</h2>
         <div className="stats">
           <span className="stat">
-            <strong>{refunds.filter(r => r.status === 'pending').length}</strong> Pending
+            <strong>{refunds.filter(r => ['pending', 'underreview'].includes(r.status)).length}</strong> Pending
           </span>
           <span className="stat">
-            <strong>{refunds.filter(r => r.status === 'approved').length}</strong> Approved
+            <strong>{refunds.filter(r => ['approved', 'completed'].includes(r.status)).length}</strong> Approved
           </span>
           <span className="stat">
             <strong>{refunds.filter(r => r.status === 'rejected').length}</strong> Rejected
@@ -245,15 +232,6 @@ const RefundAdminPage = () => {
                 >
                   <i className="bi bi-check-circle"></i>
                   Approve
-                </button>
-                <button 
-                  className="btn-approve-credit" 
-                  onClick={handleApproveAndCreditWallet}
-                  disabled={processing}
-                  title="Approve and immediately credit the refund amount to user's wallet"
-                >
-                  <i className="bi bi-wallet2"></i>
-                  Approve & Credit Wallet
                 </button>
                 <button 
                   className="btn-reject" 

@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, Navigate, useLocation } from 'react-router-dom';
 import './MainLayout.css';
 import { useCurrentUser } from '../context/currentUser';
 
 const MainLayout = () => {
   const location = useLocation();
-  const { userId, role, isAdmin } = useCurrentUser();
+  const { userId, role, isAdmin, setUser } = useCurrentUser();
+
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  if (isAdmin && !isAdminRoute) {
+    return <Navigate to="/admin/refunds" replace />;
+  }
 
   const navItems = [
     {
@@ -53,7 +58,9 @@ const MainLayout = () => {
     },
   ];
 
-  const visibleNavItems = isAdmin ? navItems : navItems.filter(i => i.title !== 'Admin');
+  const visibleNavItems = isAdmin
+    ? navItems.filter((i) => i.title === 'Admin')
+    : navItems.filter((i) => i.title !== 'Admin');
 
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
@@ -74,7 +81,7 @@ const MainLayout = () => {
       <header className="top-navbar">
         <div className="nav-left">
           <div className="brand">
-            <NavLink to="/" className="brand-link">
+            <NavLink to={isAdmin ? '/admin/refunds' : '/'} className="brand-link">
               <img src="/kapebara-logo-2.png" alt="Kapebara" className="brand-logo" />
               {/*<span className="brand-text">Kapebara</span>*/}
             </NavLink>
@@ -101,6 +108,20 @@ const MainLayout = () => {
               <i className="bi bi-person-circle"></i>
             </div>
             <div className="user-name">{userId} ({role})</div>
+            <button
+              className="btn btn-sm btn-outline-secondary ms-2"
+              type="button"
+              onClick={() => {
+                if (isAdmin) {
+                  setUser({ userId: 'user_001', role: 'user' });
+                } else {
+                  setUser({ userId: 'user_001', role: 'admin' });
+                }
+              }}
+              title={isAdmin ? 'Switch to user mode' : 'Switch to admin mode'}
+            >
+              {isAdmin ? 'User mode' : 'Admin mode'}
+            </button>
           </div>
           <button className="icon-btn notif-btn" aria-label="Notifications">
             <i className="bi bi-bell"></i>

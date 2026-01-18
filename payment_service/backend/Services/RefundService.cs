@@ -60,16 +60,55 @@ public class RefundService : IRefundService
 
     public async Task<RefundRequest> CreateRefundRequestAsync(RefundRequestDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.OrderId))
+        {
+            throw new InvalidOperationException("OrderId is required");
+        }
+
+        var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == dto.OrderId);
+        if (order == null)
+        {
+            throw new InvalidOperationException($"Order '{dto.OrderId}' not found");
+        }
+
+        // Only completed/paid orders are valid for refund.
+        var orderStatus = (order.Status ?? string.Empty).ToLowerInvariant();
+        if (orderStatus != "completed" && orderStatus != "paid")
+        {
+            throw new InvalidOperationException("Only paid/completed orders are valid for refund");
+        }
+
+        var userId = !string.IsNullOrWhiteSpace(dto.UserId) ? dto.UserId : order.UserId;
+
+        // Prevent duplicate refund requests for the same order unless a previous request was rejected.
+        var existingRefund = await _context.Refunds
+            .Where(r => r.OrderId == dto.OrderId && r.UserId == userId)
+            .Where(r => r.Status != RefundStatus.Rejected)
+            .OrderByDescending(r => r.CreatedAt)
+            .FirstOrDefaultAsync();
+
+        if (existingRefund != null)
+        {
+            throw new InvalidOperationException($"A refund request already exists for order '{dto.OrderId}'.");
+        }
+
+        var amount = dto.Amount > 0 ? dto.Amount : order.Amount;
+        if (amount <= 0)
+        {
+            throw new InvalidOperationException("Refund amount must be greater than 0");
+        }
+
         var refund = new RefundRequest
         {
-            UserId = dto.UserId,
+            UserId = userId,
             OrderId = dto.OrderId,
             CustomerName = dto.CustomerName,
             CustomerEmail = dto.CustomerEmail,
             CustomerPhone = dto.CustomerPhone,
-            Amount = dto.Amount,
+            Amount = amount,
             Reason = dto.Reason,
             Category = dto.Category,
+            PhotoPath = dto.PhotoPath,
             Status = RefundStatus.Pending,
             CreatedAt = DateTime.UtcNow
         };
@@ -94,6 +133,9 @@ public class RefundService : IRefundService
         if (dto.Action.ToLower() == "approve")
         {
             refund.Status = RefundStatus.Approved;
+            // Persist the approval, then immediately credit wallet as part of the approve action.
+            await _context.SaveChangesAsync();
+            return await ProcessRefundToWalletAsync(id);
         }
         else if (dto.Action.ToLower() == "reject")
         {
@@ -128,7 +170,8 @@ public class RefundService : IRefundService
                 refund.UserId,
                 refund.Amount,
                 safeTransactionId,
-                $"Refund for Order {refund.OrderId}"
+                $"Refund for Order {refund.OrderId}",
+                "refund"
             );
 
             // Mark completed in DB

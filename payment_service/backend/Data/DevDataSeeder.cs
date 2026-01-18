@@ -91,43 +91,49 @@ public static class DevDataSeeder
         }
 
         // Add more pending orders (ORD-103, ORD-104, ...), skipping IDs that already exist.
-        var paymentMethods = new[] { "gcash", "maya", "card", "wallet", "grab_pay" };
-        var nextNumber = 103;
-        while (pendingOrders.Count < desiredPendingOrders)
+        // IMPORTANT: only seed these ORD-10x orders once. Do not "replenish" them after the user pays/completes orders,
+        // otherwise the pending count will jump back up on every backend restart.
+        var hasOrdSeedOrders = await db.Orders.AnyAsync(o => o.UserId == userId && o.Id.StartsWith("ORD-"));
+        if (!hasOrdSeedOrders)
         {
-            var id = $"ORD-{nextNumber}";
-            nextNumber++;
-
-            if (await db.Orders.AnyAsync(o => o.Id == id))
+            var paymentMethods = new[] { "gcash", "maya", "card", "wallet", "grab_pay" };
+            var nextNumber = 103;
+            while (pendingOrders.Count < desiredPendingOrders)
             {
-                continue;
+                var id = $"ORD-{nextNumber}";
+                nextNumber++;
+
+                if (await db.Orders.AnyAsync(o => o.Id == id))
+                {
+                    continue;
+                }
+
+                var idx = pendingOrders.Count;
+                var items = new List<OrderItem>
+                {
+                    new OrderItem { Name = idx % 2 == 0 ? "Iced Coffee" : "Iced Latte", Quantity = 1, Price = idx % 2 == 0 ? 100m : 150m },
+                    new OrderItem { Name = idx % 3 == 0 ? "Chocolate Chip Cookie" : "Croissant", Quantity = 1, Price = idx % 3 == 0 ? 95m : 85m },
+                    new OrderItem { Name = "Delivery Fee", Quantity = 1, Price = 50m }
+                };
+
+                var computed = items.Sum(i => i.Price * i.Quantity);
+                var newOrder = new Order
+                {
+                    Id = id,
+                    UserId = userId,
+                    Branch = "Main Branch",
+                    Items = items,
+                    Status = "pending",
+                    CreatedAt = DateTime.UtcNow.AddMinutes(-5 * (idx + 1)),
+                    VoucherCode = null,
+                    DiscountAmount = 0m,
+                    PaymentMethod = paymentMethods[idx % paymentMethods.Length],
+                    Amount = computed
+                };
+
+                db.Orders.Add(newOrder);
+                pendingOrders.Add(newOrder);
             }
-
-            var idx = pendingOrders.Count;
-            var items = new List<OrderItem>
-            {
-                new OrderItem { Name = idx % 2 == 0 ? "Iced Coffee" : "Iced Latte", Quantity = 1, Price = idx % 2 == 0 ? 100m : 150m },
-                new OrderItem { Name = idx % 3 == 0 ? "Chocolate Chip Cookie" : "Croissant", Quantity = 1, Price = idx % 3 == 0 ? 95m : 85m },
-                new OrderItem { Name = "Delivery Fee", Quantity = 1, Price = 50m }
-            };
-
-            var computed = items.Sum(i => i.Price * i.Quantity);
-            var newOrder = new Order
-            {
-                Id = id,
-                UserId = userId,
-                Branch = "Main Branch",
-                Items = items,
-                Status = "pending",
-                CreatedAt = DateTime.UtcNow.AddMinutes(-5 * (idx + 1)),
-                VoucherCode = null,
-                DiscountAmount = 0m,
-                PaymentMethod = paymentMethods[idx % paymentMethods.Length],
-                Amount = computed
-            };
-
-            db.Orders.Add(newOrder);
-            pendingOrders.Add(newOrder);
         }
 
         // Wallet
@@ -239,6 +245,30 @@ public static class DevDataSeeder
                 Status = RefundStatus.Pending,
                 CreatedAt = DateTime.UtcNow.AddHours(-1)
             });
+        }
+
+        // Ensure there is a pending refund request for ORD-106 so we can test admin approval + wallet credit.
+        // This is dev-only scaffolding to make manual testing easier.
+        var ord106 = await db.Orders.FirstOrDefaultAsync(o => o.Id == "ORD-106");
+        if (ord106 != null)
+        {
+            var hasRefundForOrd106 = await db.Refunds.AnyAsync(r => r.OrderId == ord106.Id);
+            if (!hasRefundForOrd106)
+            {
+                db.Refunds.Add(new RefundRequest
+                {
+                    UserId = ord106.UserId,
+                    OrderId = ord106.Id,
+                    CustomerName = "Demo Customer",
+                    CustomerEmail = "demo@kapebara.local",
+                    CustomerPhone = "09170000000",
+                    Amount = ord106.Amount,
+                    Reason = "Requested refund (test)",
+                    Category = "Other",
+                    Status = RefundStatus.Pending,
+                    CreatedAt = DateTime.UtcNow
+                });
+            }
         }
 
         await db.SaveChangesAsync();

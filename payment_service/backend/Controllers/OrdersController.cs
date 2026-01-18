@@ -126,4 +126,34 @@ public class OrdersController : ControllerBase
             });
         }
     }
+
+    /// <summary>
+    /// Pay an existing pending order (wallet payment completes immediately).
+    /// </summary>
+    [HttpPost("{orderId}/pay")]
+    public async Task<ActionResult<OrderResponse>> PayOrder(
+        string orderId,
+        [FromBody] PayOrderRequest request,
+        [FromQuery] string? userId = null)
+    {
+        try
+        {
+            var resolvedUserId = ResolveUserId(userId);
+            var order = await _orderService.PayOrderAsync(resolvedUserId, orderId, request);
+            return Ok(new OrderResponse
+            {
+                Success = true,
+                Data = order,
+                Message = "Order paid successfully"
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new OrderResponse
+            {
+                Success = false,
+                Message = ex.Message
+            });
+        }
+    }
 }

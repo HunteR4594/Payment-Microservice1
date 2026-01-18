@@ -1,22 +1,89 @@
-import React, { useState } from 'react';
-import { refundApi } from '../../services/api';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ordersApi, refundApi } from '../../services/api';
 import './RefundPage.css';
+import { useCurrentUser } from '../../context/currentUser';
+import { formatCurrency } from '../../utils/formatters';
 
 const RefundPage = () => {
+  const { userId } = useCurrentUser();
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [eligibleOrders, setEligibleOrders] = useState([]);
+  const [selectedOrderId, setSelectedOrderId] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
   const [formData, setFormData] = useState({
-    userId: 'user_001',
-    orderId: '',
     customerName: '',
     customerEmail: '',
     customerPhone: '',
-    amount: '',
     category: '',
     reason: '',
   });
+
+  const selectedOrder = useMemo(() => {
+    return eligibleOrders.find((o) => o.id === selectedOrderId) || null;
+  }, [eligibleOrders, selectedOrderId]);
+
+  useEffect(() => {
+    if (!showModal) return;
+
+    const loadOrders = async () => {
+      try {
+        setOrdersLoading(true);
+        const [ordersRes, refundsRes] = await Promise.all([
+          ordersApi.getAll(userId),
+          refundApi.getAll(userId),
+        ]);
+
+        const orders = Array.isArray(ordersRes?.data)
+          ? ordersRes.data
+          : Array.isArray(ordersRes)
+            ? ordersRes
+            : [];
+
+        const refunds = Array.isArray(refundsRes)
+          ? refundsRes
+          : Array.isArray(refundsRes?.data)
+            ? refundsRes.data
+            : [];
+
+        const refundedOrderIds = new Set(
+          refunds
+            .filter((r) => {
+              const st = String(r?.status || '').toLowerCase();
+              // Allow re-request only if the previous refund was rejected.
+              return st && st !== 'rejected';
+            })
+            .map((r) => r?.orderId)
+            .filter(Boolean)
+        );
+
+        const paid = orders.filter((o) => {
+          const st = String(o?.status || '').toLowerCase();
+          return st === 'completed' || st === 'paid';
+        });
+
+        const eligible = paid.filter((o) => !refundedOrderIds.has(o.id));
+
+        setEligibleOrders(eligible);
+        if (eligible.length) {
+          setSelectedOrderId(eligible[0].id);
+        } else {
+          setSelectedOrderId('');
+        }
+      } catch (e) {
+        console.error('Failed to load eligible refund orders:', e);
+        setEligibleOrders([]);
+        setSelectedOrderId('');
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+
+    loadOrders();
+  }, [showModal, userId]);
 
   const reasons = [
     'Wrong Order',
@@ -28,20 +95,39 @@ const RefundPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedOrder) {
+      setError('No paid order selected for refund');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     try {
-      await refundApi.create(formData);
+      const fd = new FormData();
+      fd.append('userId', userId);
+      fd.append('orderId', selectedOrder.id);
+      fd.append('customerName', formData.customerName);
+      fd.append('customerEmail', formData.customerEmail);
+      fd.append('customerPhone', formData.customerPhone);
+      fd.append('amount', String(selectedOrder.amount || 0));
+      fd.append('category', formData.category);
+      fd.append('reason', formData.reason);
+      if (photoFile) {
+        fd.append('photo', photoFile);
+      }
+
+      await refundApi.createWithPhoto(fd);
       setShowModal(false);
       setShowSuccess(true);
+      setPhotoFile(null);
+      setEligibleOrders([]);
+      setSelectedOrderId('');
       setFormData({
-        userId: 'user_001',
-        orderId: '',
         customerName: '',
         customerEmail: '',
         customerPhone: '',
-        amount: '',
         category: '',
         reason: '',
       });
@@ -84,26 +170,53 @@ const RefundPage = () => {
 
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label>Order ID</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your order ID"
-                    value={formData.orderId}
-                    onChange={(e) => setFormData({ ...formData, orderId: e.target.value })}
-                    required
-                  />
+                  <label>Order</label>
+
+                  {ordersLoading ? (
+                    <div className="text-muted">Loading paid orders…</div>
+                  ) : eligibleOrders.length === 0 ? (
+                    <div className="alert alert-secondary mb-0">
+                      No orders are valid for refund.
+                    </div>
+                  ) : (
+                    <select
+                      value={selectedOrderId}
+                      onChange={(e) => setSelectedOrderId(e.target.value)}
+                      required
+                    >
+                      {eligibleOrders.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.id}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
 
+                {selectedOrder ? (
+                  <div className="order-preview">
+                    <div className="order-preview-title">Order details</div>
+                    <div className="order-preview-meta">
+                      <span><strong>Status:</strong> {selectedOrder.status}</span>
+                      <span><strong>Amount:</strong> {formatCurrency(Number(selectedOrder.amount || 0))}</span>
+                    </div>
+                    <div className="order-preview-items">
+                      {(selectedOrder.items || []).map((it, idx) => (
+                        <div key={idx} className="order-preview-item">
+                          <span>{it.quantity}x {it.name}</span>
+                          <span>{formatCurrency((it.price || 0) * (it.quantity || 0))}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className="form-group">
-                  <label>Refund Amount</label>
+                  <label>Upload product image (optional)</label>
                   <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="Enter amount"
-                    value={formData.amount}
-                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                    required
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
                   />
                 </div>
 
@@ -165,7 +278,7 @@ const RefundPage = () => {
                   />
                 </div>
 
-                <button type="submit" className="submit-btn" disabled={loading}>
+                <button type="submit" className="submit-btn" disabled={loading || !selectedOrder}>
                   {loading ? 'Submitting...' : 'Submit Request'}
                 </button>
               </form>

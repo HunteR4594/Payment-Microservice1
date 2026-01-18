@@ -72,7 +72,7 @@ public class WalletController : ControllerBase
     {
         try
         {
-            var wallet = await _walletService.AddBalanceAsync(userId, request.Amount, null, request.Description);
+            var wallet = await _walletService.AddBalanceAsync(userId, request.Amount, null, request.Description, "topup");
             return Ok(new WalletResponse
             {
                 Success = true,

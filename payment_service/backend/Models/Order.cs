@@ -46,6 +46,13 @@ public class CreateOrderRequest
     public int CoinsToUse { get; set; }
 }
 
+public class PayOrderRequest
+{
+    public string PaymentMethod { get; set; } = "wallet"; // wallet, gcash, maya, card
+    public string? VoucherCode { get; set; }
+    public int CoinsToUse { get; set; }
+}
+
 public class CompleteOrderRequest
 {
     public string OrderId { get; set; } = string.Empty;

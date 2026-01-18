@@ -10,6 +10,7 @@ public interface IOrderService
     Task<Order?> GetOrderAsync(string orderId);
     Task<List<Order>> GetOrdersAsync(string userId, int limit = 10);
     Task<Order> CompleteOrderAsync(string orderId);
+    Task<Order> PayOrderAsync(string userId, string orderId, PayOrderRequest request);
 }
 
 public class OrderService : IOrderService
@@ -103,6 +104,82 @@ public class OrderService : IOrderService
     {
         var order = await _context.Orders.FindAsync(orderId) ?? throw new Exception("Order not found");
         order.Status = "completed";
+        await _context.SaveChangesAsync();
+        return order;
+    }
+
+    public async Task<Order> PayOrderAsync(string userId, string orderId, PayOrderRequest request)
+    {
+        var order = await _context.Orders
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+
+        if (order == null)
+        {
+            throw new InvalidOperationException("Order not found");
+        }
+
+        if (!string.Equals(order.UserId, userId, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("Order does not belong to the current user");
+        }
+
+        if (!string.Equals(order.Status, "pending", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException($"Order is not pending (current: {order.Status})");
+        }
+
+        var subtotal = (order.Items ?? new List<OrderItem>()).Sum(i => i.Price * i.Quantity);
+        decimal discountAmount = 0;
+
+        if (!string.IsNullOrEmpty(request.VoucherCode))
+        {
+            var vResult = await _voucherService.ApplyVoucherAsync(new ApplyVoucherRequest
+            {
+                Code = request.VoucherCode,
+                OrderAmount = subtotal,
+            });
+            if (vResult.Success)
+            {
+                discountAmount = vResult.DiscountAmount;
+                await _voucherService.UpdateVoucherUsageAsync(request.VoucherCode);
+            }
+        }
+
+        var finalAmount = subtotal - discountAmount;
+
+        if (request.CoinsToUse > 0)
+        {
+            var coinsToApply = (int)Math.Min(request.CoinsToUse, Math.Ceiling(finalAmount));
+            if (coinsToApply > 0)
+            {
+                await _walletService.UseCoinsAsync(userId, coinsToApply, order.Id, $"Coins used for order {order.Id}");
+                discountAmount += coinsToApply;
+                finalAmount -= coinsToApply;
+            }
+        }
+
+        var paymentMethod = request.PaymentMethod?.ToLower() ?? "wallet";
+        order.PaymentMethod = paymentMethod;
+        order.VoucherCode = request.VoucherCode;
+        order.DiscountAmount = discountAmount;
+        order.Amount = finalAmount;
+
+        if (paymentMethod == "wallet")
+        {
+            await _walletService.DeductBalanceAsync(userId, finalAmount, order.Id, $"Order - {order.Branch}");
+            order.Status = "completed";
+            order.PaymentLinkUrl = null;
+            order.PaymentLinkId = null;
+        }
+        else
+        {
+            var paymentLink = await _paymentProvider.CreatePaymentLinkAsync(finalAmount, $"Order {order.Id}", order.Id);
+            order.PaymentLinkUrl = paymentLink.Data?.Url;
+            order.PaymentLinkId = paymentLink.Data?.Id;
+            order.Status = "pending";
+        }
+
         await _context.SaveChangesAsync();
         return order;
     }

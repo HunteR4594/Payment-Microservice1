@@ -7,7 +7,7 @@ namespace PaymentService.Services;
 public interface IWalletService
 {
     Task<Wallet> GetWalletAsync(string userId);
-    Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null);
+    Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null, string transactionType = "topup");
     Task<Wallet> DeductBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null);
     Task<Wallet> UseCoinsAsync(string userId, int coinsToUse, string? referenceId = null, string? description = null);
     Task<List<Transaction>> GetTransactionsAsync(string userId, int limit = 10);
@@ -41,7 +41,7 @@ public class WalletService : IWalletService
         return wallet;
     }
 
-    public async Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null)
+    public async Task<Wallet> AddBalanceAsync(string userId, decimal amount, string? referenceId = null, string? description = null, string transactionType = "topup")
     {
         var wallet = await GetWalletAsync(userId);
         wallet.Balance += amount;
@@ -53,7 +53,7 @@ public class WalletService : IWalletService
         {
             Id = $"txn_{Guid.NewGuid():N}",
             UserId = userId,
-            Type = "topup",
+            Type = transactionType,
             Amount = amount,
             Description = description ?? "Wallet Top-up",
             ReferenceId = referenceId,

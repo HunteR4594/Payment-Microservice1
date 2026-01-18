@@ -30,22 +30,36 @@ function safeSetLocalStorage(key, value) {
 }
 
 export const CurrentUserProvider = ({ children }) => {
-  const [userId, setUserId] = useState(() => safeGetLocalStorage('ps_userId') || 'user_001');
-  const [role, setRole] = useState(() => safeGetLocalStorage('ps_role') || 'user');
+  // Default to admin for easier local testing. Can be overridden via:
+  // - localStorage keys: ps_userId / ps_role
+  // - query params: ?userId=...&role=...
+  const [userId, setUserId] = useState(() => {
+    const qp = safeGetQueryParams();
+    return qp.userId || safeGetLocalStorage('ps_userId') || 'user_001';
+  });
+  const [role, setRole] = useState(() => {
+    const qp = safeGetQueryParams();
+    return qp.role || safeGetLocalStorage('ps_role') || 'admin';
+  });
 
   useEffect(() => {
     // Allow upstream microservices to deep-link into payment UI:
     // e.g. /checkout/ord_123?userId=u_001&role=admin
     const qp = safeGetQueryParams();
     if (qp.userId) {
-      setUserId(qp.userId);
       safeSetLocalStorage('ps_userId', qp.userId);
     }
     if (qp.role) {
-      setRole(qp.role);
       safeSetLocalStorage('ps_role', qp.role);
     }
   }, []);
+
+  // Keep localStorage in sync so the API client (which reads localStorage) sends the right headers
+  // even on a fresh load.
+  useEffect(() => {
+    safeSetLocalStorage('ps_userId', userId);
+    safeSetLocalStorage('ps_role', role);
+  }, [userId, role]);
 
   const value = useMemo(() => {
     const normalizedRole = (role || 'user').toLowerCase();

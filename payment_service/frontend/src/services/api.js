@@ -8,34 +8,62 @@ async function apiCall(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
   let userId = 'user_001';
   let role = 'user';
+
   try {
     userId = window.localStorage.getItem('ps_userId') || userId;
     role = (window.localStorage.getItem('ps_role') || role).toLowerCase();
   } catch {
     // ignore
   }
-  
-  try {
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-User-Id': userId,
-        'X-User-Role': role,
-        ...options.headers,
-      },
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Request failed with status ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error(`API Error [${endpoint}]:`, error);
-    throw error;
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+      'X-User-Id': userId,
+      'X-User-Role': role,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `Request failed with status ${response.status}`);
   }
+
+  return await response.json();
+}
+
+// Helper for multipart/form-data calls (do NOT set Content-Type; browser will set boundary)
+async function apiCallForm(endpoint, formData, options = {}) {
+  const url = `${API_BASE_URL}${endpoint}`;
+  let userId = 'user_001';
+  let role = 'user';
+
+  try {
+    userId = window.localStorage.getItem('ps_userId') || userId;
+    role = (window.localStorage.getItem('ps_role') || role).toLowerCase();
+  } catch {
+    // ignore
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    ...options,
+    headers: {
+      ...options.headers,
+      'X-User-Id': userId,
+      'X-User-Role': role,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `Request failed with status ${response.status}`);
+  }
+
+  return await response.json();
 }
 
 // ============ Wallet API ============
@@ -100,6 +128,17 @@ export const ordersApi = {
   
   getById: (orderId) => 
     apiCall(`/orders/${orderId}`),
+
+  // Pay an existing order (wallet payments complete immediately)
+  pay: (orderId, paymentMethod, voucherCode = null, coinsToUse = 0) =>
+    apiCall(`/orders/${orderId}/pay`, {
+      method: 'POST',
+      body: JSON.stringify({
+        paymentMethod,
+        voucherCode,
+        coinsToUse,
+      }),
+    }),
   
   create: (items, paymentMethod, voucherCode = null, coinsToUse = 0, branch = 'Main Branch', address = null) =>
     apiCall('/orders', {
@@ -164,8 +203,9 @@ export const applyVoucher = async (voucherId, orderTotal) => {
 //          POST /api/refunds
 //          PUT /api/refunds/{id}/review
 export const refundApi = {
-  getAll: (userId = 'user1') =>
-    apiCall(`/refunds?userId=${userId}`),
+  // User-scoped refund list
+  getAll: (userId = 'user_001') =>
+    apiCall(`/refunds/user/${userId}`),
   
   getById: (refundId) =>
     apiCall(`/refunds/${refundId}`),
@@ -184,6 +224,10 @@ export const refundApi = {
         category: refundData.category,
       }),
     });
+  },
+
+  createWithPhoto: async (formData) => {
+    return apiCallForm('/refunds/with-photo', formData);
   },
 };
 
@@ -238,16 +282,6 @@ export const adminRefundApi = {
         action, 
         adminNotes, 
         rejectionReason,
-        reviewedBy: 'Admin'
-      }),
-    }),
-
-  approveAndCreditWallet: (refundId, adminNotes) =>
-    apiCall(`/refunds/${refundId}/approve-and-process`, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'approve',
-        adminNotes,
         reviewedBy: 'Admin'
       }),
     }),

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models; // <-- IMPORTANTE: Added this for OpenApiInfo
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentService.Integrations;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,6 +118,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+// Serve uploaded refund photos (dev only)
+var refundPhotosDir = Path.Combine(app.Environment.ContentRootPath, "UploadedRefundPhotos");
+Directory.CreateDirectory(refundPhotosDir);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(refundPhotosDir),
+    RequestPath = "/refund-photos",
+});
+
 app.MapControllers();
 
 app.Run();

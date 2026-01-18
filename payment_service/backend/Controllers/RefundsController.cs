@@ -16,6 +16,47 @@ public class RefundsController : ControllerBase
         return StatusCode(403, new { message = "Admin role required." });
     }
 
+    /// <summary>
+    /// Create a refund request with an optional uploaded photo (multipart/form-data).
+    /// </summary>
+    [HttpPost("with-photo")]
+    [RequestSizeLimit(10_000_000)]
+    public async Task<ActionResult<RefundRequest>> CreateRefundWithPhoto(
+        [FromForm] RefundRequestDto dto,
+        IFormFile? photo)
+    {
+        try
+        {
+            if (photo != null && photo.Length > 0)
+            {
+                var ext = Path.GetExtension(photo.FileName);
+                var safeExt = string.IsNullOrWhiteSpace(ext) ? ".jpg" : ext;
+                var fileName = $"{Guid.NewGuid():N}{safeExt}";
+
+                var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "UploadedRefundPhotos");
+                Directory.CreateDirectory(uploadsDir);
+
+                var filePath = Path.Combine(uploadsDir, fileName);
+                await using var stream = System.IO.File.Create(filePath);
+                await photo.CopyToAsync(stream);
+
+                dto.PhotoPath = $"/refund-photos/{fileName}";
+            }
+
+            var refund = await _refundService.CreateRefundRequestAsync(dto);
+            return CreatedAtAction(nameof(GetRefundById), new { id = refund.Id }, refund);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating refund request (with photo)");
+            return StatusCode(500, new { message = "Error creating refund request" });
+        }
+    }
+
     private bool IsAdminRequest()
     {
         if (!Request.Headers.TryGetValue("X-User-Role", out var role)) return false;
@@ -100,6 +141,10 @@ public class RefundsController : ControllerBase
         {
             var refund = await _refundService.CreateRefundRequestAsync(dto);
             return CreatedAtAction(nameof(GetRefundById), new { id = refund.Id }, refund);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
         }
         catch (Exception ex)
         {

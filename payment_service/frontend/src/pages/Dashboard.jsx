@@ -165,18 +165,45 @@ const Dashboard = () => {
             </div>
           </div>
         ) : (stats?.recentTransactions?.length ? (
-          stats.recentTransactions.map((t) => (
-            <div key={t.id} className="activity-item">
-              <div className={`activity-icon ${t.amount < 0 ? 'warning' : 'success'}`}>
-                <i className={`bi ${t.type === 'order' ? 'bi-receipt' : 'bi-wallet2'}`}></i>
+          stats.recentTransactions.map((t) => {
+            const rawType = String(t.type || '').toLowerCase();
+            const desc = String(t.description || '').toLowerCase();
+            const refId = String(t.referenceId || '');
+            const effectiveType =
+              rawType === 'topup' && (desc.includes('refund') || refId.startsWith('refund_'))
+                ? 'refund'
+                : rawType;
+
+            return (
+              <div key={t.id} className="activity-item">
+                <div className={`activity-icon ${t.amount < 0 ? 'warning' : 'success'}`}>
+                  <i className={`bi ${
+                    effectiveType === 'order'
+                      ? 'bi-receipt'
+                      : effectiveType === 'refund'
+                        ? 'bi-arrow-counterclockwise'
+                        : effectiveType === 'coins'
+                          ? 'bi-coin'
+                          : 'bi-wallet2'
+                  }`}></i>
+                </div>
+                <div className="activity-details">
+                  <span className="activity-title">
+                    {effectiveType === 'order'
+                      ? 'Order'
+                      : effectiveType === 'refund'
+                        ? 'Refund'
+                        : effectiveType === 'coins'
+                          ? 'Coins'
+                          : 'Top-up'}{' '}
+                    {new Date(t.createdAt).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                  <span className="activity-desc">{t.description} ({formatCurrency(Math.abs(t.amount))})</span>
+                </div>
+                <span className="activity-time">{new Date(t.createdAt).toLocaleString()}</span>
               </div>
-              <div className="activity-details">
-                <span className="activity-title">{t.type === 'order' ? 'Order' : 'Top-up'} {formatDate(t.createdAt)}</span>
-                <span className="activity-desc">{t.description} ({formatCurrency(Math.abs(t.amount))})</span>
-              </div>
-              <span className="activity-time">{new Date(t.createdAt).toLocaleString()}</span>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="activity-item">
             <div className="activity-details">
