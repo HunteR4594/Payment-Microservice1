@@ -1,0 +1,114 @@
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+
+const CurrentUserContext = createContext(null);
+
+function safeGetQueryParams() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('userId');
+    const role = params.get('role');
+    return { userId, role };
+  } catch {
+    return { userId: null, role: null };
+  }
+}
+
+function safeGetLocalStorage(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetLocalStorage(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // ignore
+  }
+}
+
+export const CurrentUserProvider = ({ children }) => {
+  // Default to admin for easier local testing. Can be overridden via:
+  // - localStorage keys: ps_userId / ps_role
+  // - query params: ?userId=...&role=...
+  const [userId, setUserId] = useState(() => {
+    const qp = safeGetQueryParams();
+    return qp.userId || safeGetLocalStorage('ps_userId') || 'user_001';
+  });
+  const [role, setRole] = useState(() => {
+    const qp = safeGetQueryParams();
+    return qp.role || safeGetLocalStorage('ps_role') || 'admin';
+  });
+  const [token, setToken] = useState(() => {
+    const qp = safeGetQueryParams();
+    // Allow getting token from query param 'token'
+    const tokenParam = new URLSearchParams(window.location.search).get('token');
+    return tokenParam || safeGetLocalStorage('ps_token') || '';
+  });
+
+  useEffect(() => {
+    // Allow upstream microservices to deep-link into payment UI:
+    // e.g. /checkout/ord_123?userId=u_001&role=admin&token=...
+    const qp = safeGetQueryParams();
+    const tokenParam = new URLSearchParams(window.location.search).get('token');
+
+    if (qp.userId) {
+      safeSetLocalStorage('ps_userId', qp.userId);
+    }
+    if (qp.role) {
+      safeSetLocalStorage('ps_role', qp.role);
+    }
+    if (tokenParam) {
+      safeSetLocalStorage('ps_token', tokenParam);
+      setToken(tokenParam);
+    }
+  }, []);
+
+  // Keep localStorage in sync so the API client (which reads localStorage) sends the right headers
+  // even on a fresh load.
+  useEffect(() => {
+    safeSetLocalStorage('ps_userId', userId);
+    safeSetLocalStorage('ps_role', role);
+    if (token) safeSetLocalStorage('ps_token', token);
+  }, [userId, role, token]);
+
+  const value = useMemo(() => {
+    const normalizedRole = (role || 'user').toLowerCase();
+    return {
+      userId,
+      role: normalizedRole,
+      token,
+      isAdmin: normalizedRole === 'admin',
+      setUser: ({ userId: nextUserId, role: nextRole, token: nextToken }) => {
+        if (nextUserId) {
+          setUserId(nextUserId);
+          safeSetLocalStorage('ps_userId', nextUserId);
+        }
+        if (nextRole) {
+          setRole(nextRole);
+          safeSetLocalStorage('ps_role', nextRole);
+        }
+        if (nextToken) {
+          setToken(nextToken);
+          safeSetLocalStorage('ps_token', nextToken);
+        }
+      },
+    };
+  }, [userId, role, token]);
+
+  return (
+    <CurrentUserContext.Provider value={value}>
+      {children}
+    </CurrentUserContext.Provider>
+  );
+};
+
+export function useCurrentUser() {
+  const ctx = useContext(CurrentUserContext);
+  if (!ctx) {
+    throw new Error('useCurrentUser must be used within CurrentUserProvider');
+  }
+  return ctx;
+}

@@ -1,0 +1,56 @@
+.result-page {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.result-card {
+  background: white;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.result-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.result-card.success .result-icon {
+  color: #4CAF50;
+}
+
+.result-card.failed .result-icon {
+  color: #F44336;
+}
+
+.result-card h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.result-card p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.reference {
+  font-size: 0.85rem;
+  color: #888;
+  font-family: monospace;
+}
+
+.result-actions {
+  margin-top: 2rem;
+}
+
+.result-actions .btn-primary {
+  background: #5D4E37;
+  border-color: #5D4E37;
+}
+
+.result-actions .btn-primary:hover {
+  background: #4a3f2c;
+  border-color: #4a3f2c;
+}

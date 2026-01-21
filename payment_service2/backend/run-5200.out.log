@@ -1,0 +1,1840 @@
+Using launch settings from C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend\Properties\launchSettings.json...
+Building...
+C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend\Services\VoucherService.cs(40,35): warning CS8602: Dereference of a possibly null reference. [C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend\PaymentService.csproj]
+C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend\Services\VoucherService.cs(105,39): warning CS8602: Dereference of a possibly null reference. [C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend\PaymentService.csproj]
+Using Mock Payment Provider
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'DiscountAmount' on entity type 'Order'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Price' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Amount' on entity type 'RefundRequest'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Amount' on entity type 'TopUp'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'DiscountValue' on entity type 'Voucher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'MaxDiscount' on entity type 'Voucher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'MinimumPurchase' on entity type 'Voucher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'OrderAmount' on entity type 'Voucher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (24ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Migrations[20411]
+      Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+      BEGIN
+          CREATE TABLE [__EFMigrationsHistory] (
+              [MigrationId] nvarchar(150) NOT NULL,
+              [ProductVersion] nvarchar(32) NOT NULL,
+              CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+          );
+      END;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Vouchers] AS [v]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Transactions] AS [t]
+              WHERE [t].[UserId] = @userId) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Orders] AS [o]
+              WHERE [o].[UserId] = @userId) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Refunds] AS [r]
+              WHERE [r].[UserId] = @userId) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 4000), @p2='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p3='?' (DbType = Int32), @p4='?' (Size = 450), @p5='?' (Size = 4000), @p6='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p7='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      MERGE [OrderItem] USING (
+      VALUES (@p0, @p1, @p2, @p3, 0),
+      (@p4, @p5, @p6, @p7, 1)) AS i ([OrderId], [Name], [Price], [Quantity], _Position) ON 1=0
+      WHEN NOT MATCHED THEN
+      INSERT ([OrderId], [Name], [Price], [Quantity])
+      VALUES (i.[OrderId], i.[Name], i.[Price], i.[Quantity])
+      OUTPUT INSERTED.[Id], i._Position;
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5200
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Storage\Programming\WebDev\Bridge2\Payment-Microservice1\payment_service\backend
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/swagger/v1/swagger.json - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/swagger/v1/swagger.json - 200 - application/json;charset=utf-8 148.3296ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 119.9529ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 160.4814ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 78.0903ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 82.3345ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 116.0327ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 132.8837ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 12.3686ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 12.8011ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 7.8084ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 15.8205ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 9.2844ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 10.0403ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 23.5377ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 31.4680ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 2.9226ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 3.3143ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 7.7892ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 8.2417ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 6.87ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 7.2508ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 48.1562ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 56.4513ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 4.0759ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 4.4831ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 2.0408ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 2.4391ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 5.7187ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 6.0907ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 41.0024ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 48.5741ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 3.1309ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.5121ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.7431ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 1.9328ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.6421ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.0066ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 2.8256ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 3.1547ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 2.3242ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 2.7327ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 1.9521ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 2.2527ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.7579ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.2141ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.8389ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.2151ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 2.2621ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 2.5838ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 2.5203ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 2.8462ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.6588ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.0161ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 3.1775ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 3.6882ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 1.6015ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 1.8769ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/swagger/v1/swagger.json - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/swagger/v1/swagger.json - 200 - application/json;charset=utf-8 20.4243ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.7941ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 3.1351ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 7.8957ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 8.3817ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.1403ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 2.3988ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 5.0106ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 5.4848ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 6.2616ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 6.6178ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 8.959ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 9.2040ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 11.1857ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 11.5564ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/refunds - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetAllRefunds", controller = "Refunds"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[PaymentService.Models.RefundRequest]]] GetAllRefunds(System.String) on controller PaymentService.Controllers.RefundsController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing ObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService) in 4.7214ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/refunds - 403 - application/json;+charset=utf-8 10.3751ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/refunds - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetAllRefunds", controller = "Refunds"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[PaymentService.Models.RefundRequest]]] GetAllRefunds(System.String) on controller PaymentService.Controllers.RefundsController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [r].[Id], [r].[AdminNotes], [r].[Amount], [r].[Category], [r].[CompletedAt], [r].[CreatedAt], [r].[CustomerEmail], [r].[CustomerName], [r].[CustomerPhone], [r].[OrderId], [r].[PhotoPath], [r].[Reason], [r].[RejectionReason], [r].[ReviewedAt], [r].[ReviewedBy], [r].[Status], [r].[UserId], [r].[WalletCredited], [r].[WalletTransactionId]
+      FROM [Refunds] AS [r]
+      ORDER BY [r].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[PaymentService.Models.RefundRequest, PaymentService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService) in 41.4943ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.RefundsController.GetAllRefunds (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/refunds - 200 - application/json;+charset=utf-8 41.7305ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 15.6307ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 15.8739ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 3.7805ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 4.0171ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 4.2913ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 4.5235ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 1.5687ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 1.7878ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 1.9819ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 2.1720ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 12.7874ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 13.0264ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 4.2365ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 4.4477ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 1.8882ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.8845ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 2.1130ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 2.0129ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.5256ms
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 1.6014ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 1.6437ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 1.8408ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 5.5473ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 5.7338ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 1.7461ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 1.9555ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.3216ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 1.4474ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.5804ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 2.8026ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 4.2196ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 4.3610ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 4.2125ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 4.4076ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/vouchers - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetVouchers", controller = "Vouchers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.VoucherListResponse]] GetVouchers() on controller PaymentService.Controllers.VouchersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[Code], [v].[Description], [v].[DiscountType], [v].[DiscountValue], [v].[IsActive], [v].[MaxDiscount], [v].[MinimumPurchase], [v].[OrderAmount], [v].[UsageCount], [v].[UsageLimit], [v].[ValidFrom], [v].[ValidUntil]
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.VoucherListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.VouchersController.GetVouchers (PaymentService) in 3.7987ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.VouchersController.GetVouchers (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/vouchers - 200 - application/json;+charset=utf-8 3.9839ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 14.4092ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 14.5994ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 3.6128ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 3.8435ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 6.6484ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 6.8565ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.4112ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 2.7419ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrder", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderResponse]] GetOrder(System.String) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 3.2657ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 3.3809ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(1) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[Id] = @p
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetOrders", controller = "Orders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.OrderListResponse]] GetOrders(System.String, Int32) on controller PaymentService.Controllers.OrdersController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrder (PaymentService) in 5.4432ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrder (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders/ORD-102 - 200 - application/json;+charset=utf-8 5.6575ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [o1].[Id], [o1].[Amount], [o1].[Branch], [o1].[CreatedAt], [o1].[DiscountAmount], [o1].[PaymentLinkId], [o1].[PaymentLinkUrl], [o1].[PaymentMethod], [o1].[Status], [o1].[UserId], [o1].[VoucherCode], [o0].[OrderId], [o0].[Id], [o0].[Name], [o0].[Price], [o0].[Quantity]
+      FROM (
+          SELECT TOP(@p) [o].[Id], [o].[Amount], [o].[Branch], [o].[CreatedAt], [o].[DiscountAmount], [o].[PaymentLinkId], [o].[PaymentLinkUrl], [o].[PaymentMethod], [o].[Status], [o].[UserId], [o].[VoucherCode]
+          FROM [Orders] AS [o]
+          WHERE [o].[UserId] = @userId
+          ORDER BY [o].[CreatedAt] DESC
+      ) AS [o1]
+      LEFT JOIN [OrderItem] AS [o0] ON [o1].[Id] = [o0].[OrderId]
+      ORDER BY [o1].[CreatedAt] DESC, [o1].[Id], [o0].[OrderId]
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.OrderListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.OrdersController.GetOrders (PaymentService) in 2.2067ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.OrdersController.GetOrders (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/orders?userId=user_001 - 200 - application/json;+charset=utf-8 2.3947ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.6781ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 1.8409ms
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 3.5575ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 3.7991ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetWallet", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.WalletResponse]] GetWallet(System.String) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.WalletResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetWallet (PaymentService) in 1.821ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetWallet (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet?userId=user_001 - 200 - application/json;+charset=utf-8 2.0081ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetTransactions", controller = "Wallet"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Models.TransactionListResponse]] GetTransactions(System.String, Int32) on controller PaymentService.Controllers.WalletController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Models.TransactionListResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.WalletController.GetTransactions (PaymentService) in 1.7487ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.WalletController.GetTransactions (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/wallet/transactions?userId=user_001&limit=10 - 200 - application/json;+charset=utf-8 1.9423ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 8.4172ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 8.6179ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - application/json -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "GetStats", controller = "Dashboard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[PaymentService.Controllers.DashboardStatsResponse]] GetStats(System.String) on controller PaymentService.Controllers.DashboardController (PaymentService).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [w].[UserId], [w].[Balance], [w].[Coins], [w].[LastUpdated]
+      FROM [Wallets] AS [w]
+      WHERE [w].[UserId] = @userId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Orders] AS [o]
+      WHERE [o].[UserId] = @userId AND [o].[Status] = N'pending'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Vouchers] AS [v]
+      WHERE [v].[IsActive] = CAST(1 AS bit) AND [v].[ValidUntil] > GETUTCDATE()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Refunds] AS [r]
+      WHERE [r].[UserId] = @userId AND [r].[Status] IN (0, 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [t].[Id], [t].[Amount], [t].[CreatedAt], [t].[Description], [t].[ReferenceId], [t].[Type], [t].[UserId]
+      FROM [Transactions] AS [t]
+      WHERE [t].[UserId] = @userId
+      ORDER BY [t].[CreatedAt] DESC
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing OkObjectResult, writing value of type 'PaymentService.Controllers.DashboardStatsResponse'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action PaymentService.Controllers.DashboardController.GetStats (PaymentService) in 2.8324ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'PaymentService.Controllers.DashboardController.GetStats (PaymentService)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost:5200/api/dashboard/stats?userId=user_001 - 200 - application/json;+charset=utf-8 3.0176ms

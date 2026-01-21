@@ -1,0 +1,304 @@
+.admin-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.stat strong {
+  color: #333;
+  margin-right: 0.25rem;
+}
+
+/* Table */
+.table-container {
+  background: white;
+  border-radius: 16px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.refunds-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.refunds-table th,
+.refunds-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.refunds-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.refunds-table td {
+  font-size: 0.9rem;
+}
+
+.refunds-table tr:hover {
+  background: #fafafa;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.badge-warning {
+  background: #fff3e0;
+  color: #FF9800;
+}
+
+.badge-success {
+  background: #e8f5e9;
+  color: #4CAF50;
+}
+
+.badge-danger {
+  background: #ffebee;
+  color: #F44336;
+}
+
+.badge-info {
+  background: #e3f2fd;
+  color: #2196F3;
+}
+
+.badge-primary {
+  background: #e8eaf6;
+  color: #3F51B5;
+}
+
+.badge-secondary {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+/* Review Button */
+.review-btn {
+  padding: 0.4rem 0.75rem;
+  background: #5D4E37;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 0.5rem;
+}
+
+.review-btn:hover {
+  background: #4a3f2c;
+}
+
+.review-btn.credit-btn {
+  background: #2196F3;
+}
+
+.review-btn.credit-btn:hover {
+  background: #1976D2;
+}
+
+.completed-text {
+  color: #4CAF50;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-item label,
+.detail-full label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+}
+
+.detail-item span,
+.detail-full p {
+  font-weight: 500;
+  color: #333;
+}
+
+.detail-full {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn-approve,
+.btn-reject,
+.btn-approve-credit {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  font-size: 0.9rem;
+}
+
+.btn-approve {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-approve-credit {
+  background: #2196F3;
+  color: white;
+}
+
+.btn-reject {
+  background: #F44336;
+  color: white;
+}
+
+.btn-approve:hover,
+.btn-approve-credit:hover,
+.btn-reject:hover {
+  transform: translateY(-1px);
+}
+
+.btn-approve:disabled,
+.btn-approve-credit:disabled,
+.btn-reject:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Process Button (In Table) */
+.process-btn {
+  padding: 0.4rem 0.75rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.process-btn:hover {
+  background: #45a049;
+}
+
+.process-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
