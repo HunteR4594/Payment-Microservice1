@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using PaymentService2.Services;
+using Microsoft.Extensions.DependencyInjection; // Added for GetRequiredService
 
 namespace PaymentService2.Controllers;
 
@@ -12,17 +13,20 @@ public class PaymentsController : ControllerBase
     private readonly IPayMongoService _paymongoService;
     private readonly IWalletService _walletService;
     private readonly ITopUpService _topUpService;
+    private readonly IOrderServiceClient _orderService;
     private readonly ILogger<PaymentsController> _logger;
 
     public PaymentsController(
         IPayMongoService paymongoService,
         IWalletService walletService,
         ITopUpService topUpService,
+        IOrderServiceClient orderService,
         ILogger<PaymentsController> logger)
     {
         _paymongoService = paymongoService;
         _walletService = walletService;
         _topUpService = topUpService;
+        _orderService = orderService;
         _logger = logger;
     }
 
@@ -161,6 +165,83 @@ public class PaymentsController : ControllerBase
                     // Complete the top-up
                     await _topUpService.CompleteTopUpAsync(referenceNumber);
                     _logger.LogInformation("Top-up completed and wallet credited: {TopUpId}", referenceNumber);
+                }
+                else if (!string.IsNullOrEmpty(referenceNumber))
+                {
+                     // Assume it's an Order payment
+                     // We need to notify OrderService and mark order as paid internally if needed
+                     // But first, we need the UserId. We can get it from the internal order record if we have one.
+                     // The OrderService handles its own internal "PlaceOrder" logic upon payment confirmation.
+                     
+                     // Challenge: we need the UserID to impersonate them for OrderService.
+                     // Option 1: Store UserId in PayMongo Metadata (best practice).
+                     // Option 2: PaymentService2 doesn't technically store the order directly in a way that links back easily unless we query `OrderService` first?
+                     // WAIT: `OrderService.cs` (internal) creates an order in `CreateOrderAsync`.
+                     // The `referenceNumber` IS the `orderId` (e.g. "Order 123" or just "123"?).
+                     // PayMongoPaymentProvider passes `order.Id` as referenceId.
+                     
+                     // So referenceNumber == orderId.
+                     // Let's look up the internal order to get UserId.
+                     
+                     // We need to inject IOrderService (internal) to lookup order?
+                     // PaymentsController doesn't have IOrderService injected, let's look at deps.
+                     // It has IWalletService, ITopUpService.
+                     // Let's add IOrderService (internal) to dependency too? Or just use OrderId if we trust it.
+                     // We need UserId for the JWT token generation in OrderServiceClient.
+                     
+                     // Let's blindly try resolving IOrderService from RequestServices if not injected, or better, inject it.
+                     // But wait, I didn't inject IOrderService in the chunks above.
+                     // Actually, `OrderService.cs` (Internal) relies on `IOrderService` interface.
+                     
+                     // Let's rely on extracting user ID from metadata if available, OR we query the DB.
+                     // Since I didn't add IOrderService to the constructor in this specific tool call (I already sent it), 
+                     // I will rely on ITopUpService? No.
+                     
+                     // Retrying: I will add IOrderService to the constructor in a separate call if needed, 
+                     // BUT I am editing the file right now. 
+                     // I will lazily request IOrderService from HttpContext.RequestServices to avoid breaking constructor signature again in this chunk 
+                     // (though I just changed it in the first chunk... wait, I changed the constructor in the first chunk of THIS tool call).
+                     
+                     // OK, the first chunk ADDED `IOrderServiceClient` but NOT `IOrderService` (internal).
+                     // I should have added `IOrderService` (internal) to the constructor too.
+                     // Since I can't restart the tool call, I will resolve it from `HttpContext.RequestServices` as a fallback
+                     // OR I can use `_walletService` if it has order lookup? No.
+                     
+                     // I will use `HttpContext.RequestServices.GetRequiredService<IOrderService>()`.
+                     
+                     try 
+                     {
+                         var internalOrderService = HttpContext.RequestServices.GetRequiredService<IOrderService>();
+                         var orderId = referenceNumber;
+                         var internalOrder = await internalOrderService.GetOrderAsync(orderId);
+                         
+                         if (internalOrder != null)
+                         {
+                             _logger.LogInformation("Found internal order {OrderId} for User {UserId}", orderId, internalOrder.UserId);
+                             
+                             // 1. Notify OrderService (External)
+                             var confirmed = await _orderService.ConfirmPaymentAsync(true, internalOrder.UserId);
+                             if (confirmed)
+                             {
+                                 _logger.LogInformation("Successfully confirmed payment with External OrderService for {OrderId}", orderId);
+                             }
+                             else
+                             {
+                                 _logger.LogWarning("Failed to confirm payment with External OrderService for {OrderId}", orderId);
+                             }
+                             
+                             // 2. Complete Internal Order (if needed for tracking)
+                             await internalOrderService.CompleteOrderAsync(orderId);
+                         }
+                         else
+                         {
+                             _logger.LogWarning("Order {OrderId} not found locally, cannot confirm with OrderService (need UserId).", orderId);
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         _logger.LogError(ex, "Error processing order payment confirmation for {OrderId}", referenceNumber);
+                     }
                 }
                 else
                 {

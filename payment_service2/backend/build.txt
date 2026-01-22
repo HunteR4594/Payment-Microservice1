@@ -1,0 +1,13 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(16,37): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(23,24): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+
+Build FAILED.
+
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(16,37): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(23,24): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:04.74

@@ -58,6 +58,16 @@ builder.Services.AddScoped<IRefundService, RefundService>();
 builder.Services.AddScoped<IPayMongoService, PayMongoService>();
 builder.Services.AddScoped<IPaymentProvider, PayMongoPaymentProvider>();
 
+// Register OrderServiceClient with SSL Bypass (for Dev)
+builder.Services.AddHttpClient<IOrderServiceClient, OrderServiceClient>(client =>
+{
+    // Base configuration if needed
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+});
+
 // Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

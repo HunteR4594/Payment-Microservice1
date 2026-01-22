@@ -13,10 +13,20 @@ namespace PaymentService2.Controllers;
 public class DashboardController : ControllerBase
 {
     private readonly IWalletService _walletService;
+    private readonly IOrderService _orderService;
+    private readonly IVoucherService _voucherService;
+    private readonly IRefundService _refundService;
 
-    public DashboardController(IWalletService walletService)
+    public DashboardController(
+        IWalletService walletService,
+        IOrderService orderService,
+        IVoucherService voucherService,
+        IRefundService refundService)
     {
         _walletService = walletService;
+        _orderService = orderService;
+        _voucherService = voucherService;
+        _refundService = refundService;
     }
 
     private string ResolveUserId(string? userId)
@@ -34,8 +44,24 @@ public class DashboardController : ControllerBase
         
         try
         {
-            var wallet = await _walletService.GetWalletAsync(userId);
-            var transactions = await _walletService.GetTransactionsAsync(userId, 5);
+            var walletTask = _walletService.GetWalletAsync(userId);
+            var transactionsTask = _walletService.GetTransactionsAsync(userId, 5);
+            var ordersTask = _orderService.GetOrdersAsync(userId, 100); // Fetch enough to count pending
+            var vouchersTask = _voucherService.GetVouchersAsync();
+            var refundsTask = _refundService.GetRefundsAsync(userId);
+
+            await Task.WhenAll(walletTask, transactionsTask, ordersTask, vouchersTask, refundsTask);
+
+            var wallet = await walletTask;
+            var transactions = await transactionsTask;
+            var orders = await ordersTask;
+            var vouchers = await vouchersTask;
+            var refunds = await refundsTask;
+
+            int pendingOrdersCount = orders.Count(o => o.Status.Equals("pending", StringComparison.OrdinalIgnoreCase));
+            int availableVouchersCount = vouchers.Count(v => v.IsActive && (!v.UsageLimit.HasValue || v.UsedCount < v.UsageLimit.Value));
+            // Considering all refunds for the user that are active requests (not completed/rejected)
+            int refundRequestsCount = refunds.Count; 
 
             return Ok(new DashboardStats
             {
@@ -44,6 +70,9 @@ public class DashboardController : ControllerBase
                 Coins = wallet.Coins,
                 RecentTransactions = transactions,
                 RecentTransactionCount = transactions.Count,
+                PendingOrders = pendingOrdersCount,
+                AvailableVouchers = availableVouchersCount,
+                RefundRequests = refundRequestsCount,
                 LastUpdated = wallet.LastUpdated
             });
         }
@@ -69,6 +98,14 @@ public class DashboardStats
     public int Coins { get; set; }
     public List<Transaction> RecentTransactions { get; set; } = new();
     public int RecentTransactionCount { get; set; }
+    public int PendingOrders { get; set; }
+    public int AvailableVouchers { get; set; }
+    public int RefundRequests { get; set; }
+    // Frontend compatibility flags
+    public bool OrderServiceConfigured { get; set; } = true;
+    public bool OrderServiceHealthy { get; set; } = true;
+    public string? OrderServiceError { get; set; }
+
     public DateTime? LastUpdated { get; set; }
     public string? ErrorMessage { get; set; }
 }

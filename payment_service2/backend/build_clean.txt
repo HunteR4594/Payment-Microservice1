@@ -1,0 +1,17 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(5,23): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService2' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Program.cs(9,23): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService2' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(17,22): error CS0246: The type or namespace name 'IOrderServiceClient' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(24,9): error CS0246: The type or namespace name 'IOrderServiceClient' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+
+Build FAILED.
+
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(5,23): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService2' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Program.cs(9,23): error CS0234: The type or namespace name 'Integrations' does not exist in the namespace 'PaymentService2' (are you missing an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(17,22): error CS0246: The type or namespace name 'IOrderServiceClient' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\Controllers\PaymentsController.cs(24,9): error CS0246: The type or namespace name 'IOrderServiceClient' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\renren\Documents\3rd yr\webdev\trydemo3\Payment-Microservice1\payment_service2\backend\PaymentService2.csproj]
+    0 Warning(s)
+    4 Error(s)
+
+Time Elapsed 00:00:04.82

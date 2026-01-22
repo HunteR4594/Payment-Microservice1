@@ -5,7 +5,7 @@ import { useCurrentUser } from '../context/currentUser';
 
 const MainLayout = () => {
   const location = useLocation();
-  const { userId, role, isAdmin, setUser } = useCurrentUser();
+  const { userId, role, isAdmin, setUser, token } = useCurrentUser();
 
   const isAdminRoute = location.pathname.startsWith('/admin');
   if (isAdmin && !isAdminRoute) {
@@ -28,6 +28,12 @@ const MainLayout = () => {
         { title: 'Recent Orders', path: '/recent-orders', icon: 'bi-bag' },
         { title: 'Recent Top-ups', path: '/recent-topup', icon: 'bi-clock-history' },
       ]
+    },
+    {
+      title: 'My Orders',
+      icon: 'bi-bag-check',
+      external: true,
+      path: `http://localhost:5174?userId=${userId}&role=${role}&token=${token || localStorage.getItem('ps_token')}`
     },
     {
       title: 'Checkout',
@@ -92,11 +98,18 @@ const MainLayout = () => {
         <nav className="nav-center">
           <ul className="nav-list">
             {visibleNavItems.map((item, idx) => (
-              <li key={idx} className={`nav-list-item ${isActive(item.path) ? 'active' : ''}`}>
-                <NavLink to={item.path} className="nav-link">
-                  <i className={`bi ${item.icon}`}></i>
-                  <span className="nav-text">{item.title}</span>
-                </NavLink>
+              <li key={idx} className={`nav-list-item ${!item.external && isActive(item.path) ? 'active' : ''}`}>
+                {item.external ? (
+                  <a href={item.path} className="nav-link">
+                    <i className={`bi ${item.icon}`}></i>
+                    <span className="nav-text">{item.title}</span>
+                  </a>
+                ) : (
+                  <NavLink to={item.path} className="nav-link">
+                    <i className={`bi ${item.icon}`}></i>
+                    <span className="nav-text">{item.title}</span>
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
@@ -138,7 +151,7 @@ const MainLayout = () => {
           </button>
         </div>
         {menuOpen && (
-          <div className="mobile-menu" onClick={() => {}}>
+          <div className="mobile-menu" onClick={() => { }}>
             <div className="mobile-menu-controls">
               <div className="mobile-user" onClick={() => setMenuOpen(false)}>
                 <i className="bi bi-person-circle"></i>
