@@ -33,6 +33,16 @@ var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"
     ?? builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Server=(localdb)\\MSSQLLocalDB;Database=PaymentService2;Trusted_Connection=True;TrustServerCertificate=True;";
 
+// Ensure database exists
+try
+{
+    DbUtils.EnsureDatabaseExists(connectionString);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"WARNING: Automatic database check failed: {ex.Message}");
+}
+
 // Register SqlHelper
 builder.Services.AddSingleton(new SqlHelper(connectionString));
 
