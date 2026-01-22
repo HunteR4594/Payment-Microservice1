@@ -100,6 +100,30 @@ public class RefundsController : ControllerBase
     {
         try
         {
+            string? photoPath = null;
+            
+            // Handle photo upload
+            if (request.Photo != null && request.Photo.Length > 0)
+            {
+                // Create uploads directory if it doesn't exist
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "refunds");
+                Directory.CreateDirectory(uploadsFolder);
+                
+                // Generate unique filename
+                var fileExtension = Path.GetExtension(request.Photo.FileName);
+                var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                
+                // Save file
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.Photo.CopyToAsync(stream);
+                }
+                
+                // Store relative path for database
+                photoPath = $"/uploads/refunds/{uniqueFileName}";
+            }
+            
             var refund = await _refundService.CreateRefundAsync(
                 request.UserId,
                 request.OrderId,
@@ -108,7 +132,8 @@ public class RefundsController : ControllerBase
                 request.Category,
                 request.CustomerName,
                 request.CustomerEmail,
-                request.CustomerPhone
+                request.CustomerPhone,
+                photoPath
             );
             return Ok(refund);
         }

@@ -234,6 +234,26 @@ const RefundAdminPage = () => {
                 <p>{selectedRefund.reason}</p>
               </div>
 
+              {selectedRefund.photoPath && (
+                <div className="detail-full">
+                  <label>Uploaded Photo</label>
+                  <div className="photo-container" style={{ marginTop: '8px' }}>
+                    <img
+                      src={`http://localhost:5201${selectedRefund.photoPath}`}
+                      alt="Refund evidence"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '300px',
+                        borderRadius: '8px',
+                        border: '1px solid #ddd',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => window.open(`http://localhost:5201${selectedRefund.photoPath}`, '_blank')}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="form-group">
                 <label>Admin Comment</label>
                 <textarea

@@ -92,6 +92,7 @@ public class RefundRequest
     public string? CustomerName { get; set; }
     public string? CustomerEmail { get; set; }
     public string? CustomerPhone { get; set; }
+    public string? PhotoPath { get; set; }
     public string? AdminNotes { get; set; }
     public string? RejectionReason { get; set; }
     public string? ReviewedBy { get; set; }

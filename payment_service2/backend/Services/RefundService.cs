@@ -6,7 +6,7 @@ namespace PaymentService2.Services;
 
 public interface IRefundService
 {
-    Task<RefundRequest> CreateRefundAsync(string userId, string? orderId, decimal amount, string? reason, string? category, string? customerName, string? customerEmail, string? customerPhone);
+    Task<RefundRequest> CreateRefundAsync(string userId, string? orderId, decimal amount, string? reason, string? category, string? customerName, string? customerEmail, string? customerPhone, string? photoPath = null);
     Task<List<RefundRequest>> GetRefundsAsync(string? userId = null, string? status = null);
     Task<RefundRequest?> GetRefundAsync(string refundId);
     Task<RefundRequest> ReviewRefundAsync(string refundId, string action, string? adminNotes, string? rejectionReason, string? reviewedBy);
@@ -22,7 +22,7 @@ public class RefundService : IRefundService
         _sql = sql;
     }
 
-    public async Task<RefundRequest> CreateRefundAsync(string userId, string? orderId, decimal amount, string? reason, string? category, string? customerName, string? customerEmail, string? customerPhone)
+    public async Task<RefundRequest> CreateRefundAsync(string userId, string? orderId, decimal amount, string? reason, string? category, string? customerName, string? customerEmail, string? customerPhone, string? photoPath = null)
     {
         var refund = await _sql.ExecuteReaderSingleAsync(
             "SP_CreateRefund",
@@ -34,7 +34,8 @@ public class RefundService : IRefundService
             new SqlParameter("@Category", (object?)category ?? DBNull.Value),
             new SqlParameter("@CustomerName", (object?)customerName ?? DBNull.Value),
             new SqlParameter("@CustomerEmail", (object?)customerEmail ?? DBNull.Value),
-            new SqlParameter("@CustomerPhone", (object?)customerPhone ?? DBNull.Value)
+            new SqlParameter("@CustomerPhone", (object?)customerPhone ?? DBNull.Value),
+            new SqlParameter("@PhotoPath", (object?)photoPath ?? DBNull.Value)
         );
 
         return refund ?? throw new InvalidOperationException("Failed to create refund");
@@ -96,6 +97,7 @@ public class RefundService : IRefundService
             CustomerName = SqlHelper.HasColumn(reader, "CustomerName") ? SqlHelper.GetValue<string>(reader, "CustomerName") : null,
             CustomerEmail = SqlHelper.HasColumn(reader, "CustomerEmail") ? SqlHelper.GetValue<string>(reader, "CustomerEmail") : null,
             CustomerPhone = SqlHelper.HasColumn(reader, "CustomerPhone") ? SqlHelper.GetValue<string>(reader, "CustomerPhone") : null,
+            PhotoPath = SqlHelper.HasColumn(reader, "PhotoPath") ? SqlHelper.GetValue<string>(reader, "PhotoPath") : null,
             AdminNotes = SqlHelper.HasColumn(reader, "AdminNotes") ? SqlHelper.GetValue<string>(reader, "AdminNotes") : null,
             RejectionReason = SqlHelper.HasColumn(reader, "RejectionReason") ? SqlHelper.GetValue<string>(reader, "RejectionReason") : null,
             ReviewedBy = SqlHelper.HasColumn(reader, "ReviewedBy") ? SqlHelper.GetValue<string>(reader, "ReviewedBy") : null,

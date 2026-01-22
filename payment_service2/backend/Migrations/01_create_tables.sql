@@ -115,6 +115,7 @@ BEGIN
         CustomerName NVARCHAR(200),
         CustomerEmail NVARCHAR(200),
         CustomerPhone NVARCHAR(50),
+        PhotoPath NVARCHAR(500),
         AdminNotes NVARCHAR(1000),
         RejectionReason NVARCHAR(500),
         ReviewedBy NVARCHAR(100),
@@ -122,4 +123,10 @@ BEGIN
         CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
         ReviewedAt DATETIME2
     );
+END
+
+-- Add PhotoPath column if it doesn't exist (for existing databases)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Refunds') AND name = 'PhotoPath')
+BEGIN
+    ALTER TABLE Refunds ADD PhotoPath NVARCHAR(500);
 END

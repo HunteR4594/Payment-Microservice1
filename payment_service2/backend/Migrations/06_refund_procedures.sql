@@ -11,7 +11,8 @@ CREATE OR ALTER PROCEDURE SP_CreateRefund
     @Category NVARCHAR(100) = NULL,
     @CustomerName NVARCHAR(200) = NULL,
     @CustomerEmail NVARCHAR(200) = NULL,
-    @CustomerPhone NVARCHAR(50) = NULL
+    @CustomerPhone NVARCHAR(50) = NULL,
+    @PhotoPath NVARCHAR(500) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -24,12 +25,12 @@ BEGIN
     DECLARE @RefundId NVARCHAR(50) = 'ref_' + REPLACE(NEWID(), '-', '');
     
     INSERT INTO Refunds (Id, UserId, OrderId, Amount, Reason, Category, Status,
-                         CustomerName, CustomerEmail, CustomerPhone, CreatedAt)
+                         CustomerName, CustomerEmail, CustomerPhone, PhotoPath, CreatedAt)
     VALUES (@RefundId, @UserId, @OrderId, @Amount, @Reason, @Category, 'pending',
-            @CustomerName, @CustomerEmail, @CustomerPhone, SYSUTCDATETIME());
+            @CustomerName, @CustomerEmail, @CustomerPhone, @PhotoPath, SYSUTCDATETIME());
     
     SELECT Id, UserId, OrderId, Amount, Reason, Category, Status,
-           CustomerName, CustomerEmail, CustomerPhone, CreatedAt
+           CustomerName, CustomerEmail, CustomerPhone, PhotoPath, CreatedAt
     FROM Refunds
     WHERE Id = @RefundId;
 END
@@ -43,7 +44,7 @@ BEGIN
     SET NOCOUNT ON;
     
     SELECT r.Id, r.UserId, r.OrderId, r.Amount, r.Reason, r.Category, r.Status,
-           r.CustomerName, r.CustomerEmail, r.CustomerPhone, r.AdminNotes,
+           r.CustomerName, r.CustomerEmail, r.CustomerPhone, r.PhotoPath, r.AdminNotes,
            r.RejectionReason, r.ReviewedBy, r.WalletCredited, r.CreatedAt, r.ReviewedAt,
            o.VoucherCode, o.VoucherDiscount
     FROM Refunds r

@@ -140,6 +140,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors();
+app.UseStaticFiles(); // Serve uploaded photos from wwwroot
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
