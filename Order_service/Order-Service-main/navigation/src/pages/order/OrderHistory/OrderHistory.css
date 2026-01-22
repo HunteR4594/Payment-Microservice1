@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FCFDFB;
+    color: #1C1C1C;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.navbar {
+    background-color: #FCFDFB;
+    background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+        color: #1C1C1C !important;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+    }
+
+    .navbar .nav-link:hover {
+        color: #524738 !important;
+    }
+
+.card-glossy {
+    background: linear-gradient(145deg, rgba(252, 253, 251, 0.95), rgba(252, 253, 251, 0.85));
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.custom-tab {
+    background-color: transparent !important;
+    color: #1C1C1C !important;
+    font-size: 0.85rem !important;
+    font-weight: 500;
+    transition: all 0.2s ease !important;
+    border: 1px solid #E0E0E0;
+}
+
+    .tab-compact {
+        padding: 6px 14px !important;
+        max-width: 120px !important;
+        text-align: center !important;
+    }
+
+.custom-tab:hover {
+    background-color: transparent !important;
+    border: 1px solid #E0E0E0 !important;
+}
+
+.custom-tab.active {
+    background-color: #3B302A !important;
+    color: white !important;
+    border: 1px solid #3B302A !important;
+}
+
+.sort-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 4px;
+}
+
+.sort-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b6b6b;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.sort-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 5px 3px;
+    background-color: #FCFDFB;
+    border: none !important;
+    color: #6b6b6b;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sort-select:hover {
+    border-color: #3B302A;
+}
+
+.sort-select:focus {
+    border-color: #3B302A;
+    box-shadow: none !important;
+}
+

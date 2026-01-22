@@ -1,0 +1,332 @@
+/* OVERLAY */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* MODAL CARD */
+.order-status-modal {
+  background: #FFFFFF;
+  width: 500px;
+  max-width: 95%;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* HEADER */
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "DM Sans", sans-serif;
+  color: #1C1C1C;
+}
+
+.modal-sub {
+  margin-top: 4px;
+  font-size: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #757575;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+  background: #E8E8E8;
+  color: #666;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* CLOSE BUTTON */
+.close-btn-absolute {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #E8E8E8;
+  color: #666;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* INFO GRID */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.info-item.full {
+  margin-bottom: 16px;
+}
+
+/* LABELS */
+.label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #1C1C1C;
+}
+
+/* INPUT FIELDS */
+.info-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #F3F3F3;
+  font-size: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #1C1C1C;
+}
+
+.info-input[type="number"]::-webkit-inner-spin-button,
+.info-input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.info-input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* PLACEHOLDER */
+.info-input::placeholder {
+  color: #B3B3B3;
+}
+
+/* FOCUS */
+.info-input:focus {
+  outline: none;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 1.5px #3B302A;
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 24px;
+}
+
+/* STATUS SELECT */
+.status-select {
+  width: 100%;
+  padding: 12px 14px;
+  padding-right: 40px;
+  border: 1px solid #DDD;
+  background: #FFFFFF;
+  font-size: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #1C1C1C;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231C1C1C' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px;
+}
+
+.status-select:focus {
+  outline: none;
+  background-color: #FFFFFF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231C1C1C' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px;
+  box-shadow: 0 0 0 1.5px #3B302A;
+}
+
+/* DROPDOWN OPTIONS */
+.status-select option {
+  background: #FFFFFF;
+  color: #1C1C1C;
+  padding: 8px;
+}
+
+/* INFO BOX */
+.info-box {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #F3F3F3;
+  font-size: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #B3B3B3;
+  margin-top: 6px;
+}
+
+/* BUTTON WRAPPER */
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* BUTTON */
+.primary-btn {
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #3B302A;
+  color: #F5F5F5;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.btn-wrapper .primary-btn {
+  width: 50%;
+  padding: 8px;
+  font-weight: 500;
+}
+
+.btn-row .primary-btn {
+  flex: 1;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+/* BUTTON ROW */
+.btn-row {
+  display: flex;
+  gap: 45px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* SECONDARY BUTTON */
+.secondary-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #3B302A;
+  color: #F5F5F5;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.secondary-btn:hover {
+  opacity: 0.9;
+}
+
+/* KEEP ORDER BUTTON */
+.keep-order-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #F5F5F5;
+  color: #1C1C1C;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.keep-order-btn:hover {
+  opacity: 0.8;
+}
+
+/* CANCEL ORDER BUTTON */
+.cancel-order-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #c52727;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.cancel-order-btn:hover {
+  opacity: 0.9;
+}
+
+/* NOT YET BUTTON */
+.not-yet-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #c52727;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.not-yet-btn:hover {
+  opacity: 0.9;
+}
+
+.not-yet-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.yes-i-am-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  background: #F5F5F5;
+  color: #1C1C1C;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.yes-i-am-btn:hover {
+  opacity: 0.8;
+}
+
+.yes-i-am-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: 'DM Sans' ;
+  background-color: #ffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark brown color */
+.bg-brown {
+  background-color: #3b302a !important;
+}
+
+.btn-brown {
+  background-color: #3b302a !important;
+  color: white !important;
+  border: none;
+}
+
+.btn-brown:hover {
+  background-color: #3b302a !important;
+}
+
+/* Scrollbar styling */
+.card-body {
+  scrollbar-width: thin;
+  scrollbar-color: #dee2e6 #f8f9fa;
+}
+
+.card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+  background-color: #fcfdfb;
+  border-radius: 10px;
+}
+
+.btn-link {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.btn-link:hover {
+  color: #495057;
+  text-decoration: underline;
+}
+
+/* Card styling */
+.card {
+  border-radius: 12px;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.card-footer {
+  padding: 1rem;
+  border-top: 1px solid #ffff;
+}
+
+/* Button group styling */
+.btn-group .btn {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .card-header h1 {
+    font-size: 2rem;
+  }
+  .btn-dark {
+    font-size: 1rem;
+  }
+}

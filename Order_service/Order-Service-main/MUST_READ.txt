@@ -1,0 +1,13 @@
+For Database or MSSQL: Make sure you have SQL Express and logged in as "localhost\SQLEXPRESS"
+
+// When you freshly cloned this or when there are updates in the database
+// Make sure you do the following:
+1. Open up the PMC or the Package Manager Console in Tools -> NuGet Package Manager -> Package Manager Console
+2. Write Update-Database
+
+
+// When Adding Migrations and Updating it
+1. Open up the PMC or the Package Manager Console in Tools -> NuGet Package Manager -> Package Manager Console
+2. Write Add-Migration NameOfMigrationYouWant to commit your Migrations
+3. Write Update-Database to update the database based on the Migrations
+

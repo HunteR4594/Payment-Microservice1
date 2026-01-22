@@ -1,0 +1,184 @@
+/* DEMO BUTTON */
+.btn-danger {
+  background: #e54848;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+/* OVERLAY */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+/* MODAL */
+.cancel-order-modal {
+  background: #fff;
+  width: 420px;
+  max-width: 95%;
+  border-radius: 16px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+
+/* TEXT */
+.modal-sub {
+  font-size: 14px;
+  color: #8d837c;
+  margin-bottom: 12px;
+}
+
+
+/* SUMMARY */
+.summary-box {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+
+.qty {
+  font-size: 12px;
+  color: #8d837c;
+}
+
+
+/* REASONS */
+.label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+
+.radio-box {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  resize: none;
+}
+
+
+/* POLICY */
+.policy-box {
+  background: #fff3cd;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+
+/* ACTIONS */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+
+.btn-outline {
+  flex: 1;
+  border: 1px solid #bbb;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+
+/* APPROVAL NOTE */
+.approval-note {
+  font-size: 13px;
+  color: #c43737;
+  margin-bottom: 10px;
+}
+
+
+/* REASON SELECTION EFFECTS */
+.radio-box {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+/* GREEN (acceptable reason) */
+.radio-box.selected-green {
+  background: #e6f4ea;
+  border-color: #30a44a;
+}
+
+
+/* RED (review required) */
+.radio-box.selected-red {
+  background: #fdecec;
+  border-color: #c43737;
+}
+
+
+/* hide default radio */
+.radio-box input {
+  margin-top: 3px;
+}
+
+
+.approval-note em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+
+textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  resize: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+

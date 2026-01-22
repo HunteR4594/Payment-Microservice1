@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+:root {
+  --font-heading: 'DM Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --weight-bold: 700;
+  --weight-semibold: 600;
+  --weight-medium: 500;
+  --weight-regular: 400;
+}
+:root {
+  --note-bg: #fff8f0;
+  --note-border: #3B302A;
+  --note-font-size: 0.9rem;
+}
+
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #FCFDFB;
+  color: #1C1C1C;
+  line-height: 1.5;
+}
+
+ code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.shipping-title {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+}
+
+.info-row span {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+}
+
+.timeline-label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+}
+
+.timeline-value {
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+}
+
+.order-note {
+  background-color: var(--note-bg);
+  border-left: 4px solid var(--note-border);
+  border-radius: 15px;
+  padding: 15px 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.navbar {
+  background-color: var(--navbar-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.navbar .nav-link {
+  color: var(--navbar-text) !important;
+  font-family: var(--navbar-font);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.navbar .nav-link:hover {
+  color: var(--navbar-hover) !important;
+}

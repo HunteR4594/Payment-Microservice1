@@ -1,0 +1,6 @@
+@MockAuthService_HostAddress = http://localhost:5218
+
+GET {{MockAuthService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

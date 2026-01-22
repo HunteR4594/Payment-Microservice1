@@ -13,23 +13,27 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
   </ItemGroup>
 
-  <!-- Exclude old payment_service files that are in this directory -->
+  <!-- Exclude old EF migration code from compilation -->
   <ItemGroup>
     <!-- Exclude old directories and EF components -->
     <Compile Remove="Integrations\**" />
-    <Compile Remove="Migrations\**" />
+    <Compile Remove="Migrations\*.cs" />
     <Compile Remove="Data\DevDataSeeder.cs" />
     <Compile Remove="Data\PaymentDbContext.cs" />
     <Compile Remove="Controllers\OrderIntegrationController.cs" />
     
     <!-- Resources -->
     <Content Remove="Integrations\**" />
-    <Content Remove="Migrations\**" />
     <EmbeddedResource Remove="Integrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <None Remove="Integrations\**" />
-    <None Remove="Migrations\**" />
     <None Remove="PaymentService.csproj" />
+  </ItemGroup>
+
+  <!-- Include SQL migration files and copy to output -->
+  <ItemGroup>
+    <None Include="Migrations\*.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

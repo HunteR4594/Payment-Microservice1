@@ -1,0 +1,91 @@
+.review-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.review-popup {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.review-back-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #333;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.review-header h2 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  padding-right: 2rem;
+}
+
+.review-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.review-label {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.review-mop {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.review-confirm-btn {
+  width: calc(100% - 2rem);
+  margin: 0 1rem 1rem;
+  padding: 1rem;
+  background: #5D4E37;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.review-confirm-btn:hover:not(:disabled) {
+  background: #4a3f2c;
+}
+
+.review-confirm-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
