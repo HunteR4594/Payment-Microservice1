@@ -30,12 +30,6 @@ const MainLayout = () => {
       ]
     },
     {
-      title: 'My Orders',
-      icon: 'bi-bag-check',
-      external: true,
-      path: `http://localhost:5174?userId=${userId}&role=${role}&token=${token || localStorage.getItem('ps_token')}`
-    },
-    {
       title: 'Checkout',
       icon: 'bi-cart-check',
       path: '/checkout',

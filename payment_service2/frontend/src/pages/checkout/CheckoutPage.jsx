@@ -30,6 +30,8 @@ const CheckoutPage = () => {
   const [addressLine, setAddressLine] = useState('');
   const [addressCity, setAddressCity] = useState('');
   const [addressPostal, setAddressPostal] = useState('');
+  // Validation errors for delivery address
+  const [addressErrors, setAddressErrors] = useState({});
   const [loadError, setLoadError] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -204,7 +206,79 @@ const CheckoutPage = () => {
     }
   };
 
+  // Validation functions for delivery address
+  const validateName = (value) => {
+    if (!value || value.trim().length === 0) return 'Full name is required';
+    if (value.trim().length < 2) return 'Name must be at least 2 characters';
+    if (value.trim().length > 100) return 'Name must be less than 100 characters';
+    return '';
+  };
 
+  const validatePhone = (value) => {
+    if (!value || value.trim().length === 0) return 'Phone number is required';
+    // Philippine phone format: 09XXXXXXXXX or +639XXXXXXXXX
+    const phoneRegex = /^(09|\+639)\d{9}$/;
+    const cleaned = value.replace(/[\s\-()]/g, '');
+    if (!phoneRegex.test(cleaned)) return 'Enter a valid Philippine phone number (e.g., 09171234567)';
+    return '';
+  };
+
+  const validateAddressLine = (value) => {
+    if (!value || value.trim().length === 0) return 'Address is required';
+    if (value.trim().length < 5) return 'Address must be at least 5 characters';
+    if (value.trim().length > 200) return 'Address must be less than 200 characters';
+    return '';
+  };
+
+  const validateCity = (value) => {
+    if (!value || value.trim().length === 0) return 'City is required';
+    if (value.trim().length < 2) return 'City must be at least 2 characters';
+    if (value.trim().length > 50) return 'City must be less than 50 characters';
+    return '';
+  };
+
+  const validatePostal = (value) => {
+    if (!value || value.trim().length === 0) return ''; // Optional field
+    const postalRegex = /^\d{4,10}$/;
+    if (!postalRegex.test(value.trim())) return 'Enter a valid postal code (4-10 digits)';
+    return '';
+  };
+
+  const handleFieldBlur = (field, value) => {
+    let errorMsg = '';
+    switch (field) {
+      case 'recipientName':
+        errorMsg = validateName(value);
+        break;
+      case 'recipientPhone':
+        errorMsg = validatePhone(value);
+        break;
+      case 'addressLine':
+        errorMsg = validateAddressLine(value);
+        break;
+      case 'addressCity':
+        errorMsg = validateCity(value);
+        break;
+      case 'addressPostal':
+        errorMsg = validatePostal(value);
+        break;
+      default:
+        break;
+    }
+    setAddressErrors(prev => ({ ...prev, [field]: errorMsg }));
+  };
+
+  const validateAllAddressFields = () => {
+    const errors = {
+      recipientName: validateName(recipientName),
+      recipientPhone: validatePhone(recipientPhone),
+      addressLine: validateAddressLine(addressLine),
+      addressCity: validateCity(addressCity),
+      addressPostal: validatePostal(addressPostal),
+    };
+    setAddressErrors(errors);
+    return !Object.values(errors).some(e => e !== '');
+  };
 
   const handleCheckout = async () => {
     if (!orderId || !order) {
@@ -216,9 +290,9 @@ const CheckoutPage = () => {
       return;
     }
 
-    // basic address validation
-    if (!recipientName || !recipientPhone || !addressLine || !addressCity) {
-      setError('Please provide a delivery address (name, phone, address, city)');
+    // Validate all address fields
+    if (!validateAllAddressFields()) {
+      setError('Please fix the delivery address errors below');
       return;
     }
 
@@ -496,11 +570,61 @@ const CheckoutPage = () => {
         <div className="checkout-section">
           <h3>Delivery Address</h3>
           <div className="address-grid">
-            <input type="text" placeholder="Full name" value={recipientName} onChange={e => setRecipientName(e.target.value)} />
-            <input type="text" placeholder="Phone number" value={recipientPhone} onChange={e => setRecipientPhone(e.target.value)} />
-            <input type="text" placeholder="Address line" value={addressLine} onChange={e => setAddressLine(e.target.value)} />
-            <input type="text" placeholder="City" value={addressCity} onChange={e => setAddressCity(e.target.value)} />
-            <input type="text" placeholder="Postal code (optional)" value={addressPostal} onChange={e => setAddressPostal(e.target.value)} />
+            <div className="address-field">
+              <input
+                type="text"
+                placeholder="Full name"
+                value={recipientName}
+                onChange={e => setRecipientName(e.target.value)}
+                onBlur={e => handleFieldBlur('recipientName', e.target.value)}
+                className={addressErrors.recipientName ? 'input-error' : ''}
+              />
+              {addressErrors.recipientName && <span className="field-error">{addressErrors.recipientName}</span>}
+            </div>
+            <div className="address-field">
+              <input
+                type="text"
+                placeholder="Phone number (e.g., 09171234567)"
+                value={recipientPhone}
+                onChange={e => setRecipientPhone(e.target.value)}
+                onBlur={e => handleFieldBlur('recipientPhone', e.target.value)}
+                className={addressErrors.recipientPhone ? 'input-error' : ''}
+              />
+              {addressErrors.recipientPhone && <span className="field-error">{addressErrors.recipientPhone}</span>}
+            </div>
+            <div className="address-field full-width">
+              <input
+                type="text"
+                placeholder="Address line (Street, Barangay, etc.)"
+                value={addressLine}
+                onChange={e => setAddressLine(e.target.value)}
+                onBlur={e => handleFieldBlur('addressLine', e.target.value)}
+                className={addressErrors.addressLine ? 'input-error' : ''}
+              />
+              {addressErrors.addressLine && <span className="field-error">{addressErrors.addressLine}</span>}
+            </div>
+            <div className="address-field">
+              <input
+                type="text"
+                placeholder="City"
+                value={addressCity}
+                onChange={e => setAddressCity(e.target.value)}
+                onBlur={e => handleFieldBlur('addressCity', e.target.value)}
+                className={addressErrors.addressCity ? 'input-error' : ''}
+              />
+              {addressErrors.addressCity && <span className="field-error">{addressErrors.addressCity}</span>}
+            </div>
+            <div className="address-field">
+              <input
+                type="text"
+                placeholder="Postal code (optional)"
+                value={addressPostal}
+                onChange={e => setAddressPostal(e.target.value)}
+                onBlur={e => handleFieldBlur('addressPostal', e.target.value)}
+                className={addressErrors.addressPostal ? 'input-error' : ''}
+              />
+              {addressErrors.addressPostal && <span className="field-error">{addressErrors.addressPostal}</span>}
+            </div>
           </div>
         </div>
 

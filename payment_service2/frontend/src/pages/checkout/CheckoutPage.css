@@ -73,6 +73,39 @@
   font-size: 0.9rem;
 }
 
+/* Address field wrapper */
+.address-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.address-field input {
+  width: 100%;
+}
+
+/* Validation error styles */
+.address-grid input.input-error {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.address-grid input.input-error:focus {
+  outline: none;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.15);
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
 .voucher-input button {
   padding: 0.75rem 1.25rem;
   background: #5D4E37;
@@ -137,11 +170,11 @@
   border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #5D4E37;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(22px);
 }
 

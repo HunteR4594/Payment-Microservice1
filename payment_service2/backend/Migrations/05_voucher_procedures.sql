@@ -72,8 +72,20 @@ BEGIN
     IF @MaxDiscount IS NOT NULL AND @Discount > @MaxDiscount
         SET @Discount = @MaxDiscount;
     
-    UPDATE Vouchers SET UsedCount = UsedCount + 1 WHERE Id = @VoucherId;
+    -- Note: UsedCount is updated by SP_UpdateVoucherUsage after successful payment
     
     SELECT CAST(1 AS BIT) AS Success, 'Voucher applied' AS Message, @Discount AS Discount;
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_UpdateVoucherUsage
+    @Code NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    UPDATE Vouchers
+    SET UsedCount = UsedCount + 1
+    WHERE Code = @Code AND IsActive = 1;
 END
 GO
