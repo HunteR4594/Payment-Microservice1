@@ -14,7 +14,7 @@ BEGIN
     DECLARE @TopUpId NVARCHAR(50) = 'top_' + REPLACE(NEWID(), '-', '');
     
     INSERT INTO TopUps (Id, UserId, Amount, Status, PaymentMethod, CreatedAt)
-    VALUES (@TopUpId, @UserId, @Amount, 'pending', @PaymentMethod, SYSUTCDATETIME());
+    VALUES (@TopUpId, @UserId, @Amount, 'pending', @PaymentMethod, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     SELECT Id, UserId, Amount, Status, PaymentMethod, PaymentUrl, CreatedAt
     FROM TopUps
@@ -72,7 +72,7 @@ BEGIN
     
     UPDATE TopUps
     SET Status = 'completed',
-        CompletedAt = SYSUTCDATETIME()
+        CompletedAt = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE Id = @TopUpId;
     
     EXEC SP_AddBalance @UserId, @Amount, @TopUpId, 'Wallet Top-up', 'topup';

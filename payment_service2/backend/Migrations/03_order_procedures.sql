@@ -24,7 +24,7 @@ BEGIN
                         FinalAmount, Branch, CreatedAt)
     VALUES (@OrderId, @UserId, @Amount, 'pending', @PaymentMethod, 'pending',
             @VoucherCode, @VoucherDiscount, @CoinsUsed, @CoinsDiscount,
-            @FinalAmount, @Branch, SYSUTCDATETIME());
+            @FinalAmount, @Branch, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     SELECT @OrderId AS OrderId;
 END
@@ -108,14 +108,14 @@ BEGIN
     UPDATE Orders
     SET Status = 'completed',
         PaymentStatus = 'completed',
-        CompletedAt = SYSUTCDATETIME()
+        CompletedAt = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE Id = @OrderId;
 
     IF @PaymentMethod != 'wallet'
     BEGIN
         DECLARE @TxnId NVARCHAR(50) = 'txn_' + REPLACE(NEWID(), '-', '');
         INSERT INTO Transactions (Id, UserId, Type, Amount, Description, ReferenceId, CreatedAt)
-        VALUES (@TxnId, @UserId, 'order', -@Amount, 'Order - External Payment', @OrderId, SYSUTCDATETIME());
+        VALUES (@TxnId, @UserId, 'order', -@Amount, 'Order - External Payment', @OrderId, DATEADD(hour, 8, SYSUTCDATETIME()));
     END
     
     COMMIT;

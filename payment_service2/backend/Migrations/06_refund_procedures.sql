@@ -27,7 +27,7 @@ BEGIN
     INSERT INTO Refunds (Id, UserId, OrderId, Amount, Reason, Category, Status,
                          CustomerName, CustomerEmail, CustomerPhone, PhotoPath, CreatedAt)
     VALUES (@RefundId, @UserId, @OrderId, @Amount, @Reason, @Category, 'pending',
-            @CustomerName, @CustomerEmail, @CustomerPhone, @PhotoPath, SYSUTCDATETIME());
+            @CustomerName, @CustomerEmail, @CustomerPhone, @PhotoPath, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     SELECT Id, UserId, OrderId, Amount, Reason, Category, Status,
            CustomerName, CustomerEmail, CustomerPhone, PhotoPath, CreatedAt
@@ -76,7 +76,7 @@ BEGIN
         AdminNotes = @AdminNotes,
         RejectionReason = @RejectionReason,
         ReviewedBy = @ReviewedBy,
-        ReviewedAt = SYSUTCDATETIME()
+        ReviewedAt = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE Id = @RefundId;
     
     SELECT Id, UserId, OrderId, Amount, Status, AdminNotes, RejectionReason,

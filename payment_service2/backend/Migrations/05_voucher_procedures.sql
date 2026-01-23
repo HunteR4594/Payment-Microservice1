@@ -12,7 +12,7 @@ BEGIN
            MinOrderAmount, MaxDiscount, UsageLimit, UsedCount,
            ExpiresAt, IsActive, CreatedAt
     FROM Vouchers
-    WHERE IsActive = 1 AND (ExpiresAt IS NULL OR ExpiresAt > SYSUTCDATETIME());
+    WHERE IsActive = 1 AND (ExpiresAt IS NULL OR ExpiresAt > DATEADD(hour, 8, SYSUTCDATETIME()));
 END
 GO
 
@@ -45,7 +45,7 @@ BEGIN
         RETURN;
     END
     
-    IF @ExpiresAt IS NOT NULL AND @ExpiresAt < SYSUTCDATETIME()
+    IF @ExpiresAt IS NOT NULL AND @ExpiresAt < DATEADD(hour, 8, SYSUTCDATETIME())
     BEGIN
         SELECT CAST(0 AS BIT) AS Success, 'Voucher has expired' AS Message, CAST(0 AS DECIMAL(18,2)) AS Discount;
         RETURN;

@@ -58,7 +58,7 @@ builder.Services.AddScoped<IRefundService, RefundService>();
 builder.Services.AddScoped<IPayMongoService, PayMongoService>();
 builder.Services.AddScoped<IPaymentProvider, PayMongoPaymentProvider>();
 
-// Register OrderServiceClient with SSL Bypass (for Dev)
+// Register OrderServiceClient
 builder.Services.AddHttpClient<IOrderServiceClient, OrderServiceClient>(client =>
 {
     // Base configuration if needed

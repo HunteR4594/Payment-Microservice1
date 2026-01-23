@@ -12,7 +12,7 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM Wallets WHERE UserId = @UserId)
     BEGIN
         INSERT INTO Wallets (UserId, Balance, Coins, LastUpdated)
-        VALUES (@UserId, 0, 0, SYSUTCDATETIME());
+        VALUES (@UserId, 0, 0, DATEADD(hour, 8, SYSUTCDATETIME()));
     END
     
     SELECT Id, UserId, Balance, Coins, LastUpdated
@@ -36,7 +36,7 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM Wallets WHERE UserId = @UserId)
     BEGIN
         INSERT INTO Wallets (UserId, Balance, Coins, LastUpdated)
-        VALUES (@UserId, 0, 0, SYSUTCDATETIME());
+        VALUES (@UserId, 0, 0, DATEADD(hour, 8, SYSUTCDATETIME()));
     END
     
     DECLARE @CoinsEarned INT = FLOOR(@Amount / 100) * 5;
@@ -44,20 +44,20 @@ BEGIN
     UPDATE Wallets
     SET Balance = Balance + @Amount,
         Coins = Coins + @CoinsEarned,
-        LastUpdated = SYSUTCDATETIME()
+        LastUpdated = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE UserId = @UserId;
     
     DECLARE @TxnId NVARCHAR(50) = 'txn_' + REPLACE(NEWID(), '-', '');
     DECLARE @ActualDesc NVARCHAR(500) = ISNULL(@Description, CASE WHEN @TransactionType = 'refund' THEN 'Refund for Order' ELSE 'Wallet Top-up' END);
     
     INSERT INTO Transactions (Id, UserId, Type, Amount, Description, ReferenceId, CreatedAt)
-    VALUES (@TxnId, @UserId, @TransactionType, @Amount, @ActualDesc, @ReferenceId, SYSUTCDATETIME());
+    VALUES (@TxnId, @UserId, @TransactionType, @Amount, @ActualDesc, @ReferenceId, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     IF @CoinsEarned > 0
     BEGIN
         DECLARE @CoinsTxnId NVARCHAR(50) = 'txn_' + REPLACE(NEWID(), '-', '');
         INSERT INTO Transactions (Id, UserId, Type, Amount, Description, ReferenceId, CreatedAt)
-        VALUES (@CoinsTxnId, @UserId, 'coins', @CoinsEarned, 'Coins earned from top-up', @ReferenceId, SYSUTCDATETIME());
+        VALUES (@CoinsTxnId, @UserId, 'coins', @CoinsEarned, 'Coins earned from top-up', @ReferenceId, DATEADD(hour, 8, SYSUTCDATETIME()));
     END
     
     COMMIT;
@@ -93,12 +93,12 @@ BEGIN
     
     UPDATE Wallets
     SET Balance = Balance - @Amount,
-        LastUpdated = SYSUTCDATETIME()
+        LastUpdated = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE UserId = @UserId;
     
     DECLARE @TxnId NVARCHAR(50) = 'txn_' + REPLACE(NEWID(), '-', '');
     INSERT INTO Transactions (Id, UserId, Type, Amount, Description, ReferenceId, CreatedAt)
-    VALUES (@TxnId, @UserId, 'order', -@Amount, ISNULL(@Description, 'Order Payment'), @ReferenceId, SYSUTCDATETIME());
+    VALUES (@TxnId, @UserId, 'order', -@Amount, ISNULL(@Description, 'Order Payment'), @ReferenceId, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     COMMIT;
     
@@ -138,12 +138,12 @@ BEGIN
     
     UPDATE Wallets
     SET Coins = Coins - @CoinsToUse,
-        LastUpdated = SYSUTCDATETIME()
+        LastUpdated = DATEADD(hour, 8, SYSUTCDATETIME())
     WHERE UserId = @UserId;
     
     DECLARE @TxnId NVARCHAR(50) = 'txn_' + REPLACE(NEWID(), '-', '');
     INSERT INTO Transactions (Id, UserId, Type, Amount, Description, ReferenceId, CreatedAt)
-    VALUES (@TxnId, @UserId, 'coins', -@CoinsToUse, ISNULL(@Description, 'Coins used'), @ReferenceId, SYSUTCDATETIME());
+    VALUES (@TxnId, @UserId, 'coins', -@CoinsToUse, ISNULL(@Description, 'Coins used'), @ReferenceId, DATEADD(hour, 8, SYSUTCDATETIME()));
     
     COMMIT;
     
