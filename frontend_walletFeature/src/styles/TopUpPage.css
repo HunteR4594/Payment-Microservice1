@@ -1,0 +1,245 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+.topup-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Header */
+.topup-header {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+}
+
+.logo-container {
+  flex: 1;
+}
+
+.logo {
+  height: 67px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Content */
+.topup-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.topup-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 2rem;
+}
+
+/* Amount Section */
+.amount-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section-label {
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.preset-amounts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.preset-btn {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  border-color: #362222;
+}
+
+.preset-btn.active {
+  border-color: #362222;
+  background: #362222;
+  color: white;
+}
+
+.custom-amount label {
+  font-size: 0.875rem;
+  color: #636e72;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.input-group .currency {
+  padding: 0.75rem 1rem;
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-group input:focus {
+  outline: none;
+}
+
+/* Payment Section */
+.payment-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.payment-btn:hover {
+  border-color: #362222;
+}
+
+.payment-btn.active {
+  border-color: #362222;
+  background: #faf7f5;
+}
+
+.payment-btn i {
+  font-size: 1.5rem;
+  color: #2d3436;
+}
+
+.payment-btn span {
+  font-weight: 500;
+}
+
+/* Summary Section */
+.summary-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: #636e72;
+}
+
+.summary-row.total {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  font-weight: 700;
+  color: #2d3436;
+  font-size: 1.125rem;
+}
+
+/* Confirm Button */
+.confirm-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #362222;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: #5C3D2E;
+}
+
+.confirm-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .preset-amounts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .logo {
+    height: 50px;
+  }
+}
